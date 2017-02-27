@@ -1,6 +1,5 @@
 var config = require('./config/config');
 var express = require('express');
-var pg = require('pg');
 var bodyParser = require('body-parser');
 var app = express();
 
@@ -18,19 +17,33 @@ app.use(bodyParser.urlencoded({
 }));
 
 
+var databases = require('./models/databases'); // Databases list
 
-var databases = require('./models/databases');
 
-app.get('/', function(req, res) {
+app.get("/", function(req, res) {
+  res.redirect("/databases");
+});
 
-  databases.list(function(result) {
-    console.log('ce kavo', result);
-    res.render('databases/dbList', {data: result});
+app.get('/databases', function(req, res) {
+
+  databases.list(function(dbList) {
+    //console.log('ce kavo', result);
+    res.render('databases/dbList', {
+      data: dbList
+    });
 
   });
 
 
 });
+
+app.post("/dbschema", function(req, res) {
+  //console.log(req.body.dbname);
+  res.render("schema/dbschema", {
+    data: req.body.dbname
+  });
+});
+
 
 
 app.listen(config.server.port);

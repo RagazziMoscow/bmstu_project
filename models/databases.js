@@ -24,20 +24,16 @@ var dataBases = {
         function(err, result) {
           if (err) throw err;
 
-          // just print the result to the console
-          //console.log(result.rows);
-          //result = result.rows;
-
           // disconnect the client
           client.end(function(err) {
             if (err) throw err;
           });
-          console.log(result.rows);
+          //console.log(result.rows);
           callback(result.rows);
         });
 
     });
-    //return result;
+
   }
 
 };
