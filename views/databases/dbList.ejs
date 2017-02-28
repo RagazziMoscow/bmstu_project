@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+ <div>
+ <form method="POST" action="dbschema">
+  <table class="database-select-table">
+    <tr class="database-select-table__row">
+      <th>
+        <p>База данных</p>
+      </th>
+      <th>
+        <p>Владелец</p>
+      </th>
+    </tr>
+
+    <% data.forEach(function(item) { %>
+    <tr class="database-select-table__row">
+      <td>
+        <p><input type="radio" name="dbname" value="<%= item.Database %>"><%= item.Database %></p>
+      </td>
+      <td>
+        <p><%= item.Owner %></p>
+      </td>
+    </tr>
+   <% }); %>
+  </table>
+  <div class="submit">
+    <button class="submit__button" type="submit">Далее</button>
+  </div>
+  </form>
+ </div>
+</body>
+</html>

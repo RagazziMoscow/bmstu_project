@@ -1,2 +1,9 @@
-<h1>Схема БД</h1>
-<p>Вы выбрали базу данных {{data}}</p>
+
+{{#extend "./../layout" foo="bar"}}
+
+  {{#content "main" mode="append"}}
+    <h1>Схема БД</h1>
+    <p>Вы выбрали базу данных {{data}}</p>
+
+  {{/content}}
+{{/extend}}
