@@ -23,10 +23,10 @@ app.set('view engine', 'hbs');
 app.set(__dirname + '/views', __dirname + ''); // + '/views'
 
 */
-
+var path = require('path');
 // using for ejs
 app.engine('ejs', require('ejs-locals'));
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname,'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({
@@ -63,6 +63,6 @@ app.post("/dbschema", function(req, res) {
 });
 
 
-
-app.listen(config.server.port);
-console.log("Сервер работает на порту " + config.server.port + "...")
+var port = config.server.port;
+app.listen(port);
+console.log("Сервер работает на порту " + port + "...");
