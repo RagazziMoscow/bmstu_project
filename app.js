@@ -1,4 +1,5 @@
 var config = require('./config/config');
+var chalk = require('chalk');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -26,7 +27,7 @@ app.set(__dirname + '/views', __dirname + ''); // + '/views'
 var path = require('path');
 // using for ejs
 app.engine('ejs', require('ejs-locals'));
-app.set('views', path.join(__dirname,'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({
@@ -55,14 +56,34 @@ app.get('/databases', function(req, res) {
 
 });
 
-app.post("/dbschema", function(req, res) {
+
+
+app.post("/dbschemas", function(req, res) {
+
   //console.log(req.body.dbname);
-  res.render("schema/dbschema", {
-    data: req.body.dbname
+  var schemas = require('./models/schemas')(req.body.dbname);
+  schemas.list(function(schemasList) {
+    console.log(schemasList);
+    res.render("schemas/dbschemaslist", {
+      data: {
+        database: req.body.dbname,
+        list: schemasList
+      }
+    });
+  });
+
+});
+
+app.post("/structure", function(req, res) {
+  res.render("structure/dbstructure", {
+    data: {
+      database: req.body.dbname,
+      schema: req.body.schemaname
+    }
   });
 });
 
 
 var port = config.server.port;
 app.listen(port);
-console.log("Сервер работает на порту " + port + "...");
+console.log(chalk.yellow("Сервер работает на порту ") + chalk.red.bold(port) + "...");

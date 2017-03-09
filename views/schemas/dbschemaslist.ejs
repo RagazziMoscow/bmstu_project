@@ -1,0 +1,26 @@
+    <% layout('../layouts/layout') %>
+
+    <h1>Схемы БД</h1>
+    <p>Вы выбрали базу данных <%=data.database%></p>
+    <div>
+      <form method="POST" action="structure">
+      <input type="hidden" name="dbname" value="<%= data.database%>">
+        <table class="database-select-schema">
+          <tr class="database-select-schema__row">
+            <th>
+              <p>Схема</p>
+            </th>
+          </tr>
+          <% data.list.forEach(function(schema) { %>
+          <tr class="database-select-schema__row">
+            <td>
+              <p><input type="radio" name="schemaname" value="<%= schema.nspname %>"><%= schema.nspname %></p>
+            </td>
+          </tr>
+          <% }); %>
+        </table>
+      <div class="submit">
+        <button class="submit__button" type="submit">Далее</button>
+      </div>
+      </form>
+    </div>
