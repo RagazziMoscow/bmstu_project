@@ -74,7 +74,14 @@ app.post("/dbschemas", function(req, res) {
 
 });
 
+var structure = require("./models/structure");
+
 app.post("/structure", function(req, res) {
+
+
+
+  //console.log(structure(dbProp.database, dbProp.schema).queryForView());
+  structure(req.body.dbname, req.body.schemaname).createView();
   res.render("structure/dbstructure", {
     data: {
       database: req.body.dbname,
