@@ -1,3 +1,13 @@
 <% layout('../layouts/layout') %>
+
     <h1>Схема</h1>
     <p>Вы выбрали базу данных <%= data.database %> и схему <%= data.schema %></p>
+    <p>Представление создано</p>
+<p>Колонки: </p>
+<ul>
+<% data.columns.forEach(function(column) {%>
+
+  <li><p><%= column %></p></li>
+
+<% }); %>
+</ul>

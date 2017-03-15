@@ -63,7 +63,7 @@ app.post("/dbschemas", function(req, res) {
   //console.log(req.body.dbname);
   var schemas = require('./models/schemas')(req.body.dbname);
   schemas.list(function(schemasList) {
-    console.log(schemasList);
+    //console.log(schemasList);
     res.render("schemas/dbschemaslist", {
       data: {
         database: req.body.dbname,
@@ -81,13 +81,33 @@ app.post("/structure", function(req, res) {
 
 
   //console.log(structure(dbProp.database, dbProp.schema).queryForView());
-  structure(req.body.dbname, req.body.schemaname).createView();
-  res.render("structure/dbstructure", {
-    data: {
-      database: req.body.dbname,
-      schema: req.body.schemaname
-    }
+
+  var dbStruct = structure(req.body.dbname, req.body.schemaname);
+  //dbStruct.deleteView();
+
+
+  dbStruct.createView((columns) => {
+    res.render("structure/dbstructure", {
+      data: {
+        database: req.body.dbname,
+        schema: req.body.schemaname,
+        columns: columns
+      }
+    });
   });
+  //dbStruct.getViewColumns();
+
+  /*
+  let viewColumns = dbStruct.createView();
+    res.render("structure/dbstructure", {
+      data: {
+        database: req.body.dbname,
+        schema: req.body.schemaname,
+        columns: ['1312']
+      }
+    });
+
+  */
 });
 
 

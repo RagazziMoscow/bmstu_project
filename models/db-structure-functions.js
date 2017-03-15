@@ -1,4 +1,5 @@
 var pgStructure = require("pg-structure");
+var chalk = require("chalk");
 
 /*
   database: "xgb_nir",
@@ -18,6 +19,8 @@ function structure(database, schema) {
     port: 5432
   };
 
+
+
   var analyzedSchema = schema;
 
   var sqlData = {
@@ -25,22 +28,32 @@ function structure(database, schema) {
     queryForView: function(callback) {
       var query = "";
 
+      return new Promise(function(resolve, reject) {
       pgStructure(connectionArgs, analyzedSchema)
         .then((db) => {
           //getSequenceForView(db, analyzedSchema, 'printer');
           query = getSQLForView(db, analyzedSchema);
-          //console.log(query);
-          callback(query);
+
+          // возвращаем результат
+          resolve(query);
+          //callback(query);
         })
         .catch((err) => console.log(err.stack));
 
-      //console.log(query);
-      //return query;
+
+
+      });
     },
-    queryForViewColums: function() {
-      console.log("ce-kavo");
-    }
+
+    getAllJoinViewColumns: function(callback) {
+
+      return this.viewColumns;
+    },
+
+    viewColumns: []
   };
+
+
   return sqlData;
 
 }
@@ -71,6 +84,9 @@ function getAllTables(db, analyzedSchema) {
 
 // выстраиваем последовательность таблиц для объединения
 var analizedTables = [];
+
+// выстраиваем поледовательность колонок для представления
+var viewColumns = [];
 
 function getSequenceForView(db, analyzedSchema, independentTableName) {
   //var analizedTables = [];
@@ -322,9 +338,10 @@ function getSQLForView(db, analyzedSchema) {
   var joinedColumns = []; // массив для учёта колонок с одинаковыми именами в разных таблицах
 
   if (Array.from(db.schemas.get(analyzedSchema).tables.keys()).length == 1) {
-    return "set search_path to "+ analyzedSchema +
-           ";\ncreate view all_join as select * from " + analizedTables[0];
+    return "set search_path to " + analyzedSchema +
+      ";\ncreate view all_join as select * from " + analizedTables[0];
   }
+
   // для каждой таблицы делаем выборку колонок,
   // если колонки повторяются, то заменяем имена псевдонимами
   analizedTables.forEach((tableName) => {
@@ -341,16 +358,19 @@ function getSQLForView(db, analyzedSchema) {
       } else {
 
         // добавляем псевдоним, если такое имя уже встречалось
+        joinedColumns.push(columnName + "_" + tableName);
         columnName = tableName + "." + columnName + " AS " + columnName + "_" + tableName;
+
       }
 
-
+      viewColumns = joinedColumns;
       return columnName;
     });
 
     // разделям все имена запятой для выборки
     columnsList = columnsList.join(", ") + ", \n";
     selectPart += columnsList;
+
   });
   selectPart = selectPart.substring(0, selectPart.length - 3);
   //console.log(selectPart);
@@ -362,22 +382,25 @@ function getSQLForView(db, analyzedSchema) {
 
       // если между двумя таблицами существует отношение
       if (isRelationBetweenTables(db, analyzedSchema, analizedTables[i], analizedTables[j])) {
-        console.log(analizedTables[i], "->", analizedTables[j]);
+
+        console.log(chalk.red(analizedTables[i]),
+          chalk.yellow.bold("->"),
+          chalk.green(analizedTables[j]));
 
         // определяем колонки для соединения таблиц
         let joinColumnTargetInfo = getTargetTableColumn(getRelation(db,
-                                                                    analyzedSchema,
-                                                                    analizedTables[i],
-                                                                    analizedTables[j]));
+          analyzedSchema,
+          analizedTables[i],
+          analizedTables[j]));
         let joinColumnSourceInfo = getSourceTableColumn(getRelation(db,
-                                                                    analyzedSchema,
-                                                                    analizedTables[i],
-                                                                    analizedTables[j]));
+          analyzedSchema,
+          analizedTables[i],
+          analizedTables[j]));
         SQLQuery += " full join " + analizedTables[i] +
-                    " on " + analizedTables[j] +
-                    "." + joinColumnTargetInfo.name +
-                    " = " + analizedTables[i] +
-                    "." + joinColumnSourceInfo.name + "\n";
+          " on " + analizedTables[j] +
+          "." + joinColumnTargetInfo.name +
+          " = " + analizedTables[i] +
+          "." + joinColumnSourceInfo.name + "\n";
 
         break;
 
@@ -396,5 +419,17 @@ function getSQLForView(db, analyzedSchema) {
   SQLQuery = "set search_path to " + analyzedSchema + ";\n create view all_join as \n select " + SQLQuery;
   //console.log("Скрипт:\n", SQLQuery);
   analizedTables = []; //
-  return SQLQuery;
+  //return SQLQuery;
+  return {
+    query: SQLQuery,
+    columns: viewColumns
+  };
+}
+
+
+function getViewColumns(db, analyzedSchema, viewName) {
+  //let columns = db.schemas.get(analyzedSchema).tables.get(viewName).columns;
+  //console.log(columns);
+  return viewColumns;
+
 }
