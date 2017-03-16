@@ -54,7 +54,7 @@ var structure = function(dbname, schemaname) {
                   .then((result) => {
 
                     viewColumns = result.columns;
-                    //console.log("Созданные колонки", viewColumns);
+                    console.log("Созданные колонки", viewColumns);
 
 
                     var client = new pg.Client(localConfig);

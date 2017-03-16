@@ -27,7 +27,7 @@ app.set(__dirname + '/views', __dirname + ''); // + '/views'
 var path = require('path');
 // using for ejs
 app.engine('ejs', require('ejs-locals'));
-app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({
@@ -35,80 +35,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-var databases = require('./models/databases'); // Databases list
-
-
-app.get("/", function(req, res) {
-  res.redirect("/databases");
-});
-
-app.get('/databases', function(req, res) {
-
-  databases.list(function(dbList) {
-    //console.log('ce kavo', dbList);
-    //for(var i = 0; i<dbList)
-    res.render('databases/dbList', {
-      data: dbList
-    });
-
-  });
-
-
-});
+var router = require("./routes")(app);
 
 
 
-app.post("/dbschemas", function(req, res) {
-
-  //console.log(req.body.dbname);
-  var schemas = require('./models/schemas')(req.body.dbname);
-  schemas.list(function(schemasList) {
-    //console.log(schemasList);
-    res.render("schemas/dbschemaslist", {
-      data: {
-        database: req.body.dbname,
-        list: schemasList
-      }
-    });
-  });
-
-});
-
-var structure = require("./models/structure");
-
-app.post("/structure", function(req, res) {
-
-
-
-  //console.log(structure(dbProp.database, dbProp.schema).queryForView());
-
-  var dbStruct = structure(req.body.dbname, req.body.schemaname);
-  //dbStruct.deleteView();
-
-
-  dbStruct.createView((columns) => {
-    res.render("structure/dbstructure", {
-      data: {
-        database: req.body.dbname,
-        schema: req.body.schemaname,
-        columns: columns
-      }
-    });
-  });
-  //dbStruct.getViewColumns();
-
-  /*
-  let viewColumns = dbStruct.createView();
-    res.render("structure/dbstructure", {
-      data: {
-        database: req.body.dbname,
-        schema: req.body.schemaname,
-        columns: ['1312']
-      }
-    });
-
-  */
-});
 
 
 var port = config.server.port;

@@ -67,12 +67,15 @@ function getIndependentTables(db, analyzedSchema) {
   var independentTablesArray = [];
   var tables = db.schemas.get(analyzedSchema).tables.values();
   for (table of tables) {
-    if (table.foreignKeyColumns.size === 0 && !isView(db, analyzedSchema, table.name)) {
+    if (table.foreignKeyColumns.size === 0) {
       //console.log("Для таблицы ", table.name, "внешние ключи отсутствуют");
       independentTablesArray.push(table.name);
     }
   }
-  return independentTablesArray;
+  if (independentTablesArray.length != 0) return independentTablesArray;
+
+  // если структура зациклина, возвращаем любую таблицу
+  return Array.from(db.schemas.get(analyzedSchema).tables.keys()[0]);
 
 }
 
@@ -331,6 +334,15 @@ function getSQLForView(db, analyzedSchema) {
   getSequenceForView(db, analyzedSchema, getIndependentTables(db, analyzedSchema)[0]);
   console.log(analizedTables);
 
+/*
+// дописать для 1 таблицы
+  if (analizedTables.length == 1) {
+    return "set search_path to " + analyzedSchema +
+      ";\n create view as "
+  }
+
+  */
+
   var SQLQuery = " from ";
   SQLQuery += analizedTables[0];
 
@@ -420,6 +432,8 @@ function getSQLForView(db, analyzedSchema) {
   //console.log("Скрипт:\n", SQLQuery);
   analizedTables = []; //
   //return SQLQuery;
+
+  //console.log(viewColumns);
   return {
     query: SQLQuery,
     columns: viewColumns
