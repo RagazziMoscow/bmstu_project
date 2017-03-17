@@ -5,7 +5,7 @@ var path = require('path'),
 
 module.exports = function(app) {
 
-  app.set('views', path.join(__dirname, './../views'));
+
 
 
 
@@ -32,6 +32,7 @@ module.exports = function(app) {
   app.post("/dbschemas", function(req, res) {
 
     //console.log(req.body.dbname);
+    //req.session.db = req.body.dbname;
     var schemas = require('./../models/schemas')(req.body.dbname);
     schemas.list(function(schemasList) {
       //console.log(schemasList);
@@ -49,8 +50,17 @@ module.exports = function(app) {
 
   app.post("/structure", function(req, res) {
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
+    //console.log(req.session.db);
     //dbStruct.deleteView();
+    if (req.session.searchData) console.log(req.session.searchData);
+
     dbStruct.createView((columns) => {
+      req.session.searchData = {
+        database: req.body.dbname,
+        schema: req.body.schemaname,
+        viewColumns: columns
+      };
+
       res.render("structure/dbstructure", {
         data: {
           database: req.body.dbname,
@@ -59,19 +69,7 @@ module.exports = function(app) {
         }
       });
     });
-    //dbStruct.getViewColumns();
 
-    /*
-    let viewColumns = dbStruct.createView();
-      res.render("structure/dbstructure", {
-        data: {
-          database: req.body.dbname,
-          schema: req.body.schemaname,
-          columns: ['1312']
-        }
-      });
-
-    */
   });
 
   app.get("/cekavo", function(req, res) {
