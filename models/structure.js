@@ -1,4 +1,5 @@
 var config = require("./../config/config");
+var async = require('async');
 var pg = require("pg");
 var pgFunctionsModule = require("./db-structure-functions");
 
@@ -17,92 +18,103 @@ var structure = function(dbname, schemaname) {
     createView: function(callback) {
 
         //return new Promise((resolve, reject) => {
+        var returnView = callback; // коллбеб для отдачи представления
 
-          var viewColumns = []; // колонки представления
-          var query = "select column_name from information_schema.columns\n" +
-            "where table_name = 'all_join';"
+        var viewColumns = []; // колонки представления
+        var query = "select column_name from information_schema.columns\n" +
+          "where table_name = 'all_join';"
 
-          var result = {};
+        var result = {};
 
-          var client = new pg.Client(localConfig);
+        var client = new pg.Client(localConfig);
 
-          // подключение
-          client.connect(function(err) {
-            if (err) throw err;
+        async.waterfall([function(callback) {
 
-            //console.log("Запрос колонок");
-            // выполняем запрос колонок
-            client.query(query, function(err, columnsResult) {
+            // подключение
+            client.connect(function(err) {
               if (err) throw err;
 
-              client.end(function(err) {
+              //console.log("Запрос колонок");
+              // выполняем запрос колонок
+              client.query(query, function(err, columnsResult) {
                 if (err) throw err;
-                //console.log("Запрос выполнен", columnsResult);
-              });
 
-              // представление не создано, колонок нет
-              if (columnsResult.rowCount == 0) {
-
-                //resolve(['1312', 'cekavo']);
-
-                //console.log("Представления ещё нет");
-
-
-                // если представления ещё нет
-                var query = pgFunctionsModule(localConfig.database, schemaname).
-                queryForView()
-                  .then((result) => {
-
-                    viewColumns = result.columns;
-                    console.log("Созданные колонки", viewColumns);
-
-
-                    var client = new pg.Client(localConfig);
-                    client.connect(function(err) {
-                      if (err) throw err;
-                      client.query(result.query, function(err, createResult) {
-                        if (err) throw err;
-
-                        // disconnect the client
-                        client.end(function(err) {
-                          if (err) throw err;
-                        });
-                        console.log(createResult);
-
-                      });
-
-                    });
-
-                    return (viewColumns);
-
-                  })
-                  .then((columns) => {
-
-                    // отдаём представление с колонками представления
-                    callback(columns);
-                  });
-
-
-              } else {
-
-                // когда представление уже существует
-                // выбираем коллонки из запроса для представления
-                columnsResult.rows.forEach((item) => {
-                  viewColumns.push(item.column_name);
+                client.end(function(err) {
+                  if (err) throw err;
+                  //console.log("Запрос выполнен", columnsResult);
                 });
 
-                // отдаём представление с колонками представленя
-                callback(viewColumns);
-              }
+                callback(null, columnsResult);
+
+              });
 
 
             });
+          },
+          function(columnsResult, callback) {
+
+            // представление не создано, колонок нет
+            if (columnsResult.rowCount == 0) {
+
+              // если представления ещё нет
+              var query = pgFunctionsModule(localConfig.database, schemaname).
+              queryForView()
+                .then((result) => {
+
+                  viewColumns = result.columns;
+                  console.log("Созданные колонки", viewColumns);
 
 
-          });
+                  var client = new pg.Client(localConfig);
+                  client.connect(function(err) {
+                    if (err) throw err;
+                    client.query(result.query, function(err, createResult) {
+                      if (err) throw err;
+
+                      // disconnect the client
+                      client.end(function(err) {
+                        if (err) throw err;
+                      });
+                      console.log(createResult);
+
+                    });
+
+                  });
+
+                  return (viewColumns);
+
+                })
+                .then((columns) => {
+
+                  // отдаём представление с колонками представления
+                  callback(null, columns);
+                });
 
 
-        //});
+            } else {
+
+              // когда представление уже существует
+              // выбираем коллонки из запроса для представления
+              columnsResult.rows.forEach((item) => {
+                viewColumns.push(item.column_name);
+              });
+
+
+              // отдаём представление с колонками представленя
+              callback(null, viewColumns);
+            }
+
+
+          }
+
+        ], function(err, result) {
+
+          // отдаём представление
+          returnView(result);
+        });
+
+
+
       },
 
       deleteView: function() {

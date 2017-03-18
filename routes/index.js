@@ -52,9 +52,12 @@ module.exports = function(app) {
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
     //console.log(req.session.db);
     //dbStruct.deleteView();
+
     if (req.session.searchData) console.log(req.session.searchData);
 
     dbStruct.createView((columns) => {
+
+      //console.log(columns);
       req.session.searchData = {
         database: req.body.dbname,
         schema: req.body.schemaname,
