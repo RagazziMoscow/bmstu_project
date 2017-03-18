@@ -18,3 +18,7 @@ http://stackoverflow.com/questions/1152260/postgres-sql-to-list-table-foreign-ke
 
 jquery form styler:
 http://dimox.github.io/jQueryFormStyler/demo/#css
+
+модуль asunc:
+http://fastcodenote.blogspot.ru/2013/09/nodejs-async.html
+http://caolan.github.io/async/

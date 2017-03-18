@@ -1,26 +1,31 @@
     <% layout('../layouts/layout') %>
-
-    <h1>Схемы БД</h1>
-    <p>Вы выбрали базу данных <%=data.database%></p>
+    <link rel="stylesheet" type="text/css" href="css/views/dbschemaslist.css">
+  <div class="dbinfo">
+    <p class="dbinfo__title">Схемы БД</p>
+    <p class="dbinfo__dbname">Вы выбрали базу данных <%=data.database%></p>
     <div>
+  </div>
       <form method="POST" action="structure">
       <input type="hidden" name="dbname" value="<%= data.database%>">
-        <table class="database-select-schema">
-          <tr class="database-select-schema__row">
-            <th>
-              <p>Схема</p>
-            </th>
-          </tr>
-          <% data.list.forEach(function(schema) { %>
-          <tr class="database-select-schema__row">
-            <td>
-              <p><input type="radio" name="schemaname" value="<%= schema.nspname %>"><%= schema.nspname %></p>
-            </td>
-          </tr>
-          <% }); %>
-        </table>
+
+
+      <div class="dbschemas">
+        <ul class="dbschemas__list list-float-none">
+        <% data.list.forEach(function(schema) { %>
+          <li class="dbschemas__list__item standart-button">
+            <p>
+              <input type="radio" name="schemaname" value="<%= schema.nspname %>">
+              <span><%= schema.nspname %></span>
+            </p>
+          </li>
+        <% }); %>
+        </ul>
+      </div>
+
+
       <div class="submit">
-        <button class="submit__button" type="submit">Далее</button>
+        <button class="submit__button click-button" type="submit">      ДАЛЕЕ
+        </button>
       </div>
       </form>
     </div>

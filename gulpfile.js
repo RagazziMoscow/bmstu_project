@@ -19,8 +19,10 @@ gulp.task('ce-kavo', function() {
 // my set up. Grunt did some weird things with scope, and I ended up using nodemon. This
 // setup is now using Gulp. It works exactly how I expect it to and is WAY more concise.
 var gulp = require('gulp'),
-    spawn = require('child_process').spawn,
-    node;
+  spawn = require('child_process').spawn,
+  node;
+
+var sass = require('gulp-sass');
 
 /**
  * $ gulp server
@@ -28,13 +30,15 @@ var gulp = require('gulp'),
  */
 gulp.task('server', function() {
   if (node) node.kill()
-  node = spawn('node', ['app.js'], {stdio: 'inherit'})
-  node.on('close', function (code) {
+  node = spawn('node', ['app.js'], {
+    stdio: 'inherit'
+  })
+  node.on('close', function(code) {
     if (code === 8) {
       gulp.log('Error detected, waiting for changes...');
     }
   });
-})
+});
 
 /**
  * $ gulp
@@ -45,15 +49,26 @@ gulp.task('default', function() {
 
   gulp.watch(['**/*.js'], function() {
     gulp.run('server')
-  })
+  });
+
+  gulp.watch('./public/sass/views/**/*.scss', function() {
+    gulp.run('sass');
+  });
 
   // Need to watch for sass changes too? Just add another watch call!
   // no more messing around with grunt-concurrent or the like. Gulp is
   // async by default.
-})
+});
+
+gulp.task('sass', function() {
+  return gulp.src('./public/sass/views/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./public/css/views'));
+});
+
+
 
 // clean up if an error goes unhandled.
 process.on('exit', function() {
-    if (node) node.kill()
-})
-
+  if (node) node.kill()
+});

@@ -1,0 +1,168 @@
+.click-button {
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 0.5em;
+    padding: 4px 1.5em;
+    border: 1px solid rgba(211,211,211,1);
+    -webkit-border-radius: 0.2em;
+    border-radius: 0.2em;
+    color: rgba(114,114,114,1);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    white-space: nowrap;
+    background: rgba(234,234,234,1);
+    -webkit-box-shadow: 0 0 1px 1px rgba(255,255,255,0.8) , 0 1px 0 0 rgba(0,0,0,0.298039) ;
+    box-shadow: 0 0 1px 1px rgba(31, 29, 29, 0.8) , 0 1px 0 0 rgba(0,0,0,0.298039) ;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.8) ;
+    -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+    -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+    -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+    font-family: "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
+}
+
+span.click-button {
+    padding: 4px 0.5em;
+}
+
+.click-button:hover {
+    cursor: pointer;
+    border: 1px solid rgba(178,178,178,1);
+    color: rgba(76,76,76,1);
+    -webkit-box-shadow: 0 0 1px 1px rgba(255,255,255,0.8) inset, 0 1px 0 0 rgba(0,0,0,0.298039) ;
+    box-shadow: 0 0 1px 1px rgba(255,255,255,0.8) inset, 0 1px 0 0 rgba(0,0,0,0.298039) ;
+}
+
+.click-button:active {
+    position: relative;
+    cursor: default;
+    top: 1px;
+    border: 1px solid rgba(211,211,211,1);
+    color: rgba(114,114,114,1);
+    background: rgba(247,247,247,1);
+    -webkit-box-shadow: 0 0 1px 1px rgba(255,255,255,0.8) inset, 0 1px 0 0 rgba(0,0,0,0.298039) inset;
+    box-shadow: 0 0 1px 1px rgba(255,255,255,0.8) inset, 0 1px 0 0 rgba(0,0,0,0.298039) inset;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+a.edit-access.click-button,
+a.edit-something.click-button,
+a.delete-something.click-button,
+a.copy-to.click-button,
+a.download-doc.click-button,
+a.copy-this-template.click-button,
+a.come-back.click-button {
+    margin: 0;
+    padding: 3px;
+}
+
+.standart-button {
+    color: black;
+    text-decoration: none;
+    padding: 12px 15px;
+    transition: 0.2s;
+}
+
+.standart-button:hover {
+    color: black;
+    text-decoration: none;
+    background: #D1D3D3;
+    padding: 12px 15px;
+    cursor: pointer;
+}
+
+
+
+/************************** аЁаЂааааа аЂааЋа ааааЃаЂ *******************/
+.standart-input {
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding: 5px 5px 5px 10px;
+    border: 1px solid #b7b7b7;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: black;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgba(252,252,252,1);
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) inset;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.66) ;
+    -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+    font-family: "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
+    font-size: 14px;
+}
+
+.standart-input:hover {
+    border: 1px solid #a3a3a3;
+    background: rgba(255,255,255,1);
+    -webkit-transition: all 100ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 100ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 100ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 100ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.standart-input:focus {
+    border: 1px solid #018dc4;
+    -webkit-box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.2) inset;
+    box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.2) inset;
+    -webkit-transition: all 50ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 50ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 50ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 50ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+select.standart-input {
+    padding: 4px;
+}
+
+
+/*************** баЕаКаБаОаКбб **************/
+input[type=checkbox].css-checkbox {
+    position:absolute;
+    z-index:-1000;
+    left:-1000px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height:1px;
+    width:1px;
+    margin:-1px;
+    padding:0;
+    border:0;
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+    padding-left: 37px;
+    height: 32px;
+    display: inline-block;
+    line-height: 32px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    font-size: 32px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -32px;
+}
+
+label.css-label {
+    background-image: url("/images/csscheckbox_8605db33aebe753301df087837c14053.png");
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

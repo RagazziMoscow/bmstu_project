@@ -1,0 +1,21 @@
+.database-info, .columns-info {
+  font-size: 20px; }
+
+.database-info {
+  width: 50%;
+  margin: 30px auto 0 auto; }
+
+.database-info__search-info {
+  height: 50px;
+  margin-top: 30px; }
+  .database-info__search-info__search-button {
+    float: right; }
+  .database-info__search-info__view-info {
+    float: left; }
+
+.columns-info {
+  margin: 40px 0px 0px; }
+
+.columns-info__list {
+  width: 50%;
+  margin: 0px auto; }

@@ -1,30 +1,34 @@
 
 <% layout('../layouts/layout') %>
- <div>
- <form method="POST" action="dbschemas">
-  <table class="database-select-table">
-    <tr class="database-select-table__row">
-      <th>
-        <p>База данных</p>
-      </th>
-      <th>
-        <p>Владелец</p>
-      </th>
-    </tr>
+<link rel="stylesheet" type="text/css" href="css/views/databases.css">
+ <div class="wrapper">
+ <form class="wrapper__form" method="POST" action="dbschemas">
 
-    <% data.forEach(function(item) { %>
-    <tr class="database-select-table__row">
-      <td>
-        <p><input type="radio" name="dbname" value="<%= item.Database %>"><%= item.Database %></p>
-      </td>
-      <td>
-        <p><%= item.Owner %></p>
-      </td>
-    </tr>
-   <% }); %>
-  </table>
+<div class="installed-databases">
+  <ul class="installed-databases__list list-float-none">
+    <li class="installed-databases__list__item_title">
+      <p>
+        <span>База данных</span>
+        <span>Владелец</span>
+      </p>
+    </li>
+    <% data.list.forEach(function(item) {%>
+      <li class="installed-databases__list__item standart-button">
+        <p>
+
+          <span class="installed-databases__list__item__dbname">
+            <input type="radio" name="dbname" value="<%= item.Database %>">
+            <span><%= item.Database %></span>
+          </span>
+          <span class="installed-databases__list__item__ownername"><%= item.Owner %></span>
+        </p>
+      </li>
+    <% }); %>
+  </ul>
+</div>
+
   <div class="submit">
-    <button class="submit__button" type="submit">Далее</button>
+    <button class="submit__button click-button" type="submit">ДАЛЕЕ</button>
   </div>
   </form>
  </div>

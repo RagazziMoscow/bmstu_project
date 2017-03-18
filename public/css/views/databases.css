@@ -1,0 +1,32 @@
+.wrapper {
+  width: 50%;
+  margin: 40px auto 0 auto; }
+
+.installed-databases__list {
+  margin-bottom: 40px; }
+
+.installed-databases__list__item {
+  height: 60px; }
+  .installed-databases__list__item__ownername {
+    float: right; }
+  .installed-databases__list__item p {
+    margin: 10px 0;
+    font-size: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; }
+  .installed-databases__list__item__dbname input {
+    margin-top: 3px; }
+  .installed-databases__list__item_title {
+    font-size: 20px;
+    font-weight: bold; }
+    .installed-databases__list__item_title p {
+      margin: 10px 0;
+      font-size: 20px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between; }

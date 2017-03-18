@@ -62,7 +62,7 @@ var structure = function(dbname, schemaname) {
                 .then((result) => {
 
                   viewColumns = result.columns;
-                  console.log("Созданные колонки", viewColumns);
+                  //console.log("Созданные колонки", viewColumns);
 
 
                   var client = new pg.Client(localConfig);
@@ -75,7 +75,8 @@ var structure = function(dbname, schemaname) {
                       client.end(function(err) {
                         if (err) throw err;
                       });
-                      console.log(createResult);
+
+                      //console.log(createResult);
 
                     });
 

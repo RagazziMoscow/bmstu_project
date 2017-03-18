@@ -7,8 +7,6 @@ module.exports = function(app) {
 
 
 
-
-
   app.get("/", function(req, res) {
     res.redirect("/databases");
   });
@@ -19,7 +17,10 @@ module.exports = function(app) {
       //console.log('ce kavo', dbList);
       //for(var i = 0; i<dbList)
       res.render('databases/dbList', {
-        data: dbList
+        data: {
+          title: "Подключённые БД",
+          list: dbList
+        }
       });
 
     });
@@ -38,6 +39,7 @@ module.exports = function(app) {
       //console.log(schemasList);
       res.render("schemas/dbschemaslist", {
         data: {
+          title: "Схемы",
           database: req.body.dbname,
           list: schemasList
         }
@@ -66,6 +68,7 @@ module.exports = function(app) {
 
       res.render("structure/dbstructure", {
         data: {
+          title: "Структура",
           database: req.body.dbname,
           schema: req.body.schemaname,
           columns: columns
@@ -73,6 +76,14 @@ module.exports = function(app) {
       });
     });
 
+  });
+
+  app.get("/bigsearch", function(req, res) {
+    res.render("bigsearch/bigsearch", {
+      data: {
+        title: "Поиск"
+      }
+    });
   });
 
   app.get("/cekavo", function(req, res) {
