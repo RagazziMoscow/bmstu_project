@@ -1,0 +1,29 @@
+{
+  "name": "bmstu_project",
+  "description": "bmstu_project",
+  "main": "app.js",
+  "authors": [
+    "zigazaga"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "bmstu",
+    "database",
+    "postgresql",
+    "bigsearch"
+  ],
+  "homepage": "https://github.com/RagazziMoscow/bmstu_project",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.0",
+    "jquery-ui": "^1.12.1",
+    "devbridge-autocomplete": "^1.3.0"
+  }
+}
