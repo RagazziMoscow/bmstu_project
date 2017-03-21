@@ -2,12 +2,15 @@
 <script type="text/javascript" src="/components/devbridge-autocomplete/dist/jquery.autocomplete.js"></script>
 <link rel="stylesheet" type="text/css" href="css/views/big-search.css">
 
-<script type="text/javascript" src="/js/jquery.autocomplete.js"></script>
+
 <script type="text/javascript" src="/js/big-search-data.js"></script>
 <script type="text/javascript" src="/js/big-search-interface.js"></script>
 
 
 <section class="main">
+<% if (data.searchData) { -%>
+
+
             <div class="groups-manage-aligment">
                 <button id="groupsAdder" class="content-action click-button">Добавить группу условий</button>
                 <button id="groups-viewer" class="content-action click-button">Просмотр всех групп</button>
@@ -282,4 +285,12 @@
     <!-- Индикатор загрузки -->
 
   </div>
+
+  <% } else { -%>
+
+  <div class="no-search-data-info">
+    <p class="no-search-data-info__text">Не заданы параметры для поиска</p>
+  </div>
+
+<% } -%>
   </section>

@@ -32,8 +32,8 @@ module.exports = function(app) {
 
   app.post("/dbschemas", function(req, res) {
 
-    //console.log(req.body.dbname);
-    //req.session.db = req.body.dbname;
+    // очищаем сессию
+    req.session.searchData = null;
     var schemas = require('./../models/schemas')(req.body.dbname);
     schemas.list(function(schemasList) {
       //console.log(schemasList);
@@ -57,7 +57,7 @@ module.exports = function(app) {
 
     if (req.session.searchData) console.log(req.session.searchData);
 
-    dbStruct.createView((columns) => {
+    dbStruct.getView((columns) => {
 
       //console.log(columns);
       req.session.searchData = {
@@ -79,11 +79,17 @@ module.exports = function(app) {
   });
 
   app.get("/bigsearch", function(req, res) {
+    console.log(req.session.searchData);
     res.render("bigsearch/bigsearch", {
       data: {
-        title: "Поиск"
+        title: "Поиск",
+        searchData: req.session.searchData
       }
     });
+  });
+
+  app.get("/logout", function(req, res) {
+    res.status(200).send("logout");
   });
 
   app.get("/cekavo", function(req, res) {

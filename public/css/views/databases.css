@@ -2,11 +2,15 @@
   width: 50%;
   margin: 40px auto 0 auto; }
 
-.installed-databases__list {
+.installed-databases {
+  border: 1px solid #D1D3D3;
+  padding: 30px;
+  border-radius: 20px;
   margin-bottom: 40px; }
 
 .installed-databases__list__item {
-  height: 60px; }
+  height: 60px;
+  display: flex; }
   .installed-databases__list__item__ownername {
     float: right; }
   .installed-databases__list__item p {
@@ -30,3 +34,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between; }
+
+.submit {
+  width: 100%;
+  margin-bottom: 130px; }

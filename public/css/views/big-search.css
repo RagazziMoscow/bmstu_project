@@ -776,3 +776,10 @@ form .disjunction, .conditions-group .disjunction{
 }
 /*results*/
 /*# sourceMappingURL=style.css.map */
+
+.no-search-data-info{
+  height: 100px;
+}
+.no-search-data-info__text{
+  font-size: 20px;
+}

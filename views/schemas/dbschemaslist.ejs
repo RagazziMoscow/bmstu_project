@@ -1,11 +1,13 @@
     <% layout('../layouts/layout') %>
     <link rel="stylesheet" type="text/css" href="css/views/dbschemaslist.css">
+    <script type="text/javascript" src="js/schemas.js"></script>
   <div class="dbinfo">
-    <p class="dbinfo__title">Схемы БД</p>
-    <p class="dbinfo__dbname">Вы выбрали базу данных <%=data.database%></p>
+    <h3 class="dbinfo__title">Схемы БД</h3>
+    <p class="dbinfo__dbname">Вы выбрали базу данных <span><%=data.database%></span></p>
     <div>
   </div>
-      <form method="POST" action="structure">
+    <div class="wrapper">
+      <form class="wrapper__form" method="POST" action="structure">
       <input type="hidden" name="dbname" value="<%= data.database%>">
 
 
@@ -14,8 +16,10 @@
         <% data.list.forEach(function(schema) { %>
           <li class="dbschemas__list__item standart-button">
             <p>
-              <input type="radio" name="schemaname" value="<%= schema.nspname %>">
-              <span><%= schema.nspname %></span>
+              <span class="dbschemas__list__item__schema-name">
+                <input type="radio" name="schemaname" value="<%= schema.nspname %>">
+                <span><%= schema.nspname %></span>
+              </span>
             </p>
           </li>
         <% }); %>
@@ -28,4 +32,5 @@
         </button>
       </div>
       </form>
+    </div>
     </div>

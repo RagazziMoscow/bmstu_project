@@ -3,13 +3,16 @@
 margin: 40px auto 0 auto;
 
 }
-
-.installed-databases__list{
+.installed-databases{
+  border: 1px solid #D1D3D3;
+  padding: 30px;
+  border-radius: 20px;
   margin-bottom: 40px;
 }
 
 .installed-databases__list__item{
   height: 60px;
+  display: flex;
   &__ownername{
     float: right;
   }
@@ -41,4 +44,9 @@ margin: 40px auto 0 auto;
       }
 
   }
+}
+
+.submit{
+  width: 100%;
+  margin-bottom: 130px;
 }

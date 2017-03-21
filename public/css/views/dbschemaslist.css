@@ -1,3 +1,31 @@
+.dbinfo {
+  width: 100%;
+  margin-top: 50px; }
+  .dbinfo__title {
+    font-size: 30px; }
+  .dbinfo__dbname {
+    font-size: 25px; }
+    .dbinfo__dbname span {
+      font-weight: bold; }
+
 .dbschemas {
   width: 50%;
-  margin: 40px auto; }
+  margin: 40px auto;
+  border: 1px solid #D1D3D3;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 40px; }
+  .dbschemas__list__item {
+    display: flex;
+    height: 60px; }
+    .dbschemas__list__item input {
+      margin-top: 3px; }
+    .dbschemas__list__item p {
+      font-size: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center; }
+
+.submit {
+  width: 100%;
+  margin-bottom: 130px; }
