@@ -88,6 +88,10 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/search-data", function(req, res) {
+    res.json(req.session.searchData);
+  });
+
   app.get("/logout", function(req, res) {
     res.status(200).send("logout");
   });

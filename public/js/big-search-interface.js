@@ -15,6 +15,8 @@ var descrParam = {
 //Глобальный массив для условий
 JsonData = [];
 
+DescriptorsData = [];
+
 
 //Список для окна редактирования формы
 var listBox = "<option selected='selected' disabled=''" +
@@ -91,7 +93,7 @@ function init() {
       name: ""
     },
     showWindow);
-  $('.save-templates-from-bigsearch').click(saveTemplate) ;
+  $('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
   $("#btn").on("click", sendQuery);
@@ -129,51 +131,64 @@ function init() {
   $(".add-action-button").on("click", addDescriptor);
   $(".edit-action-button").on("click", editForm);
 
+  /*
+    $("#input-tag").autocomplete({
+      serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
+      minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
+      maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
+      width: 320, // Ширина списка
+      zIndex: 9999, // z-index списка
+      deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
+      params: {
+        id: 1
+      },
+      zIndex: 7,
+      appendTo: $("#input-tag").parent().siblings(".autocomplete-aligm") // Дополнительные параметры
 
-  $("#input-tag").autocomplete({
-    serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
-    minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
-    maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
-    width: 320, // Ширина списка
-    zIndex: 9999, // z-index списка
-    deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
-    params: {
-      id: 1
-    },
-    zIndex: 7,
-    appendTo: $("#input-tag").parent().siblings(".autocomplete-aligm") // Дополнительные параметры
+    });
 
+    $("#input-attr").autocomplete({
+      serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
+      minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
+      maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
+      width: 320, // Ширина списка
+      zIndex: 9999, // z-index списка
+      deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
+      params: {
+        id: 2
+      },
+      zIndex: 7,
+      appendTo: $("#input-attr").parent().siblings(".autocomplete-aligm") // Дополнительные параметры
+
+    });
+
+    $("#input-not-tag").autocomplete({
+      serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
+      minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
+      maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
+      width: 320, // Ширина списка
+      zIndex: 9999, // z-index списка
+      deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
+      params: {
+        id: 1
+      },
+      zIndex: 7,
+      appendTo: $("#input-not-tag").parent().siblings(".autocomplete-aligm") // Дополнительные параметры
+
+    });
+
+    */
+
+  // подгружаем массив дескрипторов для поиска
+  $.ajax({
+    type: "POST",
+    url: "/search-data",
+    success: function(data) {
+      DescriptorsData = data;
+    }
   });
 
-  $("#input-attr").autocomplete({
-    serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
-    minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
-    maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
-    width: 320, // Ширина списка
-    zIndex: 9999, // z-index списка
-    deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
-    params: {
-      id: 2
-    },
-    zIndex: 7,
-    appendTo: $("#input-attr").parent().siblings(".autocomplete-aligm") // Дополнительные параметры
 
-  });
-
-  $("#input-not-tag").autocomplete({
-    serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
-    minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
-    maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
-    width: 320, // Ширина списка
-    zIndex: 9999, // z-index списка
-    deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
-    params: {
-      id: 1
-    },
-    zIndex: 7,
-    appendTo: $("#input-not-tag").parent().siblings(".autocomplete-aligm") // Дополнительные параметры
-
-  });
 
 }
 
@@ -273,6 +288,16 @@ function showWindow(event) {
   var name = event.data.name;
   var editMode = event.data.edit;
 
+  // при добавлении дескрипторов заполняем списки дескрипторов
+  if (id == "#modal-tags-add") {
+    fillListWithDescriptors($(id).find(".modal-content").find("#input-tag"));
+  }
+  if (id == "#modal-not-tags-add") {
+    fillListWithDescriptors($(id).find(".modal-content").find("#input-not-tag"));
+  }
+  if (id == "#modal-attr-add") {
+    fillListWithDescriptors($(id).find(".modal-content").find("#input-attribut"));
+  }
   // подготовка интерфейса окна редактирования формы
   if (id == "#edit-group") {
     editFormWindowProcess(idProcess(name), editMode);
@@ -298,6 +323,18 @@ function showOverlay() {
 
 function hideOverlay() {
   $(".overlay").hide();
+}
+/*Выполняет заполнение списка дескрипторами*/
+function fillListWithDescriptors(listBox) {
+
+  // добавляем дескрипторы в список только если ещё не добавляли их
+  let optionsCount = $(listBox).children("option").length;
+  if (optionsCount < DescriptorsData.viewColumns.length) {
+    DescriptorsData.viewColumns.forEach((item) => {
+      $(listBox).append("<option value='" + item + "'>" + item + "</option>");
+    });
+  }
+
 }
 
 /*Выполняет подготовку интерфейса окна редактирования дескриптора*/
@@ -345,8 +382,11 @@ function editFormWindowProcess(group, editMode) {
     append("<div class='autocomplete-aligm'></div>");
 
     $("#edit-group .descriptor-item:last").
-    append("<input type='text' class='" + descProperties[item["id"]]["input"] +
-      " input' />");
+    append("<select class='" + descProperties[item["id"]]["input"] +
+      " input'></select>");
+    fillListWithDescriptors("#edit-group .descriptor-item:last select:last");
+
+    /*
 
     //Вешаем автодополнение на каждый инпут
     $("#edit-group .descriptor-item:last .input").autocomplete({
@@ -364,7 +404,7 @@ function editFormWindowProcess(group, editMode) {
       siblings(".autocomplete-aligm") // Дополнительные параметры
 
     });
-
+*/
     //при изменении значения помечаем каждый инпут
     $("#edit-group .descriptor-item:last .input").
     on("change", function() {
@@ -498,7 +538,7 @@ function addDescriptor(event) {
   console.log("Добавление: ", group, idPar, namePar, numPar, relPar);
 
   //если такого дескриптора нету ещё в форме
-  if (checkJsonData(group, idPar, namePar)) {
+  if (checkJsonData(group, idPar, namePar, relPar, numPar)) {
 
     // добавляем дескриптор в массив условий поиска
     addJsonData(group, idPar, namePar, numPar, relPar);
@@ -791,38 +831,38 @@ function deleteForm(event) {
 //Запрос на поиск
 function sendQuery() {
 
-    if (!JsonDataIsEmpty()) {
-        $('#json-template').val(JSON.stringify(JsonData));
-        $.ajax({
-            type: "POST", //метод запроса, POST или GET (если опустить, то по умолчанию GET)
-            url: "/bigsearch/ajaxShowResults", //серверный скрипт принимающий запрос
+  if (!JsonDataIsEmpty()) {
+    $('#json-template').val(JSON.stringify(JsonData));
+    $.ajax({
+      type: "POST", //метод запроса, POST или GET (если опустить, то по умолчанию GET)
+      url: "/bigsearch/ajaxShowResults", //серверный скрипт принимающий запрос
 
-            data: {
-                request: JSON.stringify(JsonData)
-            }, //можно передать переменную с json в одном из параметре запроса
-            //data: {request:["message #A", "message #B"],request2:"message2"},  //можно передать массив в одном из параметре запроса
-            beforeSend: function() {
-                //alert("Выполнение начато") ;
-                disableItems();
-                showOverlay();
-                $(".loader").show();
-            },
-            complete: function() {
-                //alert("Выполнение закончено") ;
-                hideOverlay();
-                enableItems();
-                $(".loader").hide();
-            },
-            success: function(data) { //функция выполняется при удачном заверщение
-                $("#results").html(data);
-                //alert("Запрос выполнен") ;
-                //alert(data) ;
+      data: {
+        request: JSON.stringify(JsonData)
+      }, //можно передать переменную с json в одном из параметре запроса
+      //data: {request:["message #A", "message #B"],request2:"message2"},  //можно передать массив в одном из параметре запроса
+      beforeSend: function() {
+        //alert("Выполнение начато") ;
+        disableItems();
+        showOverlay();
+        $(".loader").show();
+      },
+      complete: function() {
+        //alert("Выполнение закончено") ;
+        hideOverlay();
+        enableItems();
+        $(".loader").hide();
+      },
+      success: function(data) { //функция выполняется при удачном заверщение
+        $("#results").html(data);
+        //alert("Запрос выполнен") ;
+        //alert(data) ;
 
-            }
-        });
-    } else {
-        alert("Задайте условия для поиска");
-    }
+      }
+    });
+  } else {
+    alert("Задайте условия для поиска");
+  }
 
 }
 
@@ -830,38 +870,36 @@ function sendQuery() {
 
 // Cохранение шаблонов со страницы расширенного поиска
 function saveTemplate(e) {
-    e.preventDefault();
-    var ajax_url = $(this).data('ajax');
-    var name = $('#name-template').val();
-    var id = $('#id-template').val();
-    var json_data = encodeURIComponent($('#json-template').val());
-    if (name == '') {
-        alert("Пустое имя шаблона!");
-        $('#name-template').css('border-color', 'red');
+  e.preventDefault();
+  var ajax_url = $(this).data('ajax');
+  var name = $('#name-template').val();
+  var id = $('#id-template').val();
+  var json_data = encodeURIComponent($('#json-template').val());
+  if (name == '') {
+    alert("Пустое имя шаблона!");
+    $('#name-template').css('border-color', 'red');
+  } else {
+    $('#name-template').css('border-color', 'none');
+    if (json_data == '') {
+      alert("Пустая строка запроса!");
     } else {
-        $('#name-template').css('border-color', 'none');
-        if (json_data == '') {
-            alert("Пустая строка запроса!");
-        } else {
-            console.log(name, id, ajax_url);
-            $.ajax({
-                type: "POST",
-                data: "name="+name+"&id="+id+"&sql="+json_data,
-                url: ajax_url+id,
-                success: function (data) {
-                    if (data > 0) {
-                        alert('Шаблон успешн сохранен');
-                    }
-                    else if (data == -1) {
-                        alert('Шаблон с таким именем уже сохранен');
-                    }
-                    else {
-                        alert('Ошибка' + data);
-                    }
-                }
-            })
+      console.log(name, id, ajax_url);
+      $.ajax({
+        type: "POST",
+        data: "name=" + name + "&id=" + id + "&sql=" + json_data,
+        url: ajax_url + id,
+        success: function(data) {
+          if (data > 0) {
+            alert('Шаблон успешн сохранен');
+          } else if (data == -1) {
+            alert('Шаблон с таким именем уже сохранен');
+          } else {
+            alert('Ошибка' + data);
+          }
         }
+      })
     }
+  }
 
 
 }
