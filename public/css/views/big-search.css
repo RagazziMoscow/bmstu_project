@@ -321,7 +321,7 @@ ul#list-file-in-biblio > li > a.hover-underline:hover{
 .edit-window .modal-close{
   position: absolute;
   right: 7px;
-  top: -4px;
+  top: 0;
   font-size: 30px;
   font-weight: bold;
   color: white;
