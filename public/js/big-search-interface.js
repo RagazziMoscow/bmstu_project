@@ -834,29 +834,33 @@ function sendQuery() {
   if (!JsonDataIsEmpty()) {
     $('#json-template').val(JSON.stringify(JsonData));
     $.ajax({
+
       type: "POST", //метод запроса, POST или GET (если опустить, то по умолчанию GET)
-      url: "/bigsearch/ajaxShowResults", //серверный скрипт принимающий запрос
+      url: "/query-data", //серверный скрипт принимающий запрос
 
       data: {
         request: JSON.stringify(JsonData)
-      }, //можно передать переменную с json в одном из параметре запроса
-      //data: {request:["message #A", "message #B"],request2:"message2"},  //можно передать массив в одном из параметре запроса
+      },
       beforeSend: function() {
+
         //alert("Выполнение начато") ;
         disableItems();
         showOverlay();
         $(".loader").show();
       },
       complete: function() {
+
         //alert("Выполнение закончено") ;
         hideOverlay();
         enableItems();
         $(".loader").hide();
       },
-      success: function(data) { //функция выполняется при удачном заверщение
+      success: function(data) {
+
+        //функция выполняется при удачном заверщение
         $("#results").html(data);
         //alert("Запрос выполнен") ;
-        //alert(data) ;
+        alert(JSON.stringify(data)) ;
 
       }
     });

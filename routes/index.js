@@ -51,9 +51,8 @@ module.exports = function(app) {
 
 
   app.post("/structure", function(req, res) {
+
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
-    //console.log(req.session.db);
-    //dbStruct.deleteView();
 
     if (req.session.searchData) console.log(req.session.searchData);
 
@@ -90,6 +89,36 @@ module.exports = function(app) {
 
   app.post("/search-data", function(req, res) {
     res.json(req.session.searchData);
+  });
+
+  app.post("/query-data", function(req, res) {
+    var search = require("./../models/search");
+    console.log(search.getSQL(req.request));
+    res.send("cekavo");
+  });
+
+  app.get("/completion", function(req, res) {
+    res.render("bigsearch/completion", {
+      data: {
+        title: "Завершение поиск",
+        searchData: req.session.searchData
+      }
+    });
+  });
+
+  app.post("/search-complete", function(req, res) {
+    //console.log("Завершение поиска");
+    //console.log(Boolean(Number(req.body.answerValue)));
+
+    var dbStruct = structure(req.body.dbname, req.body.schemaname);
+
+    // если надо, то удаляем представление
+    if (Boolean(Number(req.body.answerValue))) {
+      dbStruct.deleteView();
+    }
+    req.session.searchData = null;
+
+    res.redirect("/databases");
   });
 
   app.get("/logout", function(req, res) {
