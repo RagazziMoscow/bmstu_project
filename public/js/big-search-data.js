@@ -150,7 +150,7 @@ function checkJsonData(group, id, name, relation, number) {
 
   }
   arr.forEach(function(item, i, arr) {
-    if (item["name"] == name && item["id"] == id) {
+    if (item["name"] == name && item["id"] == id && id != 2) {
       mark = false;
       console.log("такой элемент в этой группе уже существует");
       return;

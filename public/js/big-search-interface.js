@@ -255,7 +255,13 @@ function normalizeForms() {
 /*Очистка всех инпутов в модальных окнах*/
 function clearInputs() {
   $(".input").each(function() {
-    $(this).val("");
+    //if (this.tagName)
+    //console.log($(this)[0].nodeName);
+    if ($(this)[0].nodeName == "INPUT") {
+      $(this).val("");
+    } else {
+      $(this).val('default');
+    }
   });
   $(".rel-select").val("default");
 }
@@ -860,7 +866,7 @@ function sendQuery() {
         //функция выполняется при удачном заверщение
         $("#results").html(data);
         //alert("Запрос выполнен") ;
-        alert(JSON.stringify(data)) ;
+        alert(JSON.stringify(data));
 
       }
     });
