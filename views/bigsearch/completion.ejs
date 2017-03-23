@@ -1,0 +1,44 @@
+<% layout('../layouts/layout') %>
+<link rel="stylesheet" type="text/css" href="css/views/completion.css">
+<script type="text/javascript" src="js/completion.js"></script>
+
+<div class="wrapper">
+  <form class="wrapper__form" method="POST" action="search-complete">
+    <input type="hidden" name="dbname" value="<%= data.searchData.database %>">
+    <input type="hidden" name="schemaname" value="<%= data.searchData.schema %>">
+    <div class="completion-info">
+      <p class="completion-info__search-info">Поиск завершиться</p>
+      <p class="completion-info__question">Удалить служебное представление?</p>
+    </div>
+
+
+    <div class="answers">
+      <ul class="answers__list list-float-none">
+
+        <li class="answers__list__item standart-button">
+          <p>
+            <span class="answers__list__item__radio">
+              <input type="radio" name="answerValue" value="1">
+              <span>Да</span>
+            </span>
+            </p>
+        </li>
+        <li class="answers__list__item standart-button">
+          <p>
+            <span class="answers__list__item__radio">
+              <input type="radio" name="answerValue" value="0">
+              <span>Нет</span>
+            </span>
+            </p>
+        </li>
+      </ul>
+    </div>
+
+
+      <div class="submit">
+        <button class="submit__button click-button" type="submit">
+          ДАЛЕЕ
+        </button>
+      </div>
+  </form>
+</div>

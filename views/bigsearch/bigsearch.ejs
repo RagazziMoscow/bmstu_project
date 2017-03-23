@@ -12,6 +12,7 @@
 
 
             <div class="groups-manage-aligment">
+                <a id="search-completer" class="click-button" href="completion">Завершить поиск</a>
                 <button id="groupsAdder" class="content-action click-button">Добавить группу условий</button>
                 <button id="groups-viewer" class="content-action click-button">Просмотр всех групп</button>
             </div>
@@ -51,7 +52,9 @@
     </div>
     <span class="modal-close">×</span>
     <div class="modal-content">
-      <input autocomplete="off" placeholder="Введите новый тег" id="input-tag" class="input" type="text">
+      <select id="input-tag" class="input">
+        <option selected="selected" disabled="" value="default">Тег</option>
+      </select>
       <span class="modal-action add-action-button">Добавить</span>
       <input class="descriptor-id" name="1" type="hidden">
       <input class="form-id" type="hidden">
@@ -68,7 +71,9 @@
     </div>
     <span class="modal-close">×</span>
     <div class="modal-content">
-      <input autocomplete="off" placeholder="Введите новый тег" id="input-not-tag" class="input" type="text">
+      <select id="input-not-tag" class="input">
+        <option selected="selected" disabled="" value="default">Отсутствие тега</option>
+      </select>
       <span class="modal-action add-action-button">Добавить</span>
       <input class="descriptor-id" name="3" type="hidden">
       <input class="form-id" type="hidden">
@@ -84,7 +89,10 @@
     </div>
     <span class="modal-close">×</span>
     <div class="modal-content">
-      <input autocomplete="off" id="input-attr" placeholder="Введите новый атрибут" class="input" type="text">
+      <select id="input-attribut" class="input">
+
+        <option selected="selected" disabled="" value="default">Атрибут</option>
+      </select>
       <span class="modal-action add-action-button">Добавить</span>
       <select name="relation" class="rel-select">
         <option selected="selected" disabled="" value="default">Отношение</option>
