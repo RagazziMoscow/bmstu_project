@@ -1,9 +1,12 @@
 $(document).ready(function() {
-  $(".dbschemas__list__item").on("click", function() {
-    $(this).
+  $(".dbschemas__list__item").on("click", function(event) {
+    var node = $(this).
     find("p").
     find(".dbschemas__list__item__schema-name").
-    find("input").
-    trigger("click");
+    find("input");
+
+    if ( !$(event.target).is(node) ) {
+    	node.trigger("click");
+    }
   });
 });

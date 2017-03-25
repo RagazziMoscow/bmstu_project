@@ -132,18 +132,25 @@ function setNumber(group, name, numPar) {
 
 
 // Проверяет, существует ли элемент в указанной группе
-function checkJsonData(group, id, name) {
+function checkJsonData(group, id, name, relation, number) {
   var mark = true;
   arr = JsonData[group];
 
   if (arr == undefined) {
     return mark;
   }
-  if (name == "") {
+  // проверяем на ненулевое имя
+  if (name == "" || name == null) {
     return false;
   }
+
+  // для атрибутов проверяем на ненулевое отноешение
+  if (id == 2 && (relation == null || number == "")) {
+    return false;
+
+  }
   arr.forEach(function(item, i, arr) {
-    if (item["name"] == name && item["id"] == id) {
+    if (item["name"] == name && item["id"] == id && id != 2) {
       mark = false;
       console.log("такой элемент в этой группе уже существует");
       return;

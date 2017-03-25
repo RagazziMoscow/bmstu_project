@@ -138,7 +138,7 @@ body #wrapper .main {
     padding: 0px 35px 0px 0px;
 }
 
-#groupsAdder, #groups-viewer{
+#groupsAdder, #groups-viewer, #search-completer{
     float: right;
 }
 /*ааНаОаПаКаА аДаЛб аДаОаБаАаВаЛаЕаНаИб аНаОаВаОаЙ аГббаПаПб*/
@@ -264,7 +264,7 @@ ul#list-file-in-biblio > li:hover {
 }
 
 ul#list-file-in-biblio > li > a {
-    background: url('/images/file-small.png') no-repeat;
+    background: url('/img/file-small.png') no-repeat;
     padding-left: 40px;
     min-height: 30px;
 
@@ -439,6 +439,9 @@ ul#list-file-in-biblio > li > a.hover-underline:hover{
 
     border: 2px solid grey;
     border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .message::after {
@@ -464,7 +467,7 @@ ul#list-file-in-biblio > li > a.hover-underline:hover{
 /*loader*/
 .loader{
     position: fixed;
-    width: 937px;
+    width: 100%;
     top: 350px;
     z-index: 100;
 }
@@ -554,7 +557,7 @@ form div.item, .conditions-group .item{
   padding: 6px 8px !important;
   margin: 0 7px;
 
-  background-image: url("/images/tag.png");
+  background-image: url("/img/tag.png");
   background-repeat: no-repeat;
   background-size: 20px auto;
   background-position: 5px 5px;
@@ -565,11 +568,12 @@ form div.item, .conditions-group .item{
 .item .value{
   margin-right: 8px;
   margin-left: 25px;
+  font-weight: bold;
 }
 
 
 .item .attr-num{
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .item .remove{
