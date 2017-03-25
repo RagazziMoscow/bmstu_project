@@ -48,6 +48,19 @@ module.exports = function(app) {
 
   });
 
+  app.get("/dbschemas", function(req, res) {
+    var schemas = require("./../models/schemas")(req.session.searchData.database);
+    schemas.list(function(schemasList) {
+      res.render("schemas/dbschemaslist", {
+        data: {
+          title: "Схемы",
+          database: req.session.searchData.database,
+          list: schemasList
+        }
+      });
+    });
+  });
+
 
 
   app.post("/structure", function(req, res) {
