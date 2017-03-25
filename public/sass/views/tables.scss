@@ -1,0 +1,45 @@
+
+.dbinfo{
+  width: 100%;
+  margin-top: 50px;
+  &__title{
+    font-size: 30px;
+  }
+  &__dbname{
+    font-size: 25px;
+    & span{
+      font-weight: bold;
+    }
+  }
+}
+
+
+.dbtables{
+  width: 50%;
+  margin: 40px auto;
+
+  border: 1px solid #D1D3D3;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+
+  &__list{
+    &__item{
+      display: flex;
+      & input{
+        margin-top: 3px;
+      }
+      height: 60px;
+      & p{
+          font-size: 20px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+    }
+  }
+}
+
+.submit {
+  width: 100%;
+  margin-bottom: 130px; }

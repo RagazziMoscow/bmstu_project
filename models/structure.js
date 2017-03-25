@@ -12,7 +12,7 @@ var structure = function(dbname, schemaname) {
     user: config.database.user, //env var: PGUSER
     password: config.database.password, //env var: PGPASSWORD
     host: 'localhost', // Server hosting the postgres database
-    port: 5432 //env var: PGPORT
+    port: config.database.port //env var: PGPORT
   };
 
   var interface = {

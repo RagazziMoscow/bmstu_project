@@ -61,6 +61,21 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/tables", function(req, res) {
+
+    var tables = require("./../models/tables");
+    tables.list(req.body.dbname, req.body.schemaname, (tables)=> {
+      res.render("structure/tables", {
+        data: {
+          title: "Таблицы",
+          database: req.body.dbname,
+          schema: req.body.schemaname,
+          list: tables
+        }
+      });
+    });
+  });
+
 
 
   app.post("/structure", function(req, res) {
@@ -90,6 +105,13 @@ module.exports = function(app) {
     });
 
   });
+
+
+
+
+
+
+
 
   app.get("/bigsearch", function(req, res) {
     console.log(req.session.searchData);

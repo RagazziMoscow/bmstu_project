@@ -4,7 +4,8 @@ var config = {
     },
     database: {
       user: "admin",
-      password: "admin"
+      password: "admin",
+      port: 5432
     }
 };
 

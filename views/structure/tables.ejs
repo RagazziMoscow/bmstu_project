@@ -1,0 +1,41 @@
+    <% layout('../layouts/layout') %>
+    <link rel="stylesheet" type="text/css" href="css/views/tables.css">
+    <script type="text/javascript" src="js/tables.js"></script>
+  <div class="dbinfo">
+    <h3 class="dbinfo__title">Схемы БД</h3>
+    <p class="dbinfo__dbname">
+      Вы выбрали базу данных
+      <span><%=data.database%> и схему <%= data.schema %></span>
+    </p>
+    <div>
+  </div>
+    <div class="wrapper">
+      <form class="wrapper__form" method="POST" action="tables">
+      <input type="hidden" name="dbname" value="<%= data.database%>">
+      <input type="hidden" name="schemaname" value="<%= data.schema %>">
+
+
+
+      <div class="dbtables">
+        <ul class="dbtables__list list-float-none">
+        <% data.list.forEach(function(table) { %>
+          <li class="dbtables__list__item standart-button">
+            <p>
+              <span class="dbtables__list__item__table-name">
+                <input type="radio" name="tablename" value="<%= table.table_name %>">
+                <span><%= table.table_name %></span>
+              </span>
+            </p>
+          </li>
+        <% }); %>
+        </ul>
+      </div>
+
+
+      <div class="submit">
+        <button class="submit__button click-button" type="submit">      ДАЛЕЕ
+        </button>
+      </div>
+      </form>
+    </div>
+    </div>
