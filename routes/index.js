@@ -1,6 +1,8 @@
 var path = require('path'),
   databases = require('./../models/databases'), // Databases list
-  structure = require("./../models/structure");
+  structure = require("./../models/structure"),
+  dbschemas = require('./../models/schemas'),
+  dbtables = require("./../models/tables");
 
 
 module.exports = function(app) {
@@ -16,7 +18,7 @@ module.exports = function(app) {
     databases.list(function(dbList) {
       //console.log('ce kavo', dbList);
       //for(var i = 0; i<dbList)
-      res.render('databases/dbList', {
+      res.render('databases/list', {
         data: {
           title: "Подключённые БД",
           list: dbList
@@ -32,12 +34,16 @@ module.exports = function(app) {
 
   app.post("/dbschemas", function(req, res) {
 
+    req.session.searchData = {};
+    req.session.searchData.database = req.body.dbname;
     // очищаем сессию
-    req.session.searchData = null;
-    var schemas = require('./../models/schemas')(req.body.dbname);
+    req.session.searchData.schema = null;
+    req.session.searchData.table = null;
+
+    var schemas = dbschemas(req.body.dbname);
     schemas.list(function(schemasList) {
       //console.log(schemasList);
-      res.render("schemas/dbschemaslist", {
+      res.render("schemas/list", {
         data: {
           title: "Схемы",
           database: req.body.dbname,
@@ -49,9 +55,10 @@ module.exports = function(app) {
   });
 
   app.get("/dbschemas", function(req, res) {
-    var schemas = require("./../models/schemas")(req.session.searchData.database);
+
+    var schemas = dbschemas(req.session.searchData.database);
     schemas.list(function(schemasList) {
-      res.render("schemas/dbschemaslist", {
+      res.render("schemas/list", {
         data: {
           title: "Схемы",
           database: req.session.searchData.database,
@@ -61,10 +68,13 @@ module.exports = function(app) {
     });
   });
 
+
   app.post("/tables", function(req, res) {
 
-    var tables = require("./../models/tables");
-    tables.list(req.body.dbname, req.body.schemaname, (tables)=> {
+    req.session.searchData.schema = req.body.schemaname;
+
+    var tables = dbtables;
+    tables.list(req.body.dbname, req.body.schemaname, (tables) => {
       res.render("structure/tables", {
         data: {
           title: "Таблицы",
@@ -76,9 +86,27 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/tables", function(req, res) {
+
+    var tables = dbtables;
+    tables.list(req.session.searchData.database,
+      req.session.searchData.schema,
+      (tables) => {
+        res.render("structure/tables", {
+          data: {
+            title: "Таблицы",
+            database: req.session.searchData.database,
+            schema: req.session.searchData.schema,
+            list: tables
+          }
+        });
+      });
+  });
+
 
 
   app.post("/structure", function(req, res) {
+    req.session.searchData.table = req.body.tablename;
 
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
 
@@ -104,11 +132,6 @@ module.exports = function(app) {
     });
 
   });
-
-
-
-
-
 
 
 

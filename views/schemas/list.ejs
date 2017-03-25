@@ -7,6 +7,9 @@
     <div>
   </div>
     <div class="wrapper">
+    <% if (data.database) { -%>
+
+
       <form class="wrapper__form" method="POST" action="tables">
       <input type="hidden" name="dbname" value="<%= data.database%>">
 
@@ -28,9 +31,20 @@
 
 
       <div class="submit">
-        <button class="submit__button click-button" type="submit">      ДАЛЕЕ
+        <button class="submit__button click-button" type="submit">
+          ДАЛЕЕ
         </button>
       </div>
       </form>
+
+
+    <% } else { -%>
+
+      <div class="no-search-data-info">
+        <p class="no-search-data-info__text">
+          Выберите схему
+        </p>
+      </div>
+    <% } -%>
     </div>
     </div>

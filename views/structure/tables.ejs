@@ -1,7 +1,13 @@
     <% layout('../layouts/layout') %>
     <link rel="stylesheet" type="text/css" href="css/views/tables.css">
     <script type="text/javascript" src="js/tables.js"></script>
+
+
   <div class="dbinfo">
+
+  <% if (data.database && data.schema) { -%>
+
+
     <h3 class="dbinfo__title">Схемы БД</h3>
     <p class="dbinfo__dbname">
       Вы выбрали базу данных
@@ -9,6 +15,7 @@
     </p>
     <div>
   </div>
+
     <div class="wrapper">
       <form class="wrapper__form" method="POST" action="tables">
       <input type="hidden" name="dbname" value="<%= data.database%>">
@@ -38,4 +45,16 @@
       </div>
       </form>
     </div>
+
+
+    <% } else { -%>
+
+      <div class="no-search-data-info">
+        <p class="no-search-data-info__text">
+          Выберите базу данных и схему для поиска
+        </p>
+      </div>
+
+    <% } -%>
+
     </div>
