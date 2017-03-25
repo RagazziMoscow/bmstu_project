@@ -6,6 +6,9 @@ https://postgrespro.ru/docs/postgrespro/9.5/catalog-pg-database
 https://hub.docker.com/r/spittet/node-postgresql/
 https://www.postgresql.org/message-id/18380.994171549%40sss.pgh.pa.us
 
+выборка таблиц в конкретной базе данных:
+https://www.postgresql.org/docs/9.1/static/infoschema-tables.html
+
 выборка отношений в *конкретной БД*:
 
 select constraint_name, table_name from information_schema.table_constraints
