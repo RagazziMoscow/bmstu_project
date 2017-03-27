@@ -14,6 +14,9 @@ https://www.postgresql.org/docs/9.1/static/infoschema-tables.html
 select constraint_name, table_name from information_schema.table_constraints
 where constraint_type = 'FOREIGN KEY';
 
+pg-structure npm:
+http://www.pg-structure.com/
+
 select *from information_schema.table_constraints;
 https://postgrespro.ru/docs/postgresql/9.6/infoschema-table-constraints.html
 http://stackoverflow.com/questions/1152260/postgres-sql-to-list-table-foreign-keys

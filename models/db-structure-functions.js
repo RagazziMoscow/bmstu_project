@@ -173,7 +173,7 @@ function getRelationColumns(relation) {
   var columnsList = [];
 
   if (relation.type == "ONE TO MANY") {
-
+    // один комногим
     var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
     var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
 
@@ -184,10 +184,6 @@ function getRelationColumns(relation) {
 
   }
 
-  // конечная таблица
-  //console.log(relation.targetTable.name);
-  //console.log(relationColumns);
-
   // обход по таблице с внешним ключом
   for (let tableColumn of relationColumns.values()) {
 
@@ -197,7 +193,6 @@ function getRelationColumns(relation) {
 
       // колонки из табицы с первичным ключом
       let refColumns = tableColumn.referencedColumns;
-      //console.log(refColumns);
 
       // вставляем в массив имена таблиц, сначала начальная таблица, потом конечная
       if (relation.type == "ONE TO MANY") {
@@ -228,8 +223,8 @@ function getRelationColumns(relation) {
   return columnsList;
 }
 
-// получаем поле начальной таблицы, участвующей в отношении
-function getSourceTableColumn(relation) {
+// получаем поле начальной(конечной) таблицы, участвующей в отношении
+function getSourceTableColumn(relation, target = false) {
   var sourceColumn = {};
   if (relation.type == "ONE TO MANY") {
 
@@ -243,24 +238,23 @@ function getSourceTableColumn(relation) {
 
   }
 
-  // конечная таблица
-  //console.log(relation.targetTable.name);
-  //console.log(relationColumns);
-
   // обход по таблице с внешним ключом
   for (let tableColumn of relationColumns.values()) {
 
     // если существуют колонки, на которые ссылается ограничение
-    if (tableColumn.referencedColumns.size != 0 &&
-      Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName) {
+    let columnsCondition = (tableColumn.referencedColumns.size != 0 &&
+      Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName);
 
+    if (columnsCondition) {
       // колонки из табицы с первичным ключом
       let refColumns = tableColumn.referencedColumns;
-      //console.log(refColumns);
 
       // вставляем в массив имена таблиц,
       // сначала начальная таблица, потом конечная
-      if (relation.type == "ONE TO MANY") {
+      let relationCondition = ((relation.type == "ONE TO MANY" && target == false) ||
+        (relation.type == "MANY TO ONE" && target == true));
+
+      if (relationCondition) {
         sourceColumn.name = Array.from(refColumns)[0].name;
         sourceColumn.table = Array.from(refColumns)[0].table.name;
       } else {
@@ -274,52 +268,6 @@ function getSourceTableColumn(relation) {
   return sourceColumn;
 }
 
-// получаем поле конечной таблицы, участвующей в отношении
-function getTargetTableColumn(relation) {
-  var sourceColumn = {};
-  if (relation.type == "ONE TO MANY") {
-
-    var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
-    var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
-
-  } else {
-
-    var relationColumns = relation.sourceTable.columns;
-    var necessaryTableName = relation.targetTable.name;
-
-  }
-
-  // конечная таблица
-  //console.log(relation.targetTable.name);
-  //console.log(relationColumns);
-
-  // обход по таблице с внешним ключом
-  for (let tableColumn of relationColumns.values()) {
-
-    // если существуют колонки, на которые ссылается ограничение
-    if (tableColumn.referencedColumns.size != 0 &&
-      Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName) {
-
-      // колонки из табицы с первичным ключом
-      let refColumns = tableColumn.referencedColumns;
-      //console.log(refColumns);
-
-      // вставляем в массив имена таблиц, сначала начальная таблица, потом конечная
-      if (relation.type == "ONE TO MANY") {
-
-        sourceColumn.name = tableColumn.name;
-        sourceColumn.table = tableColumn.table.name;
-      } else {
-        sourceColumn.name = Array.from(refColumns)[0].name;
-        sourceColumn.table = Array.from(refColumns)[0].table.name;
-
-
-      }
-
-    }
-  }
-  return sourceColumn;
-}
 
 // собираем запрос на создания общего представления
 function getSQLForView(db, analyzedSchema, analizedTableName = "") {
@@ -387,14 +335,15 @@ function getSQLForView(db, analyzedSchema, analizedTableName = "") {
           chalk.green(analizedTables[j]));
 
         // определяем колонки для соединения таблиц
-        let joinColumnTargetInfo = getTargetTableColumn(getRelation(db,
+        let joinColumnTargetInfo = getSourceTableColumn(getRelation(db,
           analyzedSchema,
           analizedTables[i],
-          analizedTables[j]));
+          analizedTables[j]), true); // target
         let joinColumnSourceInfo = getSourceTableColumn(getRelation(db,
           analyzedSchema,
           analizedTables[i],
           analizedTables[j]));
+        //console.log(joinColumnTargetInfo, joinColumnSourceInfo);
         SQLQuery += " full join " + analizedTables[i] +
           " on " + analizedTables[j] +
           "." + joinColumnTargetInfo.name +
