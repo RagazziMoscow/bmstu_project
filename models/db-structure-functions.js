@@ -1,3 +1,4 @@
+var config = require("./../config/config");
 var pgStructure = require("pg-structure");
 var chalk = require("chalk");
 
@@ -13,10 +14,10 @@ function structure(database, schema) {
 
   var connectionArgs = {
     database: database,
-    user: "admin",
-    password: "admin",
+    user: config.database.user,
+    password: config.database.password,
     host: "localhost",
-    port: 5432
+    port: config.database.port
   };
 
 
@@ -25,20 +26,20 @@ function structure(database, schema) {
 
   var sqlData = {
 
-    queryForView: function(callback) {
+    queryForView: function(mainTableName) {
       var query = "";
 
       return new Promise(function(resolve, reject) {
-      pgStructure(connectionArgs, analyzedSchema)
-        .then((db) => {
-          //getSequenceForView(db, analyzedSchema, 'printer');
-          query = getSQLForView(db, analyzedSchema);
+        pgStructure(connectionArgs, analyzedSchema)
+          .then((db) => {
+            //getSequenceForView(db, analyzedSchema, 'printer');
+            query = getSQLForView(db, analyzedSchema, mainTableName);
 
-          // возвращаем результат
-          resolve(query);
-          //callback(query);
-        })
-        .catch((err) => console.log(err.stack));
+            // возвращаем результат
+            resolve(query);
+            //callback(query);
+          })
+          .catch((err) => console.log(err.stack));
 
 
 
@@ -320,28 +321,25 @@ function getTargetTableColumn(relation) {
   return sourceColumn;
 }
 
-// получаем логическое значение, является ли данный
-// объект представлением или базовой таблицей
-function isView(db, analyzedSchema, ObjectName) {
-  var analizedObject = getTable(db, analyzedSchema, ObjectName);
-  return Boolean(analizedObject.primaryKeyColumns.size == 0);
-}
-
-
 // собираем запрос на создания общего представления
-function getSQLForView(db, analyzedSchema) {
+function getSQLForView(db, analyzedSchema, analizedTableName = "") {
 
-  getSequenceForView(db, analyzedSchema, getIndependentTables(db, analyzedSchema)[0]);
-  console.log(analizedTables);
-
-/*
-// дописать для 1 таблицы
-  if (analizedTables.length == 1) {
-    return "set search_path to " + analyzedSchema +
-      ";\n create view as "
+  if (analizedTableName == "") {
+    getSequenceForView(db, analyzedSchema, getIndependentTables(db, analyzedSchema)[0]);
+    console.log(analizedTables);
+  } else {
+    getSequenceForView(db, analyzedSchema, analizedTableName);
+    console.log(analizedTables);
   }
 
-  */
+  /*
+  // дописать для 1 таблицы
+    if (analizedTables.length == 1) {
+      return "set search_path to " + analyzedSchema +
+        ";\n create view as "
+    }
+
+    */
 
   var SQLQuery = " from ";
   SQLQuery += analizedTables[0];
@@ -356,24 +354,13 @@ function getSQLForView(db, analyzedSchema) {
 
   // для каждой таблицы делаем выборку колонок,
   // если колонки повторяются, то заменяем имена псевдонимами
-  analizedTables.forEach((tableName) => {
+  analizedTables.forEach((tableName, tableIndex, tablesArray) => {
     var columnsList = getTableColumns(db, analyzedSchema, tableName);
     //console.log(columnsList);
     columnsList = columnsList.map(function(columnName) {
 
-      // если такое имя колонки ещё не встречалос
-      if (!joinedColumns.includes(columnName)) {
-
-        joinedColumns.push(columnName);
-        columnName = tableName + "." + columnName;
-
-      } else {
-
-        // добавляем псевдоним, если такое имя уже встречалось
-        joinedColumns.push(columnName + "_" + tableName);
-        columnName = tableName + "." + columnName + " AS " + columnName + "_" + tableName;
-
-      }
+      columnName = getColumnNameForView(columnName, tableName, tablesArray);
+      joinedColumns.push(columnName);
 
       viewColumns = joinedColumns;
       return columnName;
@@ -430,8 +417,7 @@ function getSQLForView(db, analyzedSchema) {
   SQLQuery = selectPart + SQLQuery;
   SQLQuery = "set search_path to " + analyzedSchema + ";\n create view all_join as \n select " + SQLQuery;
   //console.log("Скрипт:\n", SQLQuery);
-  analizedTables = []; //
-  //return SQLQuery;
+  analizedTables = [];
 
   //console.log(viewColumns);
   return {
@@ -446,4 +432,19 @@ function getViewColumns(db, analyzedSchema, viewName) {
   //console.log(columns);
   return viewColumns;
 
+}
+
+// даёт имя для колонки колонки с учётом порядка следования таблиц в структуре
+function getColumnNameForView(columnName, tableName, tablesArray) {
+  let newColumnName = tableName + '.' + columnName;
+
+  if (tablesArray.indexOf(tableName) > 0) {
+    newColumnName = newColumnName + ' AS ' + '"';
+    for (let tableIndex = 1; tableIndex <= tablesArray.indexOf(tableName); tableIndex++) {
+      newColumnName += tablesArray[tableIndex] + '.';
+    }
+    newColumnName += columnName + '"';
+  }
+
+  return newColumnName;
 }

@@ -105,14 +105,15 @@ module.exports = function(app) {
 
 
 
-  app.post("/structure", function(req, res) {
-    req.session.searchData.table = req.body.tablename;
+  app.post("/columns", function(req, res) {
+    var table = req.body.tablename;
+    req.session.searchData.table = table;
 
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
 
-    if (req.session.searchData) console.log(req.session.searchData);
+    //if (req.session.searchData) console.log(req.session.searchData);
 
-    dbStruct.getView((columns) => {
+    dbStruct.getView(table, (columns) => {
 
       //console.log(columns);
       req.session.searchData = {
@@ -121,11 +122,12 @@ module.exports = function(app) {
         viewColumns: columns
       };
 
-      res.render("structure/dbstructure", {
+      res.render("structure/columns", {
         data: {
           title: "Структура",
           database: req.body.dbname,
           schema: req.body.schemaname,
+          table: table,
           columns: columns
         }
       });
@@ -174,7 +176,9 @@ module.exports = function(app) {
     if (Boolean(Number(req.body.answerValue))) {
       dbStruct.deleteView();
     }
-    req.session.searchData = null;
+    req.session.searchData.schema = null;
+    req.session.searchData.table = null;
+    req.session.viewColumns = null;
 
     res.redirect("/databases");
   });

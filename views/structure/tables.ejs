@@ -11,13 +11,15 @@
     <h3 class="dbinfo__title">Схемы БД</h3>
     <p class="dbinfo__dbname">
       Вы выбрали базу данных
-      <span><%=data.database%> и схему <%= data.schema %></span>
+      <span><%= data.database %></span>
+      , схему
+      <span><%= data.schema %></span>
     </p>
     <div>
   </div>
 
     <div class="wrapper">
-      <form class="wrapper__form" method="POST" action="tables">
+      <form class="wrapper__form" method="POST" action="columns">
       <input type="hidden" name="dbname" value="<%= data.database%>">
       <input type="hidden" name="schemaname" value="<%= data.schema %>">
 
