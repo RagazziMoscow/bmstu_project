@@ -25,6 +25,11 @@ http://stackoverflow.com/questions/1152260/postgres-sql-to-list-table-foreign-ke
 jquery form styler:
 http://dimox.github.io/jQueryFormStyler/demo/#css
 
-модуль asunc:
+модуль async npm:
 http://fastcodenote.blogspot.ru/2013/09/nodejs-async.html
 http://caolan.github.io/async/
+
+модуль if-async npm:
+https://www.npmjs.com/package/if-async
+
+

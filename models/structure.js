@@ -23,18 +23,16 @@ var structure = function(dbname, schemaname) {
   var interface = {
 
 
-    getView: function(tableName, callback) {
+    getView: function(callback, tableName) {
 
+        tableName = tableName || "";
         var returnView = callback; // коллбек для отдачи представления
         MAIN_TABLE = tableName;
 
         async.waterfall([
-            getViewColumnsCount,
-            ifAsync(countCreatedViewIsNull).
-            then(createView).
-            else(function(a, callback) {
-              callback(null, 'dont care');
-            }),
+            checkView,
+            ifAsync(viewDoesNotExist).
+            then(createView),
             getColumnsFromQueryResult
           ],
           function(err, result) {
@@ -45,7 +43,8 @@ var structure = function(dbname, schemaname) {
       },
 
       deleteView: function() {
-        var query = "set search_path to " + schemaname + ";\ndrop view all_join;"
+        var query = "set search_path to " + schemaname + ";\n" +
+          "drop view all_join;"
         var client = new pg.Client(localConfig);
         client.connect(function(err) {
           if (err) throw err;
@@ -62,21 +61,36 @@ var structure = function(dbname, schemaname) {
 
       },
 
-      getViewColumns: function() {
+      checkViewExisting: function(callback) {
+        var redirectAction = callback;
 
+        async.waterfall([
+            checkView,
+            ifAsync(viewDoesNotExist).
+            then(function(result, callback) {
+              callback(null, false);
+            }).
+            else(function(result, callback) {
+              callback(null, true);
+            }),
+          ],
+          function(err, result) {
+            //console.log("представление", result);
+            redirectAction(result);
+          });
       }
   }
 
   return interface;
 
-  function getViewColumnsCount(callback) {
+  function checkView(callback) {
 
-    // получаем количество колонок представления
-    // оно либо не равно нулю, и тогда представление существует
-    // либо равно нулю, тогда создаём представление
+    // получаем, существует представление all_join, или нет
+    // если нет, то создаём его
     var client = new pg.Client(localConfig);
-    var query = "select count(*)  from information_schema.columns\n" +
-      "where table_name = 'all_join'";
+    var query = "set search_path to " + schemaname + ";\n" +
+      "select count(*) from information_schema.tables\n" +
+      "where table_name = 'all_join';";
 
     // подключение
     client.connect(function(err) {
@@ -97,47 +111,44 @@ var structure = function(dbname, schemaname) {
     });
   }
 
-  function countCreatedViewIsNull(countResult, callback) {
+  function viewDoesNotExist(countResult, callback) {
 
     // если представление ещё не создано, колонок нет
+    // то вернёт true
     callback(null, (countResult.rows[0].count == 0));
-
-
   }
 
   function createView(columnsResult, callback) {
 
     // если представления ещё нет
+    // создаём его
     var query = pgStructureFunc(localConfig.database, schemaname).
-    queryForView(MAIN_TABLE)
-      .then((result) => {
+    queryForView(MAIN_TABLE).
+    then((result) => {
+      /*
+      var viewColumns = [];
+      viewColumns = result.columns;
+      */
+      var client = new pg.Client(localConfig);
+      client.connect(function(err) {
+        if (err) throw err;
 
-        var viewColumns = [];
-        viewColumns = result.columns;
-        //console.log("Созданные колонки", viewColumns);
-
-
-        var client = new pg.Client(localConfig);
-        client.connect(function(err) {
+        client.query(result.query, function(err, createResult) {
           if (err) throw err;
-          client.query(result.query, function(err, createResult) {
+
+          // disconnect the client
+          client.end(function(err) {
             if (err) throw err;
-
-            // disconnect the client
-            client.end(function(err) {
-              if (err) throw err;
-            });
-
-            //console.log(createResult);
-            callback(null, createResult);
-
           });
 
+          callback(null, createResult);
         });
 
-        return (viewColumns);
-
       });
+
+      //return (viewColumns);
+
+    });
   }
 
   function getColumnsFromQueryResult(columns, callback) {
@@ -145,21 +156,20 @@ var structure = function(dbname, schemaname) {
     // когда представление уже существует
     // выбираем коллонки из запроса для представления
     var client = new pg.Client(localConfig);
-    var query = "select column_name from information_schema.columns\n" +
+    var query = "set search_path to " + schemaname + ";\n" +
+      "select column_name from information_schema.columns\n" +
       "where table_name = 'all_join';";
 
     // подключение
     client.connect(function(err) {
       if (err) throw err;
 
-      //console.log("Запрос колонок");
       // выполняем запрос колонок
       client.query(query, function(err, columnsResult) {
         if (err) throw err;
 
         client.end(function(err) {
           if (err) throw err;
-          //console.log("Запрос выполнен", columnsResult);
         });
         //console.log(columnsResult);
 

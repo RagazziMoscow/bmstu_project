@@ -1,5 +1,5 @@
-.columns-info {
-  font-size: 20px; }
+.columns-wrap {
+  margin-top: 50px; }
 
 .database-info {
   width: 50%;
@@ -23,8 +23,15 @@
     float: left; }
 
 .columns-info {
-  margin: 20px 0px 0px; }
+  margin: 20px 0px 0px;
+  font-size: 20px; }
 
 .columns-info__list {
   width: 50%;
   margin: 0px auto; }
+
+.no-search-data-info {
+  height: 100px; }
+
+.no-search-data-info__text {
+  font-size: 20px; }

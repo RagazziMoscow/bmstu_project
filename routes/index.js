@@ -1,5 +1,4 @@
-var path = require('path'),
-  databases = require('./../models/databases'), // Databases list
+var databases = require('./../models/databases'), // Databases list
   structure = require("./../models/structure"),
   dbschemas = require('./../models/schemas'),
   dbtables = require("./../models/tables");
@@ -16,8 +15,7 @@ module.exports = function(app) {
   app.get('/databases', function(req, res) {
 
     databases.list(function(dbList) {
-      //console.log('ce kavo', dbList);
-      //for(var i = 0; i<dbList)
+
       res.render('databases/list', {
         data: {
           title: "Подключённые БД",
@@ -34,12 +32,11 @@ module.exports = function(app) {
 
   app.post("/dbschemas", function(req, res) {
 
-    req.session.searchData = {};
-    req.session.searchData.database = req.body.dbname;
     // очищаем сессию
-    req.session.searchData.schema = null;
-    req.session.searchData.table = null;
+    req.session.searchData = {};
 
+    // устанавливаем в сессию базу данных
+    req.session.searchData.database = req.body.dbname;
     var schemas = dbschemas(req.body.dbname);
     schemas.list(function(schemasList) {
       //console.log(schemasList);
@@ -71,57 +68,94 @@ module.exports = function(app) {
 
   app.post("/tables", function(req, res) {
 
+    // устанавливаем в сессию схему
     req.session.searchData.schema = req.body.schemaname;
-
+    dbStruct = structure(req.body.dbname, req.body.schemaname);
     var tables = dbtables;
-    tables.list(req.body.dbname, req.body.schemaname, (tables) => {
-      res.render("structure/tables", {
-        data: {
-          title: "Таблицы",
-          database: req.body.dbname,
-          schema: req.body.schemaname,
-          list: tables
-        }
-      });
+    dbStruct.checkViewExisting(function(view) {
+
+      if (view) {
+
+        // если представление существует
+        // то делаем перенаправление на страницу с выбором полей
+        res.redirect("/columns?dbname=" + req.body.dbname +
+          "&schemaname=" + req.body.schemaname);
+      } else {
+
+        // если представления нет
+        tables.list(req.session.searchData.database,
+          req.session.searchData.schema,
+          (tables) => {
+            res.render("structure/tables", {
+              data: {
+                title: "Таблицы",
+                database: req.session.searchData.database,
+                schema: req.session.searchData.schema,
+                list: tables
+              }
+            });
+          });
+
+      }
     });
   });
 
   app.get("/tables", function(req, res) {
 
     var tables = dbtables;
-    tables.list(req.session.searchData.database,
-      req.session.searchData.schema,
-      (tables) => {
-        res.render("structure/tables", {
-          data: {
-            title: "Таблицы",
-            database: req.session.searchData.database,
-            schema: req.session.searchData.schema,
-            list: tables
-          }
-        });
+    var database = req.session.searchData.database || null;
+    var schema = req.session.searchData.schema || null;
+    var searchDataIsSended = database && schema;
+
+    if (searchDataIsSended) {
+
+      dbStruct = structure(database, schema);
+      dbStruct.checkViewExisting(function(view) {
+
+        if (view) {
+
+          // если представление существует
+          res.redirect("/columns?dbname=" + req.session.searchData.database +
+            "&schemaname=" + req.session.searchData.schema);
+        } else {
+
+          // если представления нет
+          tables.list(req.session.searchData.database,
+            req.session.searchData.schema,
+            (tables) => {
+              res.render("structure/tables", {
+                data: {
+                  title: "Таблицы",
+                  database: req.session.searchData.database,
+                  schema: req.session.searchData.schema,
+                  list: tables
+                }
+              });
+            });
+
+        }
       });
+
+    } else {
+
+      res.render('structure/tables', {
+        data: {
+          title: "Таблицы"
+        }
+      });
+
+    }
   });
 
 
 
   app.post("/columns", function(req, res) {
+
     var table = req.body.tablename;
-    req.session.searchData.table = table;
-
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
+    dbStruct.getView((columns) => {
 
-    //if (req.session.searchData) console.log(req.session.searchData);
-
-    dbStruct.getView(table, (columns) => {
-
-      //console.log(columns);
-      req.session.searchData = {
-        database: req.body.dbname,
-        schema: req.body.schemaname,
-        viewColumns: columns
-      };
-
+      req.session.searchData.viewColumns = columns;
       res.render("structure/columns", {
         data: {
           title: "Структура",
@@ -131,13 +165,49 @@ module.exports = function(app) {
           columns: columns
         }
       });
-    });
+    }, table);
 
+  });
+
+  app.get("/columns", function(req, res) {
+    console.log(req.session.searchData.database);
+
+    var database = req.param("dbname") || req.session.searchData.database || null;
+    var schema = req.param("schemaname") || req.session.searchData.schema || null;
+
+    var searchDataIsSended = database && schema;
+    if (searchDataIsSended) {
+
+      var dbStruct = structure(database, schema);
+      dbStruct.getView((columns) => {
+
+        // устанавливаем в сессию поля
+        req.session.searchDataюviewColumns = columns;
+        res.render("structure/columns", {
+          data: {
+            title: "Структура",
+            database: database,
+            schema: schema,
+            columns: columns
+          }
+        });
+      });
+
+    } else {
+
+      res.render("structure/columns", {
+        data: {
+          title: "Структура"
+        }
+      });
+
+    }
   });
 
 
 
   app.get("/bigsearch", function(req, res) {
+
     console.log(req.session.searchData);
     res.render("bigsearch/bigsearch", {
       data: {
@@ -167,8 +237,6 @@ module.exports = function(app) {
   });
 
   app.post("/search-complete", function(req, res) {
-    //console.log("Завершение поиска");
-    //console.log(Boolean(Number(req.body.answerValue)));
 
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
 
@@ -182,6 +250,11 @@ module.exports = function(app) {
 
     res.redirect("/databases");
   });
+
+
+
+
+
 
   app.get("/logout", function(req, res) {
     res.status(200).send("logout");
