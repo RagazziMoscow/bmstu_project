@@ -2,7 +2,7 @@ var config = require("./../config/config");
 var async = require('async');
 var ifAsync = require('if-async');
 var pg = require("pg");
-var pgStructureFunc = require("./db-structure-functions");
+var pgStructureFunc = require("./../pg-structure-func");
 
 
 var MAIN_TABLE = "";
@@ -22,7 +22,8 @@ var structure = function(dbname, schemaname) {
 
   var interface = {
 
-
+    // возвращает колонки представление
+    // и создаёт его, если оно не создано
     getView: function(callback, tableName) {
 
         tableName = tableName || "";
@@ -42,6 +43,7 @@ var structure = function(dbname, schemaname) {
           });
       },
 
+      // удаляет созданное представление
       deleteView: function() {
         var query = "set search_path to " + schemaname + ";\n" +
           "drop view all_join;"
@@ -61,6 +63,7 @@ var structure = function(dbname, schemaname) {
 
       },
 
+      // проверяет, существует ли поисковое представление
       checkViewExisting: function(callback) {
         var redirectAction = callback;
 
@@ -125,10 +128,7 @@ var structure = function(dbname, schemaname) {
     var query = pgStructureFunc(localConfig.database, schemaname).
     queryForView(MAIN_TABLE).
     then((result) => {
-      /*
-      var viewColumns = [];
-      viewColumns = result.columns;
-      */
+
       var client = new pg.Client(localConfig);
       client.connect(function(err) {
         if (err) throw err;
@@ -151,7 +151,7 @@ var structure = function(dbname, schemaname) {
     });
   }
 
-  function getColumnsFromQueryResult(columns, callback) {
+  function getColumnsFromQueryResult(createResult, callback) {
 
     // когда представление уже существует
     // выбираем коллонки из запроса для представления

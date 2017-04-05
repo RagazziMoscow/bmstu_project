@@ -85,13 +85,15 @@ module.exports = function(app) {
         // если представления нет
         tables.list(req.session.searchData.database,
           req.session.searchData.schema,
-          (tables) => {
+          (tablesInfo) => {
+            console.log(tablesInfo.links);
             res.render("structure/tables", {
               data: {
                 title: "Таблицы",
                 database: req.session.searchData.database,
                 schema: req.session.searchData.schema,
-                list: tables
+                list: tablesInfo.entities,
+                links: tablesInfo.links
               }
             });
           });
@@ -244,15 +246,13 @@ module.exports = function(app) {
     if (Boolean(Number(req.body.answerValue))) {
       dbStruct.deleteView();
     }
+    // очищаем сессию
     req.session.searchData.schema = null;
     req.session.searchData.table = null;
     req.session.viewColumns = null;
 
     res.redirect("/databases");
   });
-
-
-
 
 
 

@@ -2,13 +2,30 @@
     <link rel="stylesheet" type="text/css" href="css/views/tables.css">
     <script type="text/javascript" src="js/tables.js"></script>
 
+<div class="entities-info">
+  <p>Отношения</p>
+  <div class="dbentities">
+
+    <ul class="dbentities__list list-float-none">
+      <% data.links.forEach(function(link) { %>
+        <li class="dbentities__list__item standart-button">
+          <p>
+            <span class="dbentities__list__item__left"><%= link[0] %></span>
+            <span><--></span>
+            <span class="dbentities__list__item__right"><%= link[1] %></span>
+          </p>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>
 
   <div class="dbinfo">
 
   <% if (data.database && data.schema) { -%>
 
 
-    <h3 class="dbinfo__title">Схемы БД</h3>
+    <h3 class="dbinfo__title">Сущности БД</h3>
     <p class="dbinfo__dbname">
       Вы выбрали базу данных
       <span><%= data.database %></span>
@@ -31,8 +48,8 @@
           <li class="dbtables__list__item standart-button">
             <p>
               <span class="dbtables__list__item__table-name">
-                <input type="radio" name="tablename" value="<%= table.table_name %>">
-                <span><%= table.table_name %></span>
+                <input type="radio" name="tablename" value="<%= table %>">
+                <span><%= table %></span>
               </span>
             </p>
           </li>
@@ -42,7 +59,8 @@
 
 
       <div class="submit">
-        <button class="submit__button click-button" type="submit">      ДАЛЕЕ
+        <button class="submit__button click-button" type="submit">
+          ДАЛЕЕ
         </button>
       </div>
       </form>
