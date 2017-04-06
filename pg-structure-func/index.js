@@ -54,6 +54,7 @@ function structure(database, schema) {
                 then((db) => {
                     var tables = Array.from(db.schemas.get(analyzedSchema).tables.keys());
                     var relations = getRelationsInfo(db, analyzedSchema);
+                    analizedTables = [];
 
                     // возращаем результат
                     resolve({entities: tables, links: relations});
@@ -279,7 +280,9 @@ function getSourceTableColumn(relation, target = false) {
 
 
 // собираем запрос на создания общего представления
-function getSQLForView(db, analyzedSchema, analizedTableName = "") {
+function getSQLForView(db, analyzedSchema, analizedTableName) {
+
+    console.log(analizedTableName);
 
     if (analizedTableName == "") {
         getSequenceForView(db, analyzedSchema, getIndependentTables(db, analyzedSchema)[0]);
@@ -411,7 +414,7 @@ function getRelations(db, analyzedSchema) {
 function getRelationsInfo(db, analyzedSchema) {
     var indTable = getIndependentTables(db, analyzedSchema)[0];
     getSequenceForView(db, analyzedSchema, indTable);
-    console.log(analizedTables);
+    //console.log(analizedTables);
     var relationsInfo = [];
     var columns;
     var relations = getRelations(db, analyzedSchema);
@@ -426,34 +429,22 @@ function getColumnNameForView(db, analyzedSchema, columnName, tableName, tablesA
     if (tablesArray.indexOf(tableName) > 0) {
         newColumnName = newColumnName + ' AS ' + '"';
         let pseudonimPart = tableName + '.' + columnName;
-        let branch = false;
-        //let table = "";
-        //debugger;
-        for (let tableIndex = tablesArray.indexOf(tableName) - 1; tableIndex > 0; tableIndex--) {
-            //newColumnName += tablesArray[tableIndex] + '.';
+        let lastTable = tableName; // последняя таблица, участвующая в отношении
 
-            //for (let innerIndex = tableIndex - 1; innerIndex >= 0; innerIndex--) {
+        for (let tableIndex = tablesArray.indexOf(tableName) - 1; tableIndex > 0; tableIndex--) {
 
             let relationNext = isRelationBetweenTables(db,
                 analyzedSchema,
-                tablesArray[tableIndex - 1],
-                tablesArray[tableIndex]);
-            let relationBranch = isRelationBetweenTables(db,
-                analyzedSchema,
-                tableName,
-                tablesArray[tableIndex]);
-            console.log(tablesArray[tableIndex - 1], tablesArray[tableIndex], relationNext);
-            console.log(tableName, tablesArray[tableIndex], relationBranch);
+                tablesArray[tableIndex],
+                lastTable);
+            console.log(tablesArray[tableIndex], lastTable, relationNext);
 
-            if (relationNext && branch) {
+            if (relationNext)  {
                 pseudonimPart = tablesArray[tableIndex] + '.' + pseudonimPart;
-                branch = false;
+                //branch = false;
+                lastTable = tablesArray[tableIndex];
             }
-            if (relationBranch && !branch) {
-                pseudonimPart = tablesArray[tableIndex] + '.' + pseudonimPart;
-                branch = true;
-            }
-            //}
+
         }
         newColumnName += pseudonimPart + '"';
         console.log(newColumnName);
