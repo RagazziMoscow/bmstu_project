@@ -86,7 +86,7 @@ module.exports = function(app) {
         tables.list(req.session.searchData.database,
           req.session.searchData.schema,
           (tablesInfo) => {
-            console.log(tablesInfo.links);
+            //console.log(tablesInfo.links);
             res.render("structure/tables", {
               data: {
                 title: "Таблицы",

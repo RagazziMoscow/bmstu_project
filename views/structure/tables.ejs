@@ -3,8 +3,19 @@
     <script type="text/javascript" src="js/tables.js"></script>
 
 <div class="entities-info">
-  <p>Отношения</p>
+
+
+
+    <p class="dbinfo__dbname">
+      Вы выбрали базу данных
+      <span><%= data.database %></span>
+      , схему
+      <span><%= data.schema %></span>
+    </p>
+
+  <h3 class="entities-info__title">Отношения</h3>
   <div class="dbentities">
+
 
     <ul class="dbentities__list list-float-none">
       <% data.links.forEach(function(link) { %>
@@ -22,19 +33,8 @@
 
   <div class="dbinfo">
 
+  <h3 class="dbinfo__title">Сущности БД</h3>
   <% if (data.database && data.schema) { -%>
-
-
-    <h3 class="dbinfo__title">Сущности БД</h3>
-    <p class="dbinfo__dbname">
-      Вы выбрали базу данных
-      <span><%= data.database %></span>
-      , схему
-      <span><%= data.schema %></span>
-    </p>
-    <div>
-  </div>
-
     <div class="wrapper">
       <form class="wrapper__form" method="POST" action="columns">
       <input type="hidden" name="dbname" value="<%= data.database%>">

@@ -1,14 +1,19 @@
+.entities-info {
+  margin: 50px auto 0 auto; }
+  .entities-info__title {
+    font-size: 30px; }
+
 .dbentities {
   width: 50%;
   font-size: 20px;
-  margin: 50px auto 0px;
+  margin: 20px auto 0px;
   padding: 30px;
   border-radius: 20px;
   border: 1px solid #d1d3d3; }
 
 .dbinfo {
   width: 100%;
-  margin-top: 50px; }
+  margin-top: 40px; }
   .dbinfo__title {
     font-size: 30px; }
   .dbinfo__dbname {

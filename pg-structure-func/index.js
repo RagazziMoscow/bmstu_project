@@ -282,7 +282,7 @@ function getSourceTableColumn(relation, target = false) {
 // собираем запрос на создания общего представления
 function getSQLForView(db, analyzedSchema, analizedTableName) {
 
-    console.log(analizedTableName);
+    //console.log(analizedTableName);
 
     if (analizedTableName == "") {
         getSequenceForView(db, analyzedSchema, getIndependentTables(db, analyzedSchema)[0]);
@@ -437,8 +437,7 @@ function getColumnNameForView(db, analyzedSchema, columnName, tableName, tablesA
                 analyzedSchema,
                 tablesArray[tableIndex],
                 lastTable);
-            console.log(tablesArray[tableIndex], lastTable, relationNext);
-
+            //console.log(tablesArray[tableIndex], lastTable, relationNext);
             if (relationNext)  {
                 pseudonimPart = tablesArray[tableIndex] + '.' + pseudonimPart;
                 //branch = false;
@@ -447,7 +446,7 @@ function getColumnNameForView(db, analyzedSchema, columnName, tableName, tablesA
 
         }
         newColumnName += pseudonimPart + '"';
-        console.log(newColumnName);
+        //console.log(newColumnName);
     }
 
     return newColumnName;
