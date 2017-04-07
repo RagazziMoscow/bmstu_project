@@ -22,27 +22,48 @@
         <li class="dbentities__list__item standart-button">
           
             <div class="dbentities__list__item__left">
-              <span class=" dbentities__list__item__left__en-title">
-                <%= link[0].entity %>
-              </span>
-              <ul class="columns-list">
-                <% link[0].columns.forEach(function(column) { %>
-                  <li class="columns-list__item"><%= column %></li>
-                <% }); %>
-              </ul>
+              <div class="dbentities__list__item__left__entity-content">
+                <span class=" dbentities__list__item__left__en-title">
+                  <%= link[0].entity %>
+                </span>
+                <ul class="columns-list">
+                  <% link[0].columns.forEach(function(column) { %>
+                    <li class="columns-list__item"><%= column %></li>
+                  <% }); %>
+                </ul>
+              </div>
+              <div class="dbentities__list__item__left__link-status">
+                <% if (link[0].target) { -%>
+                <span>M</span>
+                <% } else { -%>
+                <span>1</span>
+                <% } -%>
+              </div>
             </div>
+
             <div class="dbentities__list__item__middle">
               <span><--></span>
             </div>
+
             <div class="dbentities__list__item__right">
-              <span class=" dbentities__list__item__right__en-title">
-                <%= link[1].entity %>
-              </span>
-              <ul class="columns-list">
-                <% link[1].columns.forEach(function(column) { %>
-                  <li class="columns-list__item"><%= column %></li>
-                <% }); %>
-              </ul>
+              <div class="dbentities__list__item__right__link-status">
+                <% if (link[1].target) { -%>
+                <span>M</span>
+                <% } else { -%>
+                <span>1</span>
+                <% } -%>
+              </div>
+              <div class="dbentities__list__item__right__entity-content">
+                <span class=" dbentities__list__item__right__en-title">
+                  <%= link[1].entity %>
+                </span>
+                <ul class="columns-list">
+                  <% link[1].columns.forEach(function(column) { %>
+                    <li class="columns-list__item"><%= column %></li>
+                  <% }); %>
+                </ul>
+              </div>
+
             </div>
           
         </li>

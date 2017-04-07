@@ -176,6 +176,11 @@ function getRelation(db, analyzedSchema, firstTableName, secondTableName) {
     return null;
 }
 
+// получаем таблицу с внешним ключом
+function tableIsTarget(tableName, relation) {
+    //console.log(tableName, relation.targetTable.name);
+    return (relation.targetTable.name == tableName);
+}
 
 // получаем имена полей таблиц, учавствующих в отношении
 function getRelationColumns(relation) {
@@ -420,13 +425,19 @@ function getRelationsInfo(db, analyzedSchema) {
     var links = getRelations(db, analyzedSchema);
     var tables = [];
     for (link of links) {
+        let relation = getRelation(db, analyzedSchema, link[1], link[0]);
+
+        
         let relationInfo = [];
         let table = link[0];
         let columns = getTableColumns(db, analyzedSchema, table);
-        relationInfo.push({entity: table, columns: columns});
+        let targetTable = tableIsTarget(link[0], relation);
+        relationInfo.push({entity: table, columns: columns, target: targetTable});
+
         table = link[1];
         columns = getTableColumns(db, analyzedSchema, table);
-        relationInfo.push({entity: table, columns: columns});
+        targetTable = tableIsTarget(link[1], relation);
+        relationInfo.push({entity: table, columns: columns, target: targetTable});
 
         relationsInfo.push(relationInfo);
 
