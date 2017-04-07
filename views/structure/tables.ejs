@@ -20,11 +20,31 @@
     <ul class="dbentities__list list-float-none">
       <% data.links.forEach(function(link) { %>
         <li class="dbentities__list__item standart-button">
-          <p>
-            <span class="dbentities__list__item__left"><%= link[0] %></span>
-            <span><--></span>
-            <span class="dbentities__list__item__right"><%= link[1] %></span>
-          </p>
+          
+            <div class="dbentities__list__item__left">
+              <span class=" dbentities__list__item__left__en-title">
+                <%= link[0].entity %>
+              </span>
+              <ul class="columns-list">
+                <% link[0].columns.forEach(function(column) { %>
+                  <li class="columns-list__item"><%= column %></li>
+                <% }); %>
+              </ul>
+            </div>
+            <div class="dbentities__list__item__middle">
+              <span><--></span>
+            </div>
+            <div class="dbentities__list__item__right">
+              <span class=" dbentities__list__item__right__en-title">
+                <%= link[1].entity %>
+              </span>
+              <ul class="columns-list">
+                <% link[1].columns.forEach(function(column) { %>
+                  <li class="columns-list__item"><%= column %></li>
+                <% }); %>
+              </ul>
+            </div>
+          
         </li>
       <% }); %>
     </ul>
@@ -33,7 +53,7 @@
 
   <div class="dbinfo">
 
-  <h3 class="dbinfo__title">Сущности БД</h3>
+  <h3 class="dbinfo__title">Сущности</h3>
   <% if (data.database && data.schema) { -%>
     <div class="wrapper">
       <form class="wrapper__form" method="POST" action="columns">

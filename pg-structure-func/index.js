@@ -234,7 +234,7 @@ function getRelationColumns(relation) {
 }
 
 // получаем поле начальной(конечной) таблицы, участвующей в отношении
-function getSourceTableColumn(relation, target = false) {
+function getSourceTableColumn(relation, target) {
     var sourceColumn = {};
     if (relation.type == "ONE TO MANY") {
 
@@ -417,8 +417,22 @@ function getRelationsInfo(db, analyzedSchema) {
     //console.log(analizedTables);
     var relationsInfo = [];
     var columns;
-    var relations = getRelations(db, analyzedSchema);
-    return relations;
+    var links = getRelations(db, analyzedSchema);
+    var tables = [];
+    for (link of links) {
+        let relationInfo = [];
+        let table = link[0];
+        let columns = getTableColumns(db, analyzedSchema, table);
+        relationInfo.push({entity: table, columns: columns});
+        table = link[1];
+        columns = getTableColumns(db, analyzedSchema, table);
+        relationInfo.push({entity: table, columns: columns});
+
+        relationsInfo.push(relationInfo);
+
+
+    }
+    return relationsInfo;
 }
 
 // даёт имя для колонки колонки с учётом порядка следования таблиц в структуре

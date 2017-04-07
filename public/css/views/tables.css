@@ -10,6 +10,27 @@
   padding: 30px;
   border-radius: 20px;
   border: 1px solid #d1d3d3; }
+  .dbentities__list__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+    .dbentities__list__item__left {
+      text-align: left; }
+      .dbentities__list__item__left .columns-list__item {
+        text-align: left; }
+      .dbentities__list__item__left__en-title {
+        font-weight: bold;
+        font-size: 21px; }
+    .dbentities__list__item__right {
+      text-align: right; }
+      .dbentities__list__item__right .columns-list__item {
+        text-align: right; }
+      .dbentities__list__item__right__en-title {
+        font-weight: bold;
+        font-size: 21px; }
+
+.columns-list__item {
+  font-size: 17px; }
 
 .dbinfo {
   width: 100%;

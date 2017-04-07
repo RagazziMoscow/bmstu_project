@@ -86,7 +86,7 @@ module.exports = function(app) {
         tables.list(req.session.searchData.database,
           req.session.searchData.schema,
           (tablesInfo) => {
-            //console.log(tablesInfo.links);
+            console.log(tablesInfo);
             res.render("structure/tables", {
               data: {
                 title: "Таблицы",
@@ -172,7 +172,7 @@ module.exports = function(app) {
   });
 
   app.get("/columns", function(req, res) {
-    console.log(req.session.searchData.database);
+    //console.log(req.session.searchData.database);
 
     var database = req.param("dbname") || req.session.searchData.database || null;
     var schema = req.param("schemaname") || req.session.searchData.schema || null;
@@ -210,7 +210,7 @@ module.exports = function(app) {
 
   app.get("/bigsearch", function(req, res) {
 
-    console.log(req.session.searchData);
+    //console.log(req.session.searchData);
     res.render("bigsearch/bigsearch", {
       data: {
         title: "Поиск",

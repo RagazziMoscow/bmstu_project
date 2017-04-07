@@ -337,7 +337,7 @@ function fillListWithDescriptors(listBox) {
   let optionsCount = $(listBox).children("option").length;
   if (optionsCount < DescriptorsData.viewColumns.length) {
     DescriptorsData.viewColumns.forEach((item) => {
-      $(listBox).append("<option value='" + item + "'>" + item + "</option>");
+      $(listBox).append("<option value='" + item.column_name + "'>" + item.column_name + "</option>");
     });
   }
 
