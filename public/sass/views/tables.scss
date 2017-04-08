@@ -1,6 +1,10 @@
 .entities-info{
   margin: 50px auto 0 auto;
 
+
+}
+
+.dbentities-links{
   &__title{
     font-size: 30px;
   }
@@ -13,60 +17,45 @@
   padding: 30px;
   border-radius: 20px;
   border: 1px solid rgb(209, 211, 211);
+
   &__list {
+
     &__item{
       display: flex;
       flex-direction: row;
       justify-content: space-between;
 
+      @mixin link-item($side) {
 
+        &__#{$side}{
+          text-align: $side;
+          width: 200px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
 
-      &__left{
-        text-align: left;
-        width: 200px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        &__entity-content{
-          width: 75%;
-        }
-        & .columns-list{
-          &__item{
-            text-align: left;
+          &__entity-content{
+            width: 75%;
+          }
+          & .columns-list{
+            &__item{
+              text-align: $side;
+            }
+          }
+          &__en-title{
+            font-weight: bold;
+            font-size: 24px;
+          }
+          &__link-status{
+            font-weight: bold;
           }
         }
-        &__en-title{
-          font-weight: bold;
-          font-size: 21px;
-        }
-        &__link-status{
-          font-weight: bold;
-        }
+
       }
 
-
-
-      &__right{
-        text-align: right;
-        width: 200px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        & .columns-list{
-          &__item{
-            text-align: right;
-          }
-        }
-        &__en-title{
-          font-weight: bold;
-          font-size: 21px;
-        }
-        &__link-status{
-          font-weight: bold;
-        }
-      }
+      @include link-item(left);
+      @include link-item(right);
 
       &__middle{
         display: flex;
@@ -79,6 +68,15 @@
   }
 }
 
+.link-status{
+  &-many{
+    color:#ff5858;
+  }
+  &-one{
+    color: #545454;
+  }
+}
+
 .columns-list{
   &__item{
     font-size: 17px;
@@ -87,7 +85,7 @@
 
 .dbinfo{
   width: 100%;
-  margin-top: 40px;
+
   &__title{
     font-size: 30px;
   }
@@ -101,7 +99,7 @@
 
 .dbtables{
   width: 50%;
-  margin: 40px auto;
+  margin: 0 auto;
 
   border: 1px solid #D1D3D3;
   padding: 30px;

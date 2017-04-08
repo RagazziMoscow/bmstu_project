@@ -1,7 +1,8 @@
 .entities-info {
   margin: 50px auto 0 auto; }
-  .entities-info__title {
-    font-size: 30px; }
+
+.dbentities-links__title {
+  font-size: 30px; }
 
 .dbentities {
   width: 50%;
@@ -27,7 +28,7 @@
         text-align: left; }
       .dbentities__list__item__left__en-title {
         font-weight: bold;
-        font-size: 21px; }
+        font-size: 24px; }
       .dbentities__list__item__left__link-status {
         font-weight: bold; }
     .dbentities__list__item__right {
@@ -37,11 +38,13 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center; }
+      .dbentities__list__item__right__entity-content {
+        width: 75%; }
       .dbentities__list__item__right .columns-list__item {
         text-align: right; }
       .dbentities__list__item__right__en-title {
         font-weight: bold;
-        font-size: 21px; }
+        font-size: 24px; }
       .dbentities__list__item__right__link-status {
         font-weight: bold; }
     .dbentities__list__item__middle {
@@ -51,12 +54,17 @@
       justify-content: space-between;
       font-weight: bold; }
 
+.link-status-many {
+  color: #ff5858; }
+
+.link-status-one {
+  color: #545454; }
+
 .columns-list__item {
   font-size: 17px; }
 
 .dbinfo {
-  width: 100%;
-  margin-top: 40px; }
+  width: 100%; }
   .dbinfo__title {
     font-size: 30px; }
   .dbinfo__dbname {
@@ -66,7 +74,7 @@
 
 .dbtables {
   width: 50%;
-  margin: 40px auto;
+  margin: 0 auto;
   border: 1px solid #D1D3D3;
   padding: 30px;
   border-radius: 20px;
