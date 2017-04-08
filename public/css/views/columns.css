@@ -29,6 +29,12 @@
 .columns-info__list {
   width: 50%;
   margin: 0px auto; }
+  .columns-info__list__item p {
+    display: flex;
+    flex-direction: row;
+    align-items: center; }
+    .columns-info__list__item p span {
+      margin-left: 20px; }
 
 .no-search-data-info {
   height: 100px; }

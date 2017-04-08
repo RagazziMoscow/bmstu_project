@@ -1,6 +1,9 @@
 <% layout('../layouts/layout') %>
 <link rel="stylesheet" type="text/css" href="css/views/columns.css">
-<div class="columns-wrap">
+<script type="text/javascript" src="js/columns.js"></script>
+
+<form class="columns-wrap" method="POST" action="bigsearch">
+
   <% if (data.database && data.schema && data.columns) { -%>
   <div class="database-info">
 
@@ -17,11 +20,11 @@
         <p class="database-info__search-info__view-info">
           Поисковое представление создано
         </p>
-        <a class="database-info__search-info__search-button click-button" href="bigsearch">
+        <!-- <a class="database-info__search-info__search-button click-button"> -->
           <!-- <img src="/img/search.png"> -->
-          <span>Перейти к поиску</span>
+          <button class="click-button" type="submit">Перейти к поиску</button>
 
-        </a>
+        <!-- </a> -->
         <a class="database-info__search-info__delete-view click-button" href="completion">
           <span>Удалить представление</span>
         </a>
@@ -32,12 +35,18 @@
     <ul id="columns-list" class="columns-info__list list-float-none">
     <% data.columns.forEach(function(column) {%>
 
-      <li class="columns-info__list__item standart-button "><p><%= column.column_name %></p></li>
+      <li class="columns-info__list__item standart-button ">
+        <p>
+          <input type="checkbox" name="<%= column.column_name %>">
+          <span><%= column.column_name %></span>
+        </p>
+      </li>
 
     <% }); %>
     </ul>
 
   </div>
+
   <% } else { -%>
       <div class="no-search-data-info">
         <p class="no-search-data-info__text">
@@ -45,4 +54,5 @@
         </p>
       </div>
   <% } -%>
-</div>
+
+</form>

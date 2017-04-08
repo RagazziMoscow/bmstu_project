@@ -208,9 +208,9 @@ module.exports = function(app) {
 
 
 
-  app.get("/bigsearch", function(req, res) {
+  app.post("/bigsearch", function(req, res) {
 
-    //console.log(req.session.searchData);
+    console.log(req.session.searchData);
     res.render("bigsearch/bigsearch", {
       data: {
         title: "Поиск",
@@ -224,8 +224,8 @@ module.exports = function(app) {
   });
 
   app.post("/query-data", function(req, res) {
-    var search = require("./../models/search");
-    console.log(search.getSQL(req.request));
+    var search = require("./../bigsearch");
+    search.getSQL(req.bopostrequest);
     res.send("cekavo");
   });
 
