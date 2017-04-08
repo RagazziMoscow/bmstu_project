@@ -58,4 +58,15 @@ function searchQuery(conditionsArray) {
   /**/
 }
 
+/*
+function filterColumns(params) {
+  var paramsList = [];
+  for (parameter of Object.keys(params)) {
+    if (params[parameter] == 'on') {
+      paramsList.push(parameter);
+    }
+  }
+  return paramsList;
+}
+*/
 module.exports.getSQL = getSQL;
