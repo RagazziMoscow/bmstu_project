@@ -227,8 +227,20 @@ module.exports = function(app) {
 
   app.post("/query-data", function(req, res) {
     var search = require("./../bigsearch");
-    search.getSQL(req.body.request);
-    res.send("cekavo");
+    var conditions = req.body.request;
+    var searchDataParams = {
+      database: req.session.searchData.database,
+      schema: req.session.searchData.schema
+    };
+    var columns = req.session.searchData.viewColumns;
+    search.searchQuery(conditions, columns, searchDataParams, (searchResults) => {
+      res.render("bigsearch/query-data", {
+        data: {
+          rows: searchResults
+        }
+      });
+    });
+
   });
 
   app.get("/completion", function(req, res) {

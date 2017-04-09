@@ -1,0 +1,11 @@
+<div class="page-content center-in-div">
+  <% data.rows.forEach(function(row) { %>
+  <ul class="list-float-none padding-for-div" style="display: block;">
+    <li class="standart-button">
+      <% for (column of Object.keys(row)) {%>
+        <p><%= column %>: <span><%= row[column]%></span></p>
+      <% } %>
+    </li>
+  </ul>
+  <% }); %>
+</div>

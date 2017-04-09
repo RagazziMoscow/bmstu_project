@@ -845,7 +845,11 @@ function sendQuery() {
       url: "/query-data", //серверный скрипт принимающий запрос
 
       data: {
-        request: JSON.stringify(JsonData)
+        request: JSON.stringify(JsonData),
+        searchData: JSON.stringify({
+          database: $('#database').text(),
+          schema: $('#schema').text()
+        })
       },
       beforeSend: function() {
 
@@ -866,7 +870,7 @@ function sendQuery() {
         //функция выполняется при удачном заверщение
         $("#results").html(data);
         //alert("Запрос выполнен") ;
-        alert(JSON.stringify(data));
+        //alert(JSON.stringify(data));
 
       }
     });
