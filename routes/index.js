@@ -234,6 +234,7 @@ module.exports = function(app) {
     };
     var columns = req.session.searchData.viewColumns;
     search.searchQuery(conditions, columns, searchDataParams, (searchResults) => {
+      //console.log("Отдача");
       res.render("bigsearch/query-data", {
         data: {
           rows: searchResults

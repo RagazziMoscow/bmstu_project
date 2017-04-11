@@ -32,4 +32,7 @@ http://caolan.github.io/async/
 модуль if-async npm:
 https://www.npmjs.com/package/if-async
 
+модуль pg-query npm:
+https://www.npmjs.com/package/pg-query
+
 

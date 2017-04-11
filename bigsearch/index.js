@@ -1,9 +1,11 @@
 var config = require('./../config/config');
+var types = require('./types');
 var query = require('pg-query');
+var async = require('async');
 var stringformat = require('stringformat');
 stringformat.extendString('format'); // добавляем метод форматирования
 
-function getSQL(conditionsArrayString, columnsArray) {
+function getSQL(conditionsArrayString, columnsArray, database, schema, pgTypes, callback) {
   var columnsString = columnsArray.join(', ');
   var conditionsArray = JSON.parse(conditionsArrayString);
   var sqlQuery = "";
@@ -29,11 +31,18 @@ function getSQL(conditionsArrayString, columnsArray) {
 
       // атрибут
       if (descriptor.id == 2) {
+
+
+        let pgType = types.getColumnType(pgTypes, name);
+        //console.log(pgType);
+        let convData = types.convert(pgType, descriptor.number, descriptor.relation);
         sqlQuery += "(select {4} from {0}\n where {1} {2} {3}\n)".format("all_join",
           name,
-          descriptor.relation,
-          filterValue(descriptor.number),
+          convData.rel,
+          convData.val,
           columnsString);
+
+
       }
 
       // отсутствие тега
@@ -52,7 +61,7 @@ function getSQL(conditionsArrayString, columnsArray) {
   //return "select * from all_join";
   sqlQuery += ";";
   console.log(sqlQuery);
-  return sqlQuery;
+  callback(null, sqlQuery);
 }
 
 // преобразует имя дескриптора
@@ -73,27 +82,52 @@ function searchResultsProcess(rows) {
 
 function searchQuery(conditionsArray, columns, connectionParams, callback) {
 
+
+
   columns = columns.map(function(column) {
     return filterName(column);
   });
+  let returnResult = callback;
 
   let database = connectionParams.database;
   let schema = connectionParams.schema;
-  let sqlQuery = getSQL(conditionsArray, columns, schema);
+  //let sqlQuery = getSQL(conditionsArray, columns, database, schema);
   let user = config.database.user;
   let password = config.database.password;
   let port = config.database.port;
-  query.connectionParameters = 'postgres://{0}:{1}@localhost:{2}/{3}'.format(user,
-    password,
-    port,
-    database);
 
-  query(sqlQuery, function(err, rows, result) {
-    //assert.equal(rows, result.rows);
-    if (err) console.log(err);
-    console.log(rows);
-    callback(searchResultsProcess(rows));
-  });
+  async.waterfall([
+      function(callback) {
+        callback(null, {
+          database: database,
+          schema: schema
+        });
+      },
+      types.typesRequest,
+      function(rows, callback) {
+        let types = rows;
+        callback(null, conditionsArray, columns, database, schema, types);
+      },
+      getSQL,
+      function(sqlQuery, callback) {
+        query.connectionParameters = 'postgres://{0}:{1}@localhost:{2}/{3}'.format(user,
+          password,
+          port,
+          database);
+
+        query(sqlQuery, function(err, rows, result) {
+          //assert.equal(rows, result.rows);
+          if (err) console.log(err);
+          //console.log(result);
+          callback(null, searchResultsProcess(rows));
+        });
+
+      }
+    ],
+    function(err, result) {
+      returnResult(result);
+    });
+
   /**/
 }
 
