@@ -2,10 +2,25 @@ var config = require('./../config/config');
 var types = require('./types');
 var query = require('pg-query');
 var async = require('async');
+var _ = require('underscore');
 var stringformat = require('stringformat');
 stringformat.extendString('format'); // добавляем метод форматирования
 
-function getSQL(conditionsArrayString, columnsArray, database, schema, pgTypes, callback) {
+_.intersectionObjects = function(array) {
+  var slice = Array.prototype.slice; // added this line as a utility
+  var rest = slice.call(arguments, 1);
+  return _.filter(_.uniq(array), function(item) {
+    return _.every(rest, function(other) {
+      //return _.indexOf(other, item) >= 0;
+      return _.any(other, function(element) {
+        return _.isEqual(element, item);
+      });
+    });
+  });
+};
+
+function getSQL(conditionsArrayString, columnsArray, schema) {
+  //console.log(conditionsArrayString);
   var columnsString = columnsArray.join(', ');
   var conditionsArray = JSON.parse(conditionsArrayString);
   var sqlQuery = "";
@@ -33,9 +48,9 @@ function getSQL(conditionsArrayString, columnsArray, database, schema, pgTypes, 
       if (descriptor.id == 2) {
 
 
-        let pgType = types.getColumnType(pgTypes, name);
+        //let pgType = types.getColumnType(pgTypes, name);
         //console.log(pgType);
-        let convData = types.convert(pgType, descriptor.number, descriptor.relation);
+        let convData = types.convert(descriptor.type, descriptor.number, descriptor.relation);
         sqlQuery += "(select {4} from {0}\n where {1} {2} {3}\n)".format("all_join",
           name,
           convData.rel,
@@ -61,11 +76,12 @@ function getSQL(conditionsArrayString, columnsArray, database, schema, pgTypes, 
   //return "select * from all_join";
   sqlQuery += ";";
   console.log(sqlQuery);
-  callback(null, sqlQuery);
+  return sqlQuery;
 }
 
 // преобразует имя дескриптора
 function filterName(name, column) {
+  //console.log(name);
   let convName = name.split(".");
   return (convName.length >= 2) ? '\"{0}\"'.format(name) : name;
 }
@@ -82,65 +98,63 @@ function searchResultsProcess(rows) {
 
 function searchQuery(conditionsArray, columns, connectionParams, callback) {
 
-
-
   columns = columns.map(function(column) {
-    return filterName(column);
+    return filterName(column.column_name);
   });
   let returnResult = callback;
 
   let database = connectionParams.database;
   let schema = connectionParams.schema;
-  //let sqlQuery = getSQL(conditionsArray, columns, database, schema);
+  //console.log(conditionsArray, columns, schema);
+  let sqlQuery = getSQL(conditionsArray, columns, schema);
   let user = config.database.user;
   let password = config.database.password;
   let port = config.database.port;
 
-  async.waterfall([
-      function(callback) {
-        callback(null, {
-          database: database,
-          schema: schema
-        });
-      },
-      types.typesRequest,
-      function(rows, callback) {
-        let types = rows;
-        callback(null, conditionsArray, columns, database, schema, types);
-      },
-      getSQL,
-      function(sqlQuery, callback) {
-        query.connectionParameters = 'postgres://{0}:{1}@localhost:{2}/{3}'.format(user,
-          password,
-          port,
-          database);
 
-        query(sqlQuery, function(err, rows, result) {
-          //assert.equal(rows, result.rows);
-          if (err) console.log(err);
-          //console.log(result);
-          callback(null, searchResultsProcess(rows));
-        });
 
-      }
-    ],
-    function(err, result) {
-      returnResult(result);
-    });
+  query.connectionParameters = 'postgres://{0}:{1}@localhost:{2}/{3}'.format(user,
+    password,
+    port,
+    database);
+
+  query(sqlQuery, function(err, rows, result) {
+    //assert.equal(rows, result.rows);
+    if (err) console.log(err);
+    //console.log(result);
+    returnResult(searchResultsProcess(rows));
+  });
+
+
 
   /**/
 }
 
-/*
-function filterColumns(params) {
-  var paramsList = [];
-  for (parameter of Object.keys(params)) {
-    if (params[parameter] == 'on') {
-      paramsList.push(parameter);
-    }
-  }
-  return paramsList;
+
+function selectColumns(req) {
+  let viewColumns = req.session.searchData.viewColumns;
+  let viewColumnsSelected = Object.keys(req.body);
+  let viewColumnsSelectedWithTypes = [];
+  //console.log(viewColumns);
+  _.each(viewColumnsSelected, function(item) {
+    item = item.split('*');
+    item = {
+      "column_name": item[0],
+      "data_type": item[1]
+    };
+    viewColumnsSelectedWithTypes.push(item);
+  });
+  _.each(req.session.searchData.viewColumns, function(item) {
+    let deleteFlag = true;
+    _.each(viewColumnsSelectedWithTypes, function(itemType) {
+      if (itemType == item) deleteFlag = false;
+    });
+    if (deleteFlag) req.session.searchData.viewColumns.splice(req.session.searchData.viewColumns.indexOf(item), 1);
+  });
+  //console.log(viewColumnsSelectedWithTypes, req.session.searchData.viewColumns);
+  return viewColumnsSelectedWithTypes;
+
 }
-*/
-module.exports.searchQuery = searchQuery;
+module.exports.select = selectColumns;
+module.exports.search = searchQuery;
 module.exports.getSQL = getSQL;

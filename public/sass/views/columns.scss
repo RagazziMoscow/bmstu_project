@@ -40,12 +40,17 @@
     width: 50%;
     margin: 0px auto;
     &__item{
-      & p{
+      &__column-info{
         display: flex;
         flex-direction: row;
         align-items: center;
-        & span{
+        justify-content: space-between;
+        &__name{
           margin-left: 20px;
+          flex-grow:1;
+        }
+        &__type{
+
         }
       }
     }

@@ -29,12 +29,14 @@
 .columns-info__list {
   width: 50%;
   margin: 0px auto; }
-  .columns-info__list__item p {
+  .columns-info__list__item__column-info {
     display: flex;
     flex-direction: row;
-    align-items: center; }
-    .columns-info__list__item p span {
-      margin-left: 20px; }
+    align-items: center;
+    justify-content: space-between; }
+    .columns-info__list__item__column-info__name {
+      margin-left: 20px;
+      flex-grow: 1; }
 
 .no-search-data-info {
   height: 100px; }

@@ -46,7 +46,7 @@ function JsonDataIsEmpty() {
 
 
 // Добавление новых данных в группу
-function addJsonData(group, idPar, namePar, numPar, relPar) {
+function addJsonData(group, idPar, namePar, numPar, relPar, typePar) {
 
   if (idPar != 2) {
     //Добавляем либо тег, либо его отсутствие
@@ -60,7 +60,8 @@ function addJsonData(group, idPar, namePar, numPar, relPar) {
       "id": idPar,
       "name": namePar,
       "number": numPar,
-      "relation": relPar
+      "relation": relPar,
+      "type": typePar
     });
   }
 

@@ -337,7 +337,7 @@ function fillListWithDescriptors(listBox) {
   let optionsCount = $(listBox).children("option").length;
   if (optionsCount < DescriptorsData.viewColumns.length) {
     DescriptorsData.viewColumns.forEach((item) => {
-      $(listBox).append("<option value='" + item + "'>" + item + "</option>");
+      $(listBox).append("<option value='" + item.column_name + "' data-description='" + item.data_type +"' >" + item.column_name + "</option>");
     });
   }
 
@@ -541,13 +541,14 @@ function addDescriptor(event) {
   namePar = $(this).siblings(".input").val(); // имя дескриптора
   numPar = $(this).siblings(".attr-number").val(); // для атрибута
   relPar = $(this).siblings(".rel-select").val(); // для атрибута
+  typePar = $(this).siblings('.input').find('option:selected').attr('data-description');
   console.log("Добавление: ", group, idPar, namePar, numPar, relPar);
 
   //если такого дескриптора нету ещё в форме
   if (checkJsonData(group, idPar, namePar, relPar, numPar)) {
 
     // добавляем дескриптор в массив условий поиска
-    addJsonData(group, idPar, namePar, numPar, relPar);
+    addJsonData(group, idPar, namePar, numPar, relPar, typePar);
 
     // если есть надпись о том,что надо добавить дескрипторы, то удаляем её
     if ($("#form" + group + " .descriptors-content p").is(".empty-content")) {

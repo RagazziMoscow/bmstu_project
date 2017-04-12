@@ -1,7 +1,8 @@
 var databases = require('./../models/databases'), // Databases list
   structure = require("./../models/structure"),
   dbschemas = require('./../models/schemas'),
-  dbtables = require("./../models/tables");
+  dbtables = require("./../models/tables"),
+  und = require('underscore');
 
 
 module.exports = function(app) {
@@ -211,8 +212,13 @@ module.exports = function(app) {
   app.post("/bigsearch", function(req, res) {
 
     var search = require("./../bigsearch");
-    console.log(req.session.searchData);
-    req.session.searchData.viewColumns = Object.keys(req.body);
+    //console.log(req.session.searchData);
+
+    // пересечение всех колонок с типами данных с тем, что отметили
+    req.session.searchData.viewColumns = search.select(req);
+
+
+    //req.session.searchData.viewColumns = Object.keys(req.body);
     res.render("bigsearch/bigsearch", {
       data: {
         title: "Поиск",
@@ -233,7 +239,7 @@ module.exports = function(app) {
       schema: req.session.searchData.schema
     };
     var columns = req.session.searchData.viewColumns;
-    search.searchQuery(conditions, columns, searchDataParams, (searchResults) => {
+    search.search(conditions, columns, searchDataParams, (searchResults) => {
       //console.log("Отдача");
       res.render("bigsearch/query-data", {
         data: {

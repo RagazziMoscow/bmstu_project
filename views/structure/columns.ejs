@@ -8,7 +8,8 @@
   <div class="database-info">
 
       <p class="database-info__title">
-        Вы выбрали базу данных <span><%= data.database %></span>, схему <span><%= data.schema %></span>
+        Вы выбрали базу данных <span><%= data.database %></span>
+        , схему <span><%= data.schema %></span>
 
         <!--
         <% if (data.table) { -%>
@@ -30,19 +31,36 @@
         </a>
       </div>
   </div>
-  <div class="columns-info">
-    <p class="columns-info__title">Поля представления: </p>
-    <ul id="columns-list" class="columns-info__list list-float-none">
-    <% data.columns.forEach(function(column) {%>
 
-      <li class="columns-info__list__item standart-button ">
-        <p>
-          <input type="checkbox" checked="checked" name="<%= column.column_name %>">
-          <span><%= column.column_name %></span>
+  <div class="columns-info">
+
+    <!-- <p class="columns-info__title">Поля представления: </p> -->
+    <ul id="columns-list" class="columns-info__list list-float-none">
+      <li class="columns-info__list__item">
+        <p class="columns-info__list__item__column-info">
+          <span class="columns-info__list__item__column-info__name">
+            Поле представления
+          </span>
+          <span class="columns-info__list__item__column-info__type">
+            Тип данных
+          </span>
         </p>
       </li>
+      <% data.columns.forEach(function(column) {%>
 
-    <% }); %>
+        <li class="columns-info__list__item standart-button ">
+          <p class="columns-info__list__item__column-info">
+            <input type="checkbox" checked="checked" name="<%= column.column_name %>*<%= column.data_type %>">
+            <span class="columns-info__list__item__column-info__name">
+              <%= column.column_name %>
+              </span>
+            <span class="columns-info__list__item__column-info__type">
+              <%= column.data_type %>
+            </span>
+          </p>
+        </li>
+
+      <% }); %>
     </ul>
 
   </div>
