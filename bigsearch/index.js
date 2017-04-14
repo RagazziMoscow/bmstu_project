@@ -6,18 +6,6 @@ var _ = require('underscore');
 var stringformat = require('stringformat');
 stringformat.extendString('format'); // добавляем метод форматирования
 
-_.intersectionObjects = function(array) {
-  var slice = Array.prototype.slice; // added this line as a utility
-  var rest = slice.call(arguments, 1);
-  return _.filter(_.uniq(array), function(item) {
-    return _.every(rest, function(other) {
-      //return _.indexOf(other, item) >= 0;
-      return _.any(other, function(element) {
-        return _.isEqual(element, item);
-      });
-    });
-  });
-};
 
 function getSQL(conditionsArrayString, columnsArray, schema) {
   //console.log(conditionsArrayString);
@@ -50,9 +38,10 @@ function getSQL(conditionsArrayString, columnsArray, schema) {
 
         //let pgType = types.getColumnType(pgTypes, name);
         //console.log(pgType);
-        let convData = types.convert(descriptor.type, descriptor.number, descriptor.relation);
+        let convData = types.convert(name, descriptor.relation, descriptor.number, descriptor.type);
+        console.log(convData);
         sqlQuery += "(select {4} from {0}\n where {1} {2} {3}\n)".format("all_join",
-          name,
+          convData.name,
           convData.rel,
           convData.val,
           columnsString);
