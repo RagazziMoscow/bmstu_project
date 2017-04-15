@@ -1,4 +1,3 @@
-
 function wrapQuotes(value) {
   return "{0}{1}{0}".format("'", value);
 }
@@ -49,6 +48,31 @@ var typesConversion = {
 
     }
   },
+
+  "smallint": {
+    "name": {
+      ">": nothingToDo,
+      "<": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": toString
+    },
+    "relation": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": nothingToDo
+    },
+    "value": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": wrapPercents
+
+    }
+  },
   "numeric": {
     "name": {
       ">": nothingToDo,
@@ -73,8 +97,57 @@ var typesConversion = {
 
     }
   },
+  "real": {
+    "name": {
+      ">": nothingToDo,
+      "<": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": toString
+    },
+    "relation": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": nothingToDo
+    },
+    "value": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": wrapPercents
+
+    }
+  },
+
 
   "character": {
+    "name": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": upperString
+    },
+    "relation": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": nothingToDo
+    },
+    "value": {
+      "<": wrapQuotes,
+      ">": wrapQuotes,
+      "=": wrapQuotes,
+      "!=": wrapQuotes,
+      "like": wrapPercents
+    }
+  },
+
+  "character varying": {
     "name": {
       "<": nothingToDo,
       ">": nothingToDo,
