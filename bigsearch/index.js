@@ -99,13 +99,15 @@ function searchQuery(conditionsArray, columns, connectionParams, callback) {
   let user = config.database.user;
   let password = config.database.password;
   let port = config.database.port;
+  let host = config.database.host;
 
 
 
-  query.connectionParameters = 'postgres://{0}:{1}@localhost:{2}/{3}'.format(user,
+  query.connectionParameters = 'postgres://{0}:{1}@{4}:{2}/{3}'.format(user,
     password,
     port,
-    database);
+    database,
+    host);
 
   query(sqlQuery, function(err, rows, result) {
     //assert.equal(rows, result.rows);

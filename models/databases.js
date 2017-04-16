@@ -1,10 +1,19 @@
+var config = require('./../config/config');
 var pg = require('pg');
+var stringformat = require('stringformat');
+stringformat.extendString('format'); // добавляем метод форматирования
 
 
 module.exports.list = function(callback) {
 
-  //var result = {};
-  var client = new pg.Client('postgres://admin:admin@localhost:5432/postgres');
+  var user = config.database.user;
+  var password = config.database.password;
+  var host = config.database.host;
+  var port = config.database.port;
+  var client = new pg.Client('postgres://{0}:{1}@{2}:{3}/postgres'.format(user,
+    password,
+    host,
+    port));
   var databasesListQuery = 'SELECT pg_database.datname as "Database",\n' +
     'pg_user.usename as "Owner" FROM pg_database, pg_user \n' +
     'WHERE pg_database.datdba = pg_user.usesysid \n' +
