@@ -181,8 +181,6 @@ function init() {
 
 
 
-
-
 }
 
 
@@ -330,7 +328,7 @@ function fillListWithDescriptors(listBox) {
   let optionsCount = $(listBox).children("option").length;
   if (optionsCount < DescriptorsData.viewColumns.length) {
     DescriptorsData.viewColumns.forEach((item) => {
-      $(listBox).append("<option value='" + item.column_name + "' data-description='" + item.data_type +"' >" + item.column_name + "</option>");
+      $(listBox).append("<option value='" + item.column_name + "' data-description='" + item.data_type + "' >" + item.column_name + "</option>");
     });
   }
 
@@ -641,15 +639,31 @@ function deleteDescriptor(event) {
 }
 
 /*Обновляет дескриптор в интерфейсе*/
-function updateDescriptor(group, id, name, namePar) {
+function updateDescriptor(group, id, name, namePar, relPar, numPar) {
 
   //находим по тексту элемент в интерфейсе и меняем ему текст
-  $("#form" + group + " .descriptors-content ." + descClassses[id]).
+  var descName = "#form" + group + " .descriptors-content ." + descClassses[id];
+  $(descName).
   filter(function(index) {
-    if ($(this).find(".value").text() == name) return true
+    if ($(this).find(".value").text() == name) return true;
   }).
   find(".value").
   text(namePar);
+
+  // для атрибутов
+  if (id == 2) {
+    $(descName).
+    filter(function(index) {
+      if ($(this).find('.value').text() == name) return true;
+    }).
+    find('.attr-rel').text(relPar);
+
+    $(descName).
+    filter(function(index) {
+      if ($(this).find('.value').text() == name) return true;
+    }).
+    find('.attr-num').text(numPar);
+  }
 }
 
 
@@ -674,17 +688,18 @@ function editForm(event) {
     var editFlag = false; //Флаг о том, что редактирование было произведено
 
     //если такого дескриптора нет ещё в форме
-    if (checkJsonData(group, id, namePar)) {
+    if (checkJsonData(group, id, namePar, relPar, numPar)) {
 
       //меняем дескриптор в массиве условий
       setItem(group, id, name, namePar, numPar, relPar);
 
       //обновляем дескриптор в интерфейсе
-      updateDescriptor(group, id, name, namePar);
+      updateDescriptor(group, id, name, namePar, relPar, numPar);
       //обновляем скрытый инпут с прошлым именем для дексриптора
       $(this).find(".descriptor-name").attr("name", namePar);
       editFlag = true;
     } else {
+      //ищем помеченные к изменению списки отношений или значения для атрибутов
 
       if ($(this).find(".attr-number").hasClass("number-changed")) {
         setNumber(group, name, numPar);
@@ -697,27 +712,15 @@ function editForm(event) {
 
     }
     if (editFlag) {
+      //обновляем дескриптор в интерфейсе
+      updateDescriptor(group, id, name, namePar, relPar, numPar);
       $(this).parent().siblings('.message').find('span').text('Отредактировано');
       $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
     } else {
       $(this).parent().siblings('.message').find('span').text('Ошибка');
       $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
     }
-    //ищем помеченные к изменению списки отношений или значения для атрибутов
 
-
-    /*
-    if($(this).is(".select-changed")) {
-      alert("Селект") ;
-      setRelation(group, name, relPar ) ;
-    }
-    if($(this).is(".number-changed")) {
-      var a = $(this).find(".number-changed").val() ;
-
-      setNumber(group, name, numPar ) ;
-      alert("число") ;
-    }
-    */
   });
 }
 
@@ -826,4 +829,3 @@ function deleteForm(event) {
 
 
 /*Функции интерфейса*/
-
