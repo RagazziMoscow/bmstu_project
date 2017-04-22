@@ -641,8 +641,24 @@ function deleteDescriptor(event) {
 /*Обновляет дескриптор в интерфейсе*/
 function updateDescriptor(group, id, name, namePar, relPar, numPar) {
 
-  //находим по тексту элемент в интерфейсе и меняем ему текст
   var descName = "#form" + group + " .descriptors-content ." + descClassses[id];
+
+  // для атрибутов
+  if (id == 2) {
+    $(descName).
+    filter(function(index) {
+      if ($(this).find('.value').text() == namePar) return true;
+    }).
+    find('.attr-rel').text(relPar);
+
+    $(descName).
+    filter(function(index) {
+      if ($(this).find('.value').text() == namePar) return true;
+    }).
+    find('.attr-num').text(numPar);
+  }
+
+  //находим по тексту элемент в интерфейсе и меняем ему текст
   $(descName).
   filter(function(index) {
     if ($(this).find(".value").text() == name) return true;
@@ -650,20 +666,7 @@ function updateDescriptor(group, id, name, namePar, relPar, numPar) {
   find(".value").
   text(namePar);
 
-  // для атрибутов
-  if (id == 2) {
-    $(descName).
-    filter(function(index) {
-      if ($(this).find('.value').text() == name) return true;
-    }).
-    find('.attr-rel').text(relPar);
 
-    $(descName).
-    filter(function(index) {
-      if ($(this).find('.value').text() == name) return true;
-    }).
-    find('.attr-num').text(numPar);
-  }
 }
 
 
