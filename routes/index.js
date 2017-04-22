@@ -241,11 +241,20 @@ module.exports = function(app) {
     var columns = req.session.searchData.viewColumns;
     search.search(conditions, columns, searchDataParams, (searchResults) => {
       //console.log("Отдача");
-      res.render("bigsearch/query-data", {
+
+      /*
+            res.render("bigsearch/query-data", {
+              data: {
+                rows: searchResults
+              }
+            });
+      */
+      res.json({
         data: {
           rows: searchResults
         }
       });
+
     });
 
   });

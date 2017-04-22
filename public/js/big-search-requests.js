@@ -7,6 +7,14 @@
         DescriptorsData = data;
       }
     });
+
+    $.ajax({
+      type: "GEt",
+      url: "js/big-search-view-template.js",
+      success: function(data) {
+        $('#view-template').html(data.toString());
+      }
+    });
   });
 
 
@@ -45,24 +53,20 @@
         },
         beforeSend: function() {
 
-          //alert("Выполнение начато") ;
           disableItems();
           showOverlay();
           $(".loader").show();
         },
         complete: function() {
 
-          //alert("Выполнение закончено") ;
           hideOverlay();
           enableItems();
           $(".loader").hide();
         },
         success: function(data) {
 
-          //функция выполняется при удачном заверщение
-          $("#results").html(data);
-          //alert("Запрос выполнен") ;
-          //alert(JSON.stringify(data));
+          //функция передаёт данные шаблонизатору
+          view(data);
 
         }
       });
