@@ -1,0 +1,23 @@
+<!-- Вывод результатов поиска -->
+<script id="view-template" type="text/x-handlebars-template">
+    <div class="page-content center-in-div">
+    {{#each data.rows}}
+    <ul class="list-float-none padding-for-div" style="display: block;">
+      <li class="standart-button">
+        {{#each this}}
+          <p>{{@key}}:
+
+          {{#if this}}
+            <span>{{this}}</span></p>
+          {{else}}
+            <span>null</span>
+          {{/if}}
+
+        {{/each}}
+      </li>
+    </ul>
+    {{/each}}
+  </div>
+
+</script>
+<!-- Вывод результатов поиска -->

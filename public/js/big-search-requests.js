@@ -7,7 +7,7 @@
         DescriptorsData = data;
       }
     });
-
+/*
     $.ajax({
       type: "GEt",
       url: "js/big-search-view-template.js",
@@ -15,6 +15,7 @@
         $('#view-template').html(data.toString());
       }
     });
+*/
   });
 
 
