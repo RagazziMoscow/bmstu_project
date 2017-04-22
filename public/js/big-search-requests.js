@@ -10,19 +10,34 @@
   });
 
 
+  /**
+   * Удаление пустых групп в массиве условий
+   * @param  Array JsonData массив условий
+   * @return Array очищенный массив условий
+   */
+  function filterJsonData(JsonData) {
+    var validData = JsonData.filter(function(group) {
+      return (group.length != 0);
+    });
 
-  //Запрос на поиск
+    return validData;
+  }
+
+  /**
+   * Запрос на поиск
+   * @return undefined
+   */
   function sendQuery() {
 
     if (!JsonDataIsEmpty()) {
-      $('#json-template').val(JSON.stringify(JsonData));
+      $('#json-template').val(JSON.stringify(filterJsonData(JsonData)));
       $.ajax({
 
         type: "POST", //метод запроса, POST или GET (если опустить, то по умолчанию GET)
         url: "/query-data", //серверный скрипт принимающий запрос
 
         data: {
-          request: JSON.stringify(JsonData),
+          request: JSON.stringify(filterJsonData(JsonData)),
           searchData: JSON.stringify({
             database: $('#database').text(),
             schema: $('#schema').text()

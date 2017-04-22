@@ -573,6 +573,8 @@ form div.item, .conditions-group .item{
 
 
 .item .attr-num{
+    margin-left: 8px;
+    margin-right: 5px;
     font-weight: normal;
 }
 
