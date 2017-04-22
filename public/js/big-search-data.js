@@ -105,7 +105,7 @@ function getItemPosition(group, id, name) {
 
 
 // Установка новых значений элемента в группе
-function setItem(group, id, name, namePar, numPar, relPar) {
+function setItem(group, id, name, namePar, numPar, relPar, typePar) {
   if (id !== 2) {
     JsonData[group][getItemPosition(group, id, name)] = {
       "id": id,
@@ -116,7 +116,8 @@ function setItem(group, id, name, namePar, numPar, relPar) {
       "id": id,
       "name": namePar,
       "number": numPar,
-      "relation": relPar
+      "relation": relPar,
+      "type": typePar
     }
   }
 }

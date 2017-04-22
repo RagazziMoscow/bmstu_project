@@ -441,6 +441,9 @@ function editFormWindowProcess(group, editMode) {
     $("#edit-group .descriptor-item:last").
     append("<input type='hidden'" +
       "class='descriptor-name' name='" + item["name"] + "'/>");
+    $("#edit-group .descriptor-item:last").
+    append("<input type='hidden'" +
+      "class='descriptor-type' name='" + item["type"] + "'/>");
   });
 
   if (JsonData[group].length > 5) {
@@ -686,6 +689,7 @@ function editForm(event) {
     var namePar = $(this).find(".input").val();
     var numPar = $(this).find(".attr-number").val();
     var relPar = $(this).find(".rel-select").val();
+    var typePar = $(this).find('.descriptor-type').attr("name");
 
 
     var editFlag = false; //Флаг о том, что редактирование было произведено
@@ -694,7 +698,7 @@ function editForm(event) {
     if (checkJsonData(group, id, namePar, relPar, numPar)) {
 
       //меняем дескриптор в массиве условий
-      setItem(group, id, name, namePar, numPar, relPar);
+      setItem(group, id, name, namePar, numPar, relPar, typePar);
 
       //обновляем дескриптор в интерфейсе
       updateDescriptor(group, id, name, namePar, relPar, numPar);
