@@ -1,130 +1,155 @@
   <div id="modal-windows">
       <!-- Модальные окна -->
-  <div id="modal-tags-add" class="modal-window" style="display:none;">
-    <div class="modal-title">
-      <p class="title">Введите новый тег</p>
-    </div>
 
-    <span class="modal-close">×</span>
 
-    <div class="modal-content">
-      <select id="input-tag" class="input">
-        <option selected="selected" disabled="" value="default">Тег</option>
-      </select>
-
-      <span class="modal-action add-action-button">Добавить</span>
-      <input class="descriptor-id" name="1" type="hidden">
-      <input class="form-id" type="hidden">
-
-      <div class="message" style="display: none;">
-        <span class="message-info">Дескриптор добавлен</span>
+    <div id="modal-tags-add" class="modal-window" style="display:none;">
+      <div class="modal-title">
+        <p class="title">Введите новый тег</p>
       </div>
-    </div>
-    <div class="autocomplete-aligm"><div style="position: absolute; display: none; max-height: 400px; width: 320px; z-index: 7;" class="autocomplete-suggestions"></div></div>
 
-  </div>
-  <div id="modal-not-tags-add" class="modal-window" style="display:none;">
-    <div class="modal-title">
-      <p class="title">Введите отсутствующий тег</p>
-    </div>
-    <span class="modal-close">×</span>
-    <div class="modal-content">
-      <select id="input-not-tag" class="input">
-        <option selected="selected" disabled="" value="default">Отсутствие тега</option>
-      </select>
-      <span class="modal-action add-action-button">Добавить</span>
-      <input class="descriptor-id" name="3" type="hidden">
-      <input class="form-id" type="hidden">
-    <div class="message" style="display: none;">
-      <span class="message-info">Дескриптор добавлен</span>
-    </div>
-  </div>
-  <!-- <div class="autocomplete-aligm"><div style="position: absolute; display: none; max-height: 400px; width: 320px; z-index: 7;" class="autocomplete-suggestions"></div></div> -->
-  </div>
+      <span class="modal-close">×</span>
 
-  <div id="modal-attr-add" class="modal-window" style="display:none;">
-    <div class="modal-title">
-      <p class="title">Добавьте новый атрибут</p>
+      <div class="modal-content">
+        <select id="input-tag" class="input">
+          <option selected="selected" disabled="" value="default">Тег</option>
+        </select>
+
+        <span class="modal-action add-action-button">Добавить</span>
+        <input class="descriptor-id" name="1" type="hidden">
+        <input class="form-id" type="hidden">
+
+        <div class="message" style="display: none;">
+          <span class="message-info">Дескриптор добавлен</span>
+        </div>
+      </div>
+      <div class="autocomplete-aligm"><div style="position: absolute; display: none; max-height: 400px; width: 320px; z-index: 7;" class="autocomplete-suggestions"></div></div>
+
     </div>
-    <span class="modal-close">×</span>
-    <div class="modal-content">
-      <select id="input-attribut" class="input">
 
-        <option selected="selected" disabled="" value="default">Атрибут</option>
-      </select>
-      <span class="modal-action add-action-button">Добавить</span>
-      <select name="relation" class="rel-select">
-        <option selected="selected" disabled="" value="default">Отношение</option>
-        <option value="=">=</option>
-        <option value="!=">!=</option>
-        <option value=">">&gt;</option>
-        <option value="<">&lt;</option>
-        <option value="like">~</option>
-      </select>
-      <input class="attr-number input" placeholder="Значение" type="text">
 
-      <input class="descriptor-id" name="2" type="hidden">
-      <input class="form-id" type="hidden">
+
+    <div id="modal-not-tags-add" class="modal-window" style="display:none;">
+      <div class="modal-title">
+        <p class="title">Введите отсутствующий тег</p>
+      </div>
+      <span class="modal-close">×</span>
+      <div class="modal-content">
+        <select id="input-not-tag" class="input">
+          <option selected="selected" disabled="" value="default">Отсутствие тега</option>
+        </select>
+        <span class="modal-action add-action-button">Добавить</span>
+        <input class="descriptor-id" name="3" type="hidden">
+        <input class="form-id" type="hidden">
       <div class="message" style="display: none;">
         <span class="message-info">Дескриптор добавлен</span>
       </div>
     </div>
     <!-- <div class="autocomplete-aligm"><div style="position: absolute; display: none; max-height: 400px; width: 320px; z-index: 7;" class="autocomplete-suggestions"></div></div> -->
-  </div>
+    </div>
 
-    <!--Редактирование одного тега -->
-  <div id="modal-edit-descriptor" class="modal-window" style="display:none;">
-    <div class="modal-title">
-      <p class="title">Редактировать дескриптор</p>
+    <div id="modal-attr-add" class="modal-window" style="display:none;">
+      <div class="modal-title">
+        <p class="title">Добавьте новый атрибут</p>
+      </div>
       <span class="modal-close">×</span>
-    </div>
-    <div class="modal-content">
-      <input class="edit-desc input" type="text">
-      <span class="modal-action edit-action-button">Сохранить</span>
-      <input class="descriptor-id" name="3" type="hidden">
-      <input class="form-id" name="0" type="hidden">
-    </div>
-  </div>
-    <!--Редактирование одного тега -->
+      <div class="modal-content">
+        <select id="input-attribut" class="input">
 
-    <!-- Редактирование формы -->
-  <div id="edit-group" class="edit-window" style="display:none;">
-    <div class="modal-title">
-      <p class="title">Редактировать группу</p>
-    </div>
-    <span class="modal-close">×</span>
-    <div class="edit-content modal-content">
+          <option selected="selected" disabled="" value="default">Атрибут</option>
+        </select>
+        <span class="modal-action add-action-button">Добавить</span>
+        <select name="relation" class="rel-select">
+          <option selected="selected" disabled="" value="default">Отношение</option>
+          <option value="=">=</option>
+          <option value="!=">!=</option>
+          <option value=">">&gt;</option>
+          <option value="<">&lt;</option>
+          <option value="like">~</option>
+        </select>
+        <input class="attr-number input" placeholder="Значение" type="text">
 
-      <div id="descriptors">
-
+        <input class="descriptor-id" name="2" type="hidden">
+        <input class="form-id" type="hidden">
+        <div class="message" style="display: none;">
+          <span class="message-info">Дескриптор добавлен</span>
+        </div>
       </div>
+      <!-- <div class="autocomplete-aligm"><div style="position: absolute; display: none; max-height: 400px; width: 320px; z-index: 7;" class="autocomplete-suggestions"></div></div> -->
+    </div>
 
-      <input class="form-id" type="hidden">
-      <div class="edit-action" style="display:none;">
+      <!--Редактирование одного тега -->
+    <div id="modal-edit-descriptor" class="modal-window" style="display:none;">
+      <div class="modal-title">
+        <p class="title">Редактировать дескриптор</p>
+        <span class="modal-close">×</span>
+      </div>
+      <div class="modal-content">
+        <input class="edit-desc input" type="text">
         <span class="modal-action edit-action-button">Сохранить</span>
+        <input class="descriptor-id" name="3" type="hidden">
+        <input class="form-id" name="0" type="hidden">
       </div>
-
-      <div class="message" style="display: none;">
-        <span class="message-info">Отредактировано</span>
-      </div>
-
     </div>
-  </div>
-    <!-- Редактирование формы -->
+      <!--Редактирование одного тега -->
+
+      <!-- Редактирование формы -->
+    <div id="edit-group" class="edit-window" style="display:none;">
+      <div class="modal-title">
+        <p class="title">Редактировать группу</p>
+      </div>
+      <span class="modal-close">×</span>
+      <div class="edit-content modal-content">
+
+        <div id="descriptors">
+
+        </div>
+
+        <input class="form-id" type="hidden">
+        <div class="edit-action" style="display:none;">
+          <span class="modal-action edit-action-button">Сохранить</span>
+        </div>
+
+        <div class="message" style="display: none;">
+          <span class="message-info">Отредактировано</span>
+        </div>
+
+      </div>
+    </div>
+      <!-- Редактирование формы -->
 
 
     <div id="view-groups" class="modal-window" style="display: none;">
         <div class="modal-title">
             <p class="title">Просмотр всех групп</p>
-
         </div>
+
         <span class="modal-close">×</span>
+
         <div class="modal-content">
             <div class="groups-aligment">
 
             </div>
         </div>
     </div>
+
+    <!-- Настройки показа результатов -->
+    <div id="view-properties" class="modal-window" style="display: none;">
+      <div class="modal-title">
+        <p class="title">Настройки показа</p>
+      </div>
+      <span class="modal-close">×</span>
+      <div class="modal-content">
+        <div class="properties-aligment">
+          <div class="properties-null">
+            <p class="properties-null-title">Показывать нулевые значения?</p>
+            <p class="properties-null-option"><input type="radio" name="null-show">Да</input></p>
+            <p class="properties-null-option"><input type="radio" name="null-show">Нет</input></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- Настройки показа результатов -->
 
 
   <!-- Модальные окна -->

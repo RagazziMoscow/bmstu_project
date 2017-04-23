@@ -138,7 +138,7 @@ body #wrapper .main {
     padding: 0px 35px 0px 0px;
 }
 
-#groupsAdder, #groups-viewer, #search-completer, #view-properties{
+#groupsAdder, #groups-viewer, #search-completer, #properties{
     float: right;
 }
 /*ааНаОаПаКаА аДаЛб аДаОаБаАаВаЛаЕаНаИб аНаОаВаОаЙ аГббаПаПб*/
@@ -775,6 +775,35 @@ form .disjunction, .conditions-group .disjunction{
     background-color: rgb(255, 149, 75);
 }
 /*view-all-groups*/
+
+
+/*view-properties*/
+#view-properties{
+  height: auto;
+}
+.properties-aligment{
+  height: 100%;
+  padding-top: 35px;
+}
+
+.properties-null{
+  margin: 15px 0;
+}
+.properties-null-title{
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.properties-null-option{
+  text-align: left;
+  font-size: 23px;
+}
+
+.properties-null-option input{
+  margin: 3px 10px 0 40px;
+}
+
+
+/*view-properties*/
 
 /*results*/
 .page-content {

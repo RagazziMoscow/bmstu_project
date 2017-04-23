@@ -93,6 +93,10 @@ function init() {
       name: ""
     },
     showWindow);
+  $('#properties').on('click', {
+    id: "#view-properties",
+    name: ""
+  }, showWindow);
   $('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
@@ -127,6 +131,7 @@ function init() {
       edit: false
     },
     showWindow);
+
   $(".modal-close").on("click", closeWindow);
   $(".add-action-button").on("click", addDescriptor);
   $(".edit-action-button").on("click", editForm);
