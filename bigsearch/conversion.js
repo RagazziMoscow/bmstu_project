@@ -170,6 +170,29 @@ var typesConversion = {
       "like": wrapPercents
     }
   },
+  "text": {
+    "name": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": upperString
+    },
+    "relation": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": nothingToDo
+    },
+    "value": {
+      "<": wrapQuotes,
+      ">": wrapQuotes,
+      "=": wrapQuotes,
+      "!=": wrapQuotes,
+      "like": wrapPercents
+    }
+  },
 
   "timestamp without time zone": {
     "name": {
