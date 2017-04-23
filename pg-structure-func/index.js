@@ -32,7 +32,7 @@ function structure(database, schema) {
                     .then((db) => {
                         //getSequenceForView(db, analyzedSchema, 'printer');
                         var query = getSQLForView(db, analyzedSchema, mainTableName);
-                        //console.log(query);
+                        console.log(query);
                         //var relations = getRelationsInfo(db, analyzedSchema);
 
                         // возвращаем результат
@@ -57,7 +57,10 @@ function structure(database, schema) {
                     analizedTables = [];
 
                     // возращаем результат
-                    resolve({entities: tables, links: relations});
+                    resolve({
+                        entities: tables,
+                        links: relations
+                    });
                 }).
                 catch((err) => console.log(err.stack));
             });
@@ -239,48 +242,97 @@ function getRelationColumns(relation) {
 }
 
 // получаем поле начальной(конечной) таблицы, участвующей в отношении
-function getSourceTableColumn(relation, target) {
-    var sourceColumn = {};
-    if (relation.type == "ONE TO MANY") {
+// получаем поле начальной таблицы, участвующей в отношении
+function getSourceTableColumn(relation) {
+  var sourceColumn = {};
+  if (relation.type == "ONE TO MANY") {
 
-        var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
-        var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
+    var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
+    var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
 
-    } else {
+  } else {
 
-        var relationColumns = relation.sourceTable.columns;
-        var necessaryTableName = relation.targetTable.name;
+    var relationColumns = relation.sourceTable.columns;
+    var necessaryTableName = relation.targetTable.name;
+
+  }
+
+  // конечная таблица
+  //console.log(relation.targetTable.name);
+  //console.log(relationColumns);
+
+  // обход по таблице с внешним ключом
+  for (let tableColumn of relationColumns.values()) {
+
+    // если существуют колонки, на которые ссылается ограничение
+    if (tableColumn.referencedColumns.size != 0 &&
+      Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName) {
+
+      // колонки из табицы с первичным ключом
+      let refColumns = tableColumn.referencedColumns;
+      //console.log(refColumns);
+
+      // вставляем в массив имена таблиц,
+      // сначала начальная таблица, потом конечная
+      if (relation.type == "ONE TO MANY") {
+        sourceColumn.name = Array.from(refColumns)[0].name;
+        sourceColumn.table = Array.from(refColumns)[0].table.name;
+      } else {
+        sourceColumn.name = tableColumn.name;
+        sourceColumn.table = tableColumn.table.name;
+
+      }
 
     }
+  }
+  return sourceColumn;
+}
 
-    // обход по таблице с внешним ключом
-    for (let tableColumn of relationColumns.values()) {
+// получаем поле конечной таблицы, участвующей в отношении
+function getTargetTableColumn(relation) {
+  var sourceColumn = {};
+  if (relation.type == "ONE TO MANY") {
 
-        // если существуют колонки, на которые ссылается ограничение
-        let columnsCondition = (tableColumn.referencedColumns.size != 0 &&
-            Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName);
+    var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
+    var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
 
-        if (columnsCondition) {
-            // колонки из табицы с первичным ключом
-            let refColumns = tableColumn.referencedColumns;
+  } else {
 
-            // вставляем в массив имена таблиц,
-            // сначала начальная таблица, потом конечная
-            let relationCondition = ((relation.type == "ONE TO MANY" && target == false) ||
-                (relation.type == "MANY TO ONE" && target == true));
+    var relationColumns = relation.sourceTable.columns;
+    var necessaryTableName = relation.targetTable.name;
 
-            if (relationCondition) {
-                sourceColumn.name = Array.from(refColumns)[0].name;
-                sourceColumn.table = Array.from(refColumns)[0].table.name;
-            } else {
-                sourceColumn.name = tableColumn.name;
-                sourceColumn.table = tableColumn.table.name;
+  }
 
-            }
+  // конечная таблица
+  //console.log(relation.targetTable.name);
+  //console.log(relationColumns);
 
-        }
+  // обход по таблице с внешним ключом
+  for (let tableColumn of relationColumns.values()) {
+
+    // если существуют колонки, на которые ссылается ограничение
+    if (tableColumn.referencedColumns.size != 0 &&
+      Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName) {
+
+      // колонки из табицы с первичным ключом
+      let refColumns = tableColumn.referencedColumns;
+      //console.log(refColumns);
+
+      // вставляем в массив имена таблиц, сначала начальная таблица, потом конечная
+      if (relation.type == "ONE TO MANY") {
+
+        sourceColumn.name = tableColumn.name;
+        sourceColumn.table = tableColumn.table.name;
+      } else {
+        sourceColumn.name = Array.from(refColumns)[0].name;
+        sourceColumn.table = Array.from(refColumns)[0].table.name;
+
+
+      }
+
     }
-    return sourceColumn;
+  }
+  return sourceColumn;
 }
 
 
@@ -352,10 +404,10 @@ function getSQLForView(db, analyzedSchema, analizedTableName) {
                     chalk.green(analizedTables[j]));
 
                 // определяем колонки для соединения таблиц
-                let joinColumnTargetInfo = getSourceTableColumn(getRelation(db,
+                let joinColumnTargetInfo = getTargetTableColumn(getRelation(db,
                     analyzedSchema,
                     analizedTables[i],
-                    analizedTables[j]), true); // target
+                    analizedTables[j])); // target
                 let joinColumnSourceInfo = getSourceTableColumn(getRelation(db,
                     analyzedSchema,
                     analizedTables[i],
@@ -427,17 +479,25 @@ function getRelationsInfo(db, analyzedSchema) {
     for (link of links) {
         let relation = getRelation(db, analyzedSchema, link[1], link[0]);
 
-        
+
         let relationInfo = [];
         let table = link[0];
         let columns = getTableColumns(db, analyzedSchema, table);
         let targetTable = tableIsTarget(link[0], relation);
-        relationInfo.push({entity: table, columns: columns, target: targetTable});
+        relationInfo.push({
+            entity: table,
+            columns: columns,
+            target: targetTable
+        });
 
         table = link[1];
         columns = getTableColumns(db, analyzedSchema, table);
         targetTable = tableIsTarget(link[1], relation);
-        relationInfo.push({entity: table, columns: columns, target: targetTable});
+        relationInfo.push({
+            entity: table,
+            columns: columns,
+            target: targetTable
+        });
 
         relationsInfo.push(relationInfo);
 
@@ -463,7 +523,7 @@ function getColumnNameForView(db, analyzedSchema, columnName, tableName, tablesA
                 tablesArray[tableIndex],
                 lastTable);
             //console.log(tablesArray[tableIndex], lastTable, relationNext);
-            if (relationNext)  {
+            if (relationNext) {
                 pseudonimPart = tablesArray[tableIndex] + '.' + pseudonimPart;
                 //branch = false;
                 lastTable = tablesArray[tableIndex];
