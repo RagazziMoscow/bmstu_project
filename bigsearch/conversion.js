@@ -30,21 +30,24 @@ var typesConversion = {
       "<": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": toString
+      "like": toString,
+      "not like": toString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
 
     }
   },
@@ -55,21 +58,24 @@ var typesConversion = {
       "<": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": toString
+      "like": toString,
+      "not like": toString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
 
     }
   },
@@ -79,21 +85,24 @@ var typesConversion = {
       "<": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": toString
+      "like": toString,
+      "not like": toString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
 
     }
   },
@@ -103,21 +112,24 @@ var typesConversion = {
       "<": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": toString
+      "like": toString,
+      "not like": toString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
 
     }
   },
@@ -129,21 +141,24 @@ var typesConversion = {
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": upperString
+      "like": upperString,
+      "not like": upperString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": wrapQuotes,
       ">": wrapQuotes,
       "=": wrapQuotes,
       "!=": wrapQuotes,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
     }
   },
 
@@ -153,21 +168,24 @@ var typesConversion = {
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": upperString
+      "like": upperString,
+      "not like": upperString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": wrapQuotes,
       ">": wrapQuotes,
       "=": wrapQuotes,
       "!=": wrapQuotes,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
     }
   },
   "text": {
@@ -176,21 +194,24 @@ var typesConversion = {
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": upperString
+      "like": upperString,
+      "not like": upperString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": wrapQuotes,
       ">": wrapQuotes,
       "=": wrapQuotes,
       "!=": wrapQuotes,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
     }
   },
 
@@ -200,21 +221,24 @@ var typesConversion = {
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": toString
+      "like": toString,
+      "not like": toString
     },
     "relation": {
       "<": nothingToDo,
       ">": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
-      "like": nothingToDo
+      "like": nothingToDo,
+      "not like": nothingToDo
     },
     "value": {
       "<": toTimeStamp,
       ">": toTimeStamp,
       "=": toTimeStamp,
       "!=": toTimeStamp,
-      "like": wrapPercents
+      "like": wrapPercents,
+      "not like": wrapPercents
     }
   }
 };

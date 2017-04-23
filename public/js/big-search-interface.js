@@ -25,7 +25,8 @@ var listBox = "<option selected='selected' disabled=''" +
   "<option value='!='>!=</option>" +
   "<option value='>'>></option>" +
   "<option value='<'><</option>" +
-  "<option value='like'>~</option>";
+  "<option value='like'>like</option>" +
+  "<option value='not like'>not like</option>";
 
 // Данные для окна просмотра всех групп
 var viewProperties = {
