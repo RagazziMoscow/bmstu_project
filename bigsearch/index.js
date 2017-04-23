@@ -1,7 +1,7 @@
 var config = require('./../config/config');
 var types = require('./types');
 var query = require('pg-query');
-var async = require('async');
+//var async = require('async');
 var _ = require('underscore');
 var stringformat = require('stringformat');
 stringformat.extendString('format'); // добавляем метод форматирования
