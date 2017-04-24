@@ -786,8 +786,11 @@ form .disjunction, .conditions-group .disjunction{
   padding-top: 35px;
 }
 
-.properties-null{
-  margin: 15px 0;
+form.properties-null{
+  width: 100% !important;
+  margin: 15px 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 .properties-null-title{
   margin-bottom: 15px;
