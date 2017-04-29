@@ -12,14 +12,23 @@
 
             <!-- Значение поля -->
             {{#if value}}
-              <p>{{key}}:
-              <span>{{this}}</span></p>
+              {{#if ../../properties.separateByBr}}
+
+                <p>{{key}}:
+                <span>{{this}}</span></p>
+              {{else}}
+                <span>{{key}}: <span>{{this}}{{#unless @last}}, {{/unless}}</span></span>
+              {{/if}}
             {{else}}
 
               <!-- Показывать нулевые значения -->
               {{#if ../../../properties.showNullValues}}
-                <p>{{key}}:
-                <span style="font-weight: bold;">null</span></p>
+                {{#if ../../../properties.separateByBr}}
+                  <p>{{key}}:
+                  <span style="font-weight: bold;">null</span></p>
+                {{else}}
+                  <span>{{key}}: <span style="font-weight: bold;">null</span>{{#unless @last}}, {{/unless}} </span>
+                {{/if}}
               {{/if}}
 
             {{/if}}

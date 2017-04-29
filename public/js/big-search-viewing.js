@@ -1,12 +1,18 @@
 var viewProperties = {
-  showNullValues: true
+  showNullValues: true,
+  separateByBr: true
 };
 
 $(document).ready(function() {
-  $('.properties-null-option input:last').trigger('click');
+  $('.property-null-option input:last').trigger('click');
+  $('.property-separators-option input:first').trigger('click');
 
-  $('.properties-null-option input').on('click', function() {
+  $('.property-null-option input').on('click', function() {
     viewProperties.showNullValues = Boolean(Number($(this).val()));
+  });
+
+  $('.property-separators-option input').on('click', function() {
+    viewProperties.separateByBr = Boolean(Number($(this).val()));
   });
 
 

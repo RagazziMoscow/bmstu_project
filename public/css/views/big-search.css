@@ -786,22 +786,22 @@ form .disjunction, .conditions-group .disjunction{
   padding-top: 35px;
 }
 
-form.properties-null{
+form.property{
   width: 100% !important;
   margin: 15px 0 !important;
   padding: 0 !important;
   border: none !important;
 }
-.properties-null-title{
+.property-title{
   margin-bottom: 15px;
   font-size: 18px;
 }
-.properties-null-option{
+.property-option{
   text-align: left;
   font-size: 23px;
 }
 
-.properties-null-option input{
+.property-option input{
   margin: 3px 10px 0 40px;
 }
 
