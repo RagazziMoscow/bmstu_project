@@ -204,7 +204,7 @@ function idProcess(x) {
 /*Нормализует id всех форм после удаления одной из них*/
 function normalizeForms() {
   //нормализуем id у каждой формы
-  $(".main form").each(function(i) {
+  $(".main form.form").each(function(i) {
     $(this).attr("id", "form" + i);
   });
 
@@ -749,9 +749,9 @@ function addForm() {
   var counter = idProcess(GetLastFormId());
   counter++;
   var newId = "form" + counter;
-  $("#" + GetLastFormId()).after("<form></form>");
-  $(".main form:last").attr("id", newId);
-  $(".main form:last").addClass("descriptors-form");
+  $("#" + GetLastFormId()).after("<form class='form'></form>");
+  $(".main form.form:last").attr("id", newId);
+  $(".main form.form:last").addClass("descriptors-form");
   $("#" + newId).append("<div class='content-actions'></div>");
   $("#" + newId + " .content-actions").
   append("<p class='add-tag content-action click-button'>Добавить тег</p>");

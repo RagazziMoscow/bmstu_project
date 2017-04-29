@@ -1,6 +1,6 @@
 // Получаем последнее число ID последней формы
 function GetLastFormId() {
-  var counter = $(".main form:last").attr("id");
+  var counter = $(".main form.form:last").attr("id");
   return counter;
 }
 
