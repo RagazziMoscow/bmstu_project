@@ -17,19 +17,31 @@
                 <p>{{key}}:
                 <span>{{this}}</span></p>
               {{else}}
-                <span>{{key}}: <span>{{this}}{{#unless @last}}, {{/unless}}</span></span>
+                <span class="exists-value">
+                {{key}}: <span>{{this}}</span></span>
               {{/if}}
             {{else}}
 
               <!-- Показывать нулевые значения -->
               {{#if ../../../properties.showNullValues}}
+
                 {{#if ../../../properties.separateByBr}}
                   <p>{{key}}:
                   <span style="font-weight: bold;">null</span></p>
                 {{else}}
-                  <span>{{key}}: <span style="font-weight: bold;">null</span>{{#unless @last}}, {{/unless}} </span>
+                  <span class="null-value">
+                    {{key}}: <span style="font-weight: bold;">null</span>
+                  </span>
                 {{/if}}
+
+              {{else}}
+
+                <span style="display: none;" class="null-value">
+                  {{key}}: <span style="font-weight: bold;">null</span>
+                </span>
+
               {{/if}}
+
 
             {{/if}}
 

@@ -821,3 +821,11 @@ form.property{
 .no-search-data-info__text{
   font-size: 20px;
 }
+
+.exists-value + .exists-value::before{
+  content: ",";
+}
+
+.null-value + .null-value::before{
+  content: ",";
+}
