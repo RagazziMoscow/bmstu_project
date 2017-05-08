@@ -19,10 +19,8 @@ var schemas = function(databaseName) {
       var client = new pg.Client(localConfig);
       client.connect(function(err) {
         if (err) throw err;
-        client.query('select distinct(t1.nspname) from pg_namespace t1\n' +
-          'left join information_schema.tables t2 on t1.nspname = t2.table_schema\n' +
-          'where table_type = \'BASE TABLE\'' +
-          'and nspname not in (\'pg_catalog\',\'information_schema\')',
+        client.query("select schema_name from information_schema.schemata\n" +
+                     "where schema_name not in ('pg_catalog', 'information_schema');",
           function(err, result) {
             if (err) throw err;
 

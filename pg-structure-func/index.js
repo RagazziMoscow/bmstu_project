@@ -417,6 +417,7 @@ function getRelations(db, analyzedSchema) {
 // возращает всю информацию о сущностях(таблицах),
 // которые учавсттвуют в отношениях
 function getRelationsInfo(db, analyzedSchema) {
+    console.log("!!!");
     var indTable = getIndependentTables(db, analyzedSchema)[0];
     getSequenceForView(db, analyzedSchema, indTable);
     //console.log(analizedTables);
@@ -427,7 +428,7 @@ function getRelationsInfo(db, analyzedSchema) {
     for (link of links) {
         let relation = getRelation(db, analyzedSchema, link[1], link[0]);
 
-        
+
         let relationInfo = [];
         let table = link[0];
         let columns = getTableColumns(db, analyzedSchema, table);
@@ -440,6 +441,7 @@ function getRelationsInfo(db, analyzedSchema) {
         relationInfo.push({entity: table, columns: columns, target: targetTable});
 
         relationsInfo.push(relationInfo);
+        console.log(relationInfo);
 
 
     }
