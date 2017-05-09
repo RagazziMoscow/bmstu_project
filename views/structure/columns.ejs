@@ -16,6 +16,8 @@
           , сущность <span><%= data.table %></span>
         <% } -%>
         -->
+        <input type="hidden" name="dbname" value="<%= data.database %>">
+        <input type="hidden" name="schmename" value="<%= data.schema %>">
       </p class="database-info__title">
       <div class="database-info__search-info">
         <p class="database-info__search-info__view-info">

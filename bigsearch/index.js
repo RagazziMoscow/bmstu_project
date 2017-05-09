@@ -122,8 +122,8 @@ function searchQuery(conditionsArray, columns, connectionParams, callback) {
 }
 
 
-function selectColumns(req) {
-  let viewColumns = req.session.searchData.viewColumns;
+function selectColumns(req, columns) {
+  let viewColumns = columns;
   let viewColumnsSelected = Object.keys(req.body);
   let viewColumnsSelectedWithTypes = [];
   //console.log(viewColumns);
@@ -135,12 +135,13 @@ function selectColumns(req) {
     };
     viewColumnsSelectedWithTypes.push(item);
   });
-  _.each(req.session.searchData.viewColumns, function(item) {
+  _.each(viewColumns, function(item) {
     let deleteFlag = true;
     _.each(viewColumnsSelectedWithTypes, function(itemType) {
       if (itemType == item) deleteFlag = false;
     });
-    if (deleteFlag) req.session.searchData.viewColumns.splice(req.session.searchData.viewColumns.indexOf(item), 1);
+    //if (deleteFlag) req.session.searchData.viewColumns.splice(req.session.searchData.viewColumns.indexOf(item), 1);
+    if (deleteFlag) viewColumns.splice(viewColumns.indexOf(item), 1);
   });
   //console.log(viewColumnsSelectedWithTypes, req.session.searchData.viewColumns);
   return viewColumnsSelectedWithTypes;

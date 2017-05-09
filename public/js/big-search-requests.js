@@ -3,19 +3,23 @@
     $.ajax({
       type: "POST",
       url: "/search-data",
+      data: {
+        dbname: $('#database').text(),
+        schemaname: $('#schema').text(),
+      },
       success: function(data) {
         DescriptorsData = data;
       }
     });
-/*
-    $.ajax({
-      type: "GEt",
-      url: "js/big-search-view-template.js",
-      success: function(data) {
-        $('#view-template').html(data.toString());
-      }
-    });
-*/
+    /*
+        $.ajax({
+          type: "GEt",
+          url: "js/big-search-view-template.js",
+          success: function(data) {
+            $('#view-template').html(data.toString());
+          }
+        });
+    */
   });
 
 
@@ -49,7 +53,8 @@
           request: JSON.stringify(filterJsonData(JsonData)),
           searchData: JSON.stringify({
             database: $('#database').text(),
-            schema: $('#schema').text()
+            schema: $('#schema').text(),
+            viewColumns: DescriptorsData.viewColumns
           })
         },
         beforeSend: function() {
