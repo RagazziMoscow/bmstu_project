@@ -122,9 +122,10 @@ function searchQuery(conditionsArray, columns, connectionParams, callback) {
 }
 
 
-function selectColumns(req, columns) {
-  let viewColumns = columns;
+function selectColumns(req) {
+  //let viewColumns = columns;
   let viewColumnsSelected = Object.keys(req.body);
+  viewColumnsSelected.splice(0,2);
   let viewColumnsSelectedWithTypes = [];
   //console.log(viewColumns);
   _.each(viewColumnsSelected, function(item) {
@@ -135,6 +136,7 @@ function selectColumns(req, columns) {
     };
     viewColumnsSelectedWithTypes.push(item);
   });
+/*
   _.each(viewColumns, function(item) {
     let deleteFlag = true;
     _.each(viewColumnsSelectedWithTypes, function(itemType) {
@@ -143,6 +145,7 @@ function selectColumns(req, columns) {
     //if (deleteFlag) req.session.searchData.viewColumns.splice(req.session.searchData.viewColumns.indexOf(item), 1);
     if (deleteFlag) viewColumns.splice(viewColumns.indexOf(item), 1);
   });
+*/
   //console.log(viewColumnsSelectedWithTypes, req.session.searchData.viewColumns);
   return viewColumnsSelectedWithTypes;
 

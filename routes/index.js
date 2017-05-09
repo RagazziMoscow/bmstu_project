@@ -1,9 +1,7 @@
 var databases = require('./../models/databases'), // Databases list
   structure = require("./../models/structure"),
   dbschemas = require('./../models/schemas'),
-  dbtables = require("./../models/tables"),
-  und = require('underscore');
-
+  dbtables = require("./../models/tables");
 
 module.exports = function(app) {
 
@@ -55,6 +53,7 @@ module.exports = function(app) {
   app.get("/dbschemas", function(req, res) {
 
     var schemas = dbschemas(req.session.searchData.database);
+
     schemas.list(function(schemasList) {
       res.render("schemas/list", {
         data: {
@@ -64,6 +63,7 @@ module.exports = function(app) {
         }
       });
     });
+
   });
 
 
@@ -155,13 +155,10 @@ module.exports = function(app) {
 
   app.post("/columns", function(req, res) {
 
-    console.log("!!!");
-    console.log(req.session.searchData);
-
     var table = req.body.tablename;
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
-    dbStruct.getView((columns) => {
 
+    dbStruct.getView((columns) => {
       req.session.searchData.viewColumns = columns;
       res.render("structure/columns", {
         data: {
@@ -185,8 +182,8 @@ module.exports = function(app) {
   app.get("/columns", function(req, res) {
     //console.log(req.session.searchData.database);
 
-    var database = req.param("dbname") || req.session.searchData.database || null;
-    var schema = req.param("schemaname") || req.session.searchData.schema || null;
+    var database = req.param("dbname") || null;
+    var schema = req.param("schemaname") || null;
 
     var searchDataIsSended = database && schema;
     if (searchDataIsSended) {
@@ -222,60 +219,50 @@ module.exports = function(app) {
   app.post("/bigsearch", function(req, res) {
 
     var search = require("./../bigsearch");
-    var structure = require("./../models/structure")(req.body.dbname, req.body.schemaname);
-    structure.getView((columns) => {
-      console.log("Данные");
-      console.log(req.session.searchData);
 
+    // пересечение всех колонок с типами данных с тем, что отметили
+    var searchData = search.select(req);
+    req.session.viewColumns = searchData;
 
-      // пересечение всех колонок с типами данных с тем, что отметили
-      //req.session.searchData.viewColumns = search.select(req, columns);
-      var searchData = search.select(req, columns);
-
-      //req.session.searchData.viewColumns = Object.keys(req.body);
-      res.render("bigsearch/bigsearch", {
-        data: {
-          title: "Поиск",
-          searchData: {
-            database: req.body.dbname,
-            schema: req.body.schemaname
-          }
+    res.render("bigsearch/bigsearch", {
+      data: {
+        title: "Поиск",
+        searchData: {
+          database: req.body.dbname,
+          schema: req.body.schemaname,
+          viewColumns: searchData
         }
-      });
+      }
     });
-
-
 
   });
 
   app.post("/search-data", function(req, res) {
-    var structure = require("./../models/structure")(req.body.dbname, req.body.schemaname);
-    structure.getView((columns) => {
-      res.json({
-        viewColumns: columns
-      });
+    /*
+        var dbStruct = structure(req.body.dbname, req.body.schemaname);
+        dbStruct.getView((columns) => {
+          res.json({
+            viewColumns: columns
+          });
+        });
+    */
+    res.json({
+      viewColumns: req.session.viewColumns
     });
   });
 
   app.post("/query-data", function(req, res) {
+
     var search = require("./../bigsearch");
     var conditions = req.body.request;
+
     var searchDataParams = {
       database: JSON.parse(req.body.searchData).database,
       schema: JSON.parse(req.body.searchData).schema
     };
-    var columns = JSON.parse(req.body.searchData).viewColumns;
-    console.log(columns);
-    search.search(conditions, columns, searchDataParams, (searchResults) => {
-      //console.log("Отдача");
 
-      /*
-            res.render("bigsearch/query-data", {
-              data: {
-                rows: searchResults
-              }
-            });
-      */
+    var columns = JSON.parse(req.body.searchData).viewColumns;
+    search.search(conditions, columns, searchDataParams, (searchResults) => {
       res.json({
         data: {
           rows: searchResults
@@ -291,26 +278,19 @@ module.exports = function(app) {
       data: {
         title: "Завершение поиск",
         searchData: {
-          database: req.body.dbname,
-          schema: req.body.schemaname
+          database: req.param("dbname"),
+          schema: req.param("schemaname")
         }
       }
     });
   });
 
   app.post("/search-complete", function(req, res) {
-
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
-
     // если надо, то удаляем представление
     if (Boolean(Number(req.body.answerValue))) {
       dbStruct.deleteView();
     }
-    // очищаем сессию
-    req.session.searchData.schema = null;
-    req.session.searchData.table = null;
-    req.session.viewColumns = null;
-
     res.redirect("/databases");
   });
 

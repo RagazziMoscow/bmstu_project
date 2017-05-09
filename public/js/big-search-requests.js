@@ -1,5 +1,8 @@
   $(document).ready(function() {
     // подгружаем массив дескрипторов для поиска
+
+
+    /*
     $.ajax({
       type: "POST",
       url: "/search-data",
@@ -11,15 +14,11 @@
         DescriptorsData = data;
       }
     });
-    /*
-        $.ajax({
-          type: "GEt",
-          url: "js/big-search-view-template.js",
-          success: function(data) {
-            $('#view-template').html(data.toString());
-          }
-        });
     */
+    DescriptorsData.database = $("#database").html();
+    DescriptorsData.schema = $("#schema").html();
+    DescriptorsData.viewColumns = JSON.parse($("#view-columns").html());
+
   });
 
 

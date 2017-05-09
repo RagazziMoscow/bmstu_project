@@ -19,12 +19,13 @@
   <div class="search-data" style="display: none;">
     <span id="database"><%= data.searchData.database %></span>
     <span id="schema"><%= data.searchData.schema %></span>
+    <span id="view-columns"><%= JSON.stringify(data.searchData.viewColumns) %></span>
   </div>
 
 
   <div class="groups-manage-aligment">
 
-    <a id="search-completer" class="click-button" href="completion">
+    <a id="search-completer" class="click-button" href="completion?dbname=<%= data.searchData.database %>&schemaname=<%= data.searchData.schema %>">
       Завершить поиск
     </a>
     <button id="properties" class="content-action click-button">
