@@ -31,11 +31,6 @@ module.exports = function(app) {
 
   app.post("/dbschemas", function(req, res) {
 
-    // очищаем сессию
-    req.session.searchData = {};
-
-    // устанавливаем в сессию базу данных
-    req.session.searchData.database = req.body.dbname;
     var schemas = dbschemas(req.body.dbname);
     schemas.list(function(schemasList) {
       //console.log(schemasList);
@@ -49,28 +44,26 @@ module.exports = function(app) {
     });
 
   });
-
+/*
   app.get("/dbschemas", function(req, res) {
 
-    var schemas = dbschemas(req.session.searchData.database);
+    var schemas = dbschemas(req.body.dbname);
 
     schemas.list(function(schemasList) {
       res.render("schemas/list", {
         data: {
           title: "Схемы",
-          database: req.session.searchData.database,
+          database: req.body.dbname,
           list: schemasList
         }
       });
     });
 
   });
-
+*/
 
   app.post("/tables", function(req, res) {
 
-    // устанавливаем в сессию схему
-    req.session.searchData.schema = req.body.schemaname;
     dbStruct = structure(req.body.dbname, req.body.schemaname);
     var tables = dbtables;
     dbStruct.checkViewExisting(function(view) {
@@ -84,15 +77,15 @@ module.exports = function(app) {
       } else {
 
         // если представления нет
-        tables.list(req.session.searchData.database,
-          req.session.searchData.schema,
+        tables.list(req.body.dbname,
+          req.body.schemaname,
           (tablesInfo) => {
             //console.log(tablesInfo);
             res.render("structure/tables", {
               data: {
                 title: "Таблицы",
-                database: req.session.searchData.database,
-                schema: req.session.searchData.schema,
+                database: req.body.dbname,
+                schema: req.body.schemaname,
                 list: tablesInfo.entities,
                 links: tablesInfo.links
               }
@@ -104,6 +97,9 @@ module.exports = function(app) {
     console.log(req.session.searchData);
   });
 
+
+
+/*
   app.get("/tables", function(req, res) {
 
     var tables = dbtables;
@@ -151,7 +147,7 @@ module.exports = function(app) {
     }
   });
 
-
+*/
 
   app.post("/columns", function(req, res) {
 
@@ -159,7 +155,7 @@ module.exports = function(app) {
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
 
     dbStruct.getView((columns) => {
-      req.session.searchData.viewColumns = columns;
+      //req.session.searchData.viewColumns = columns;
       res.render("structure/columns", {
         data: {
           title: "Структура",
@@ -170,17 +166,11 @@ module.exports = function(app) {
         }
       });
 
-      console.log("Kolonki");
-      console.log(req.session.searchData.viewColumns);
     }, table);
-
-
-    //console.log(req.session.searchData);
 
   });
 
   app.get("/columns", function(req, res) {
-    //console.log(req.session.searchData.database);
 
     var database = req.param("dbname") || null;
     var schema = req.param("schemaname") || null;
@@ -192,7 +182,7 @@ module.exports = function(app) {
       dbStruct.getView((columns) => {
 
         // устанавливаем в сессию поля
-        req.session.searchData.viewColumns = columns;
+        //req.session.searchData.viewColumns = columns;
         res.render("structure/columns", {
           data: {
             title: "Структура",

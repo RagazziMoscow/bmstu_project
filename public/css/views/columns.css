@@ -36,7 +36,13 @@
     justify-content: space-between; }
     .columns-info__list__item__column-info__name {
       margin-left: 20px;
-      flex-grow: 1; }
+      width: 430px;
+      flex-grow: 1;
+      word-break: break-all; }
+    .columns-info__list__item__column-info__type {
+      overflow: hidden;
+      width: 80px;
+      text-align: right; }
 
 .no-search-data-info {
   height: 100px; }
