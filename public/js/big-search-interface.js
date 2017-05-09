@@ -14,8 +14,8 @@ var descrParam = {
 
 //Глобальный массив для условий
 JsonData = [];
-
-DescriptorsData = [];
+// Глобальный массив для настроек поиска
+DescriptorsData = {};
 
 
 //Список для окна редактирования формы
@@ -25,7 +25,8 @@ var listBox = "<option selected='selected' disabled=''" +
   "<option value='!='>!=</option>" +
   "<option value='>'>></option>" +
   "<option value='<'><</option>" +
-  "<option value='like'>~</option>";
+  "<option value='like'>like</option>" +
+  "<option value='not like'>not like</option>";
 
 // Данные для окна просмотра всех групп
 var viewProperties = {
@@ -93,6 +94,10 @@ function init() {
       name: ""
     },
     showWindow);
+  $('#properties').on('click', {
+    id: "#view-properties",
+    name: ""
+  }, showWindow);
   $('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
@@ -127,6 +132,7 @@ function init() {
       edit: false
     },
     showWindow);
+
   $(".modal-close").on("click", closeWindow);
   $(".add-action-button").on("click", addDescriptor);
   $(".edit-action-button").on("click", editForm);
@@ -179,15 +185,6 @@ function init() {
 
     */
 
-  // подгружаем массив дескрипторов для поиска
-  $.ajax({
-    type: "POST",
-    url: "/search-data",
-    success: function(data) {
-      DescriptorsData = data;
-    }
-  });
-
 
 
 }
@@ -207,7 +204,7 @@ function idProcess(x) {
 /*Нормализует id всех форм после удаления одной из них*/
 function normalizeForms() {
   //нормализуем id у каждой формы
-  $(".main form").each(function(i) {
+  $(".main form.form").each(function(i) {
     $(this).attr("id", "form" + i);
   });
 
@@ -337,7 +334,7 @@ function fillListWithDescriptors(listBox) {
   let optionsCount = $(listBox).children("option").length;
   if (optionsCount < DescriptorsData.viewColumns.length) {
     DescriptorsData.viewColumns.forEach((item) => {
-      $(listBox).append("<option value='" + item.column_name + "'>" + item.column_name + "</option>");
+      $(listBox).append("<option value='" + item.column_name + "' data-description='" + item.data_type + "' >" + item.column_name + "</option>");
     });
   }
 
@@ -450,6 +447,9 @@ function editFormWindowProcess(group, editMode) {
     $("#edit-group .descriptor-item:last").
     append("<input type='hidden'" +
       "class='descriptor-name' name='" + item["name"] + "'/>");
+    $("#edit-group .descriptor-item:last").
+    append("<input type='hidden'" +
+      "class='descriptor-type' name='" + item["type"] + "'/>");
   });
 
   if (JsonData[group].length > 5) {
@@ -541,13 +541,14 @@ function addDescriptor(event) {
   namePar = $(this).siblings(".input").val(); // имя дескриптора
   numPar = $(this).siblings(".attr-number").val(); // для атрибута
   relPar = $(this).siblings(".rel-select").val(); // для атрибута
+  typePar = $(this).siblings('.input').find('option:selected').attr('data-description');
   console.log("Добавление: ", group, idPar, namePar, numPar, relPar);
 
   //если такого дескриптора нету ещё в форме
   if (checkJsonData(group, idPar, namePar, relPar, numPar)) {
 
     // добавляем дескриптор в массив условий поиска
-    addJsonData(group, idPar, namePar, numPar, relPar);
+    addJsonData(group, idPar, namePar, numPar, relPar, typePar);
 
     // если есть надпись о том,что надо добавить дескрипторы, то удаляем её
     if ($("#form" + group + " .descriptors-content p").is(".empty-content")) {
@@ -647,15 +648,34 @@ function deleteDescriptor(event) {
 }
 
 /*Обновляет дескриптор в интерфейсе*/
-function updateDescriptor(group, id, name, namePar) {
+function updateDescriptor(group, id, name, namePar, relPar, numPar) {
+
+  var descName = "#form" + group + " .descriptors-content ." + descClassses[id];
+
+  // для атрибутов
+  if (id == 2) {
+    $(descName).
+    filter(function(index) {
+      if ($(this).find('.value').text() == namePar) return true;
+    }).
+    find('.attr-rel').text(relPar);
+
+    $(descName).
+    filter(function(index) {
+      if ($(this).find('.value').text() == namePar) return true;
+    }).
+    find('.attr-num').text(numPar);
+  }
 
   //находим по тексту элемент в интерфейсе и меняем ему текст
-  $("#form" + group + " .descriptors-content ." + descClassses[id]).
+  $(descName).
   filter(function(index) {
-    if ($(this).find(".value").text() == name) return true
+    if ($(this).find(".value").text() == name) return true;
   }).
   find(".value").
   text(namePar);
+
+
 }
 
 
@@ -675,22 +695,24 @@ function editForm(event) {
     var namePar = $(this).find(".input").val();
     var numPar = $(this).find(".attr-number").val();
     var relPar = $(this).find(".rel-select").val();
+    var typePar = $(this).find('.descriptor-type').attr("name");
 
 
     var editFlag = false; //Флаг о том, что редактирование было произведено
 
     //если такого дескриптора нет ещё в форме
-    if (checkJsonData(group, id, namePar)) {
+    if (checkJsonData(group, id, namePar, relPar, numPar)) {
 
       //меняем дескриптор в массиве условий
-      setItem(group, id, name, namePar, numPar, relPar);
+      setItem(group, id, name, namePar, numPar, relPar, typePar);
 
       //обновляем дескриптор в интерфейсе
-      updateDescriptor(group, id, name, namePar);
+      updateDescriptor(group, id, name, namePar, relPar, numPar);
       //обновляем скрытый инпут с прошлым именем для дексриптора
       $(this).find(".descriptor-name").attr("name", namePar);
       editFlag = true;
     } else {
+      //ищем помеченные к изменению списки отношений или значения для атрибутов
 
       if ($(this).find(".attr-number").hasClass("number-changed")) {
         setNumber(group, name, numPar);
@@ -703,27 +725,15 @@ function editForm(event) {
 
     }
     if (editFlag) {
+      //обновляем дескриптор в интерфейсе
+      updateDescriptor(group, id, name, namePar, relPar, numPar);
       $(this).parent().siblings('.message').find('span').text('Отредактировано');
       $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
     } else {
       $(this).parent().siblings('.message').find('span').text('Ошибка');
       $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
     }
-    //ищем помеченные к изменению списки отношений или значения для атрибутов
 
-
-    /*
-    if($(this).is(".select-changed")) {
-      alert("Селект") ;
-      setRelation(group, name, relPar ) ;
-    }
-    if($(this).is(".number-changed")) {
-      var a = $(this).find(".number-changed").val() ;
-
-      setNumber(group, name, numPar ) ;
-      alert("число") ;
-    }
-    */
   });
 }
 
@@ -739,9 +749,9 @@ function addForm() {
   var counter = idProcess(GetLastFormId());
   counter++;
   var newId = "form" + counter;
-  $("#" + GetLastFormId()).after("<form></form>");
-  $(".main form:last").attr("id", newId);
-  $(".main form:last").addClass("descriptors-form");
+  $("#" + GetLastFormId()).after("<form class='form'></form>");
+  $(".main form.form:last").attr("id", newId);
+  $(".main form.form:last").addClass("descriptors-form");
   $("#" + newId).append("<div class='content-actions'></div>");
   $("#" + newId + " .content-actions").
   append("<p class='add-tag content-action click-button'>Добавить тег</p>");
@@ -832,84 +842,3 @@ function deleteForm(event) {
 
 
 /*Функции интерфейса*/
-
-
-//Запрос на поиск
-function sendQuery() {
-
-  if (!JsonDataIsEmpty()) {
-    $('#json-template').val(JSON.stringify(JsonData));
-    $.ajax({
-
-      type: "POST", //метод запроса, POST или GET (если опустить, то по умолчанию GET)
-      url: "/query-data", //серверный скрипт принимающий запрос
-
-      data: {
-        request: JSON.stringify(JsonData)
-      },
-      beforeSend: function() {
-
-        //alert("Выполнение начато") ;
-        disableItems();
-        showOverlay();
-        $(".loader").show();
-      },
-      complete: function() {
-
-        //alert("Выполнение закончено") ;
-        hideOverlay();
-        enableItems();
-        $(".loader").hide();
-      },
-      success: function(data) {
-
-        //функция выполняется при удачном заверщение
-        $("#results").html(data);
-        //alert("Запрос выполнен") ;
-        alert(JSON.stringify(data));
-
-      }
-    });
-  } else {
-    alert("Задайте условия для поиска");
-  }
-
-}
-
-
-
-// Cохранение шаблонов со страницы расширенного поиска
-function saveTemplate(e) {
-  e.preventDefault();
-  var ajax_url = $(this).data('ajax');
-  var name = $('#name-template').val();
-  var id = $('#id-template').val();
-  var json_data = encodeURIComponent($('#json-template').val());
-  if (name == '') {
-    alert("Пустое имя шаблона!");
-    $('#name-template').css('border-color', 'red');
-  } else {
-    $('#name-template').css('border-color', 'none');
-    if (json_data == '') {
-      alert("Пустая строка запроса!");
-    } else {
-      console.log(name, id, ajax_url);
-      $.ajax({
-        type: "POST",
-        data: "name=" + name + "&id=" + id + "&sql=" + json_data,
-        url: ajax_url + id,
-        success: function(data) {
-          if (data > 0) {
-            alert('Шаблон успешн сохранен');
-          } else if (data == -1) {
-            alert('Шаблон с таким именем уже сохранен');
-          } else {
-            alert('Ошибка' + data);
-          }
-        }
-      })
-    }
-  }
-
-
-}

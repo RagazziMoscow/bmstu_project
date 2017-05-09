@@ -3,7 +3,6 @@ var databases = require('./../models/databases'), // Databases list
   dbschemas = require('./../models/schemas'),
   dbtables = require("./../models/tables");
 
-
 module.exports = function(app) {
 
 
@@ -32,11 +31,6 @@ module.exports = function(app) {
 
   app.post("/dbschemas", function(req, res) {
 
-    // очищаем сессию
-    req.session.searchData = {};
-
-    // устанавливаем в сессию базу данных
-    req.session.searchData.database = req.body.dbname;
     var schemas = dbschemas(req.body.dbname);
     schemas.list(function(schemasList) {
       //console.log(schemasList);
@@ -50,26 +44,26 @@ module.exports = function(app) {
     });
 
   });
-
+/*
   app.get("/dbschemas", function(req, res) {
 
-    var schemas = dbschemas(req.session.searchData.database);
+    var schemas = dbschemas(req.body.dbname);
+
     schemas.list(function(schemasList) {
       res.render("schemas/list", {
         data: {
           title: "Схемы",
-          database: req.session.searchData.database,
+          database: req.body.dbname,
           list: schemasList
         }
       });
     });
-  });
 
+  });
+*/
 
   app.post("/tables", function(req, res) {
 
-    // устанавливаем в сессию схему
-    req.session.searchData.schema = req.body.schemaname;
     dbStruct = structure(req.body.dbname, req.body.schemaname);
     var tables = dbtables;
     dbStruct.checkViewExisting(function(view) {
@@ -83,15 +77,15 @@ module.exports = function(app) {
       } else {
 
         // если представления нет
-        tables.list(req.session.searchData.database,
-          req.session.searchData.schema,
+        tables.list(req.body.dbname,
+          req.body.schemaname,
           (tablesInfo) => {
-            console.log(tablesInfo);
+            //console.log(tablesInfo);
             res.render("structure/tables", {
               data: {
                 title: "Таблицы",
-                database: req.session.searchData.database,
-                schema: req.session.searchData.schema,
+                database: req.body.dbname,
+                schema: req.body.schemaname,
                 list: tablesInfo.entities,
                 links: tablesInfo.links
               }
@@ -100,8 +94,12 @@ module.exports = function(app) {
 
       }
     });
+    console.log(req.session.searchData);
   });
 
+
+
+/*
   app.get("/tables", function(req, res) {
 
     var tables = dbtables;
@@ -149,15 +147,15 @@ module.exports = function(app) {
     }
   });
 
-
+*/
 
   app.post("/columns", function(req, res) {
 
     var table = req.body.tablename;
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
-    dbStruct.getView((columns) => {
 
-      req.session.searchData.viewColumns = columns;
+    dbStruct.getView((columns) => {
+      //req.session.searchData.viewColumns = columns;
       res.render("structure/columns", {
         data: {
           title: "Структура",
@@ -167,15 +165,15 @@ module.exports = function(app) {
           columns: columns
         }
       });
+
     }, table);
 
   });
 
   app.get("/columns", function(req, res) {
-    //console.log(req.session.searchData.database);
 
-    var database = req.param("dbname") || req.session.searchData.database || null;
-    var schema = req.param("schemaname") || req.session.searchData.schema || null;
+    var database = req.param("dbname") || null;
+    var schema = req.param("schemaname") || null;
 
     var searchDataIsSended = database && schema;
     if (searchDataIsSended) {
@@ -184,7 +182,7 @@ module.exports = function(app) {
       dbStruct.getView((columns) => {
 
         // устанавливаем в сессию поля
-        req.session.searchDataюviewColumns = columns;
+        //req.session.searchData.viewColumns = columns;
         res.render("structure/columns", {
           data: {
             title: "Структура",
@@ -208,49 +206,81 @@ module.exports = function(app) {
 
 
 
-  app.get("/bigsearch", function(req, res) {
+  app.post("/bigsearch", function(req, res) {
 
-    //console.log(req.session.searchData);
+    var search = require("./../bigsearch");
+
+    // пересечение всех колонок с типами данных с тем, что отметили
+    var searchData = search.select(req);
+    req.session.viewColumns = searchData;
+
     res.render("bigsearch/bigsearch", {
       data: {
         title: "Поиск",
-        searchData: req.session.searchData
+        searchData: {
+          database: req.body.dbname,
+          schema: req.body.schemaname,
+          viewColumns: searchData
+        }
       }
     });
+
   });
 
   app.post("/search-data", function(req, res) {
-    res.json(req.session.searchData);
+    /*
+        var dbStruct = structure(req.body.dbname, req.body.schemaname);
+        dbStruct.getView((columns) => {
+          res.json({
+            viewColumns: columns
+          });
+        });
+    */
+    res.json({
+      viewColumns: req.session.viewColumns
+    });
   });
 
   app.post("/query-data", function(req, res) {
-    var search = require("./../models/search");
-    console.log(search.getSQL(req.request));
-    res.send("cekavo");
+
+    var search = require("./../bigsearch");
+    var conditions = req.body.request;
+
+    var searchDataParams = {
+      database: JSON.parse(req.body.searchData).database,
+      schema: JSON.parse(req.body.searchData).schema
+    };
+
+    var columns = JSON.parse(req.body.searchData).viewColumns;
+    search.search(conditions, columns, searchDataParams, (searchResults) => {
+      res.json({
+        data: {
+          rows: searchResults
+        }
+      });
+
+    });
+
   });
 
   app.get("/completion", function(req, res) {
     res.render("bigsearch/completion", {
       data: {
         title: "Завершение поиск",
-        searchData: req.session.searchData
+        searchData: {
+          database: req.param("dbname"),
+          schema: req.param("schemaname")
+        }
       }
     });
   });
 
   app.post("/search-complete", function(req, res) {
-
     var dbStruct = structure(req.body.dbname, req.body.schemaname);
-
     // если надо, то удаляем представление
     if (Boolean(Number(req.body.answerValue))) {
       dbStruct.deleteView();
     }
-    // очищаем сессию
-    req.session.searchData.schema = null;
-    req.session.searchData.table = null;
-    req.session.viewColumns = null;
-
     res.redirect("/databases");
   });
 

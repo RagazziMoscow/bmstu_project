@@ -3,7 +3,7 @@
 }
 
 .database-info{
-  width: 50%;
+  width: 60%;
   margin: 30px auto 0 auto;
   &__title{
     font-size: 20px;
@@ -34,11 +34,41 @@
 .columns-info{
   margin: 20px 0px 0px;
   font-size: 20px;
+  &__control{
+    float: left;
+    margin-left: 60px;
+    width: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }
+
 
 .columns-info__list{
     width: 50%;
     margin: 0px auto;
+    &__item{
+      &__column-info{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        &__name{
+          margin-left: 20px;
+          width: 430px;
+          flex-grow:1;
+          word-break: break-all;
+        }
+        &__type{
+          overflow: hidden;
+          width: 80px;
+          text-align: right;
+        }
+      }
+    }
 }
   .no-search-data-info{
   height: 100px;
@@ -46,3 +76,4 @@
 .no-search-data-info__text{
   font-size: 20px;
 }
+

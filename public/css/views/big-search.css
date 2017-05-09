@@ -138,7 +138,7 @@ body #wrapper .main {
     padding: 0px 35px 0px 0px;
 }
 
-#groupsAdder, #groups-viewer, #search-completer{
+#groupsAdder, #groups-viewer, #search-completer, #properties{
     float: right;
 }
 /*ааНаОаПаКаА аДаЛб аДаОаБаАаВаЛаЕаНаИб аНаОаВаОаЙ аГббаПаПб*/
@@ -573,6 +573,8 @@ form div.item, .conditions-group .item{
 
 
 .item .attr-num{
+    margin-left: 8px;
+    margin-right: 5px;
     font-weight: normal;
 }
 
@@ -774,6 +776,38 @@ form .disjunction, .conditions-group .disjunction{
 }
 /*view-all-groups*/
 
+
+/*view-properties*/
+#view-properties{
+  height: auto;
+}
+.properties-aligment{
+  height: 100%;
+  padding-top: 35px;
+}
+
+form.property{
+  width: 100% !important;
+  margin: 15px 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+.property-title{
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.property-option{
+  text-align: left;
+  font-size: 23px;
+}
+
+.property-option input{
+  margin: 3px 10px 0 40px;
+}
+
+
+/*view-properties*/
+
 /*results*/
 .page-content {
     padding-top:0;
@@ -786,4 +820,12 @@ form .disjunction, .conditions-group .disjunction{
 }
 .no-search-data-info__text{
   font-size: 20px;
+}
+
+.exists-value + .exists-value::before{
+  content: ",";
+}
+
+.null-value + .null-value::before{
+  content: ",";
 }

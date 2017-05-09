@@ -3,6 +3,7 @@ var config = {
         port: 8080
     },
     database: {
+      host: "localhost",
       user: "admin",
       password: "admin",
       port: 5432

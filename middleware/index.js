@@ -41,7 +41,8 @@ module.exports = function(app, express) {
   // use req.session as data store
   var session = require('cookie-session');
   app.use(session({
-    keys: ['secret']
+    keys: ['secret'],
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }));
 
 }

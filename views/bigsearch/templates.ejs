@@ -1,0 +1,56 @@
+<!-- Вывод результатов поиска -->
+<script id="view-template" type="text/x-handlebars-template">
+    <div class="page-content center-in-div">
+
+    <!-- Каждый кортеж -->
+      {{#each data.data.rows}}
+      <ul class="list-float-none" style="display: block;">
+        <li class="standart-button">
+
+        <!-- Каждое поле в кортеже -->
+          {{#each this as |value key|}}
+
+            <!-- Значение поля -->
+            {{#if value}}
+              {{#if ../../properties.separateByBr}}
+
+                <p>{{key}}:
+                <span>{{this}}</span></p>
+              {{else}}
+                <span class="exists-value">
+                {{key}}: <span>{{this}}</span></span>
+              {{/if}}
+            {{else}}
+
+              <!-- Показывать нулевые значения -->
+              {{#if ../../../properties.showNullValues}}
+
+                {{#if ../../../properties.separateByBr}}
+                  <p>{{key}}:
+                  <span style="font-weight: bold;">null</span></p>
+                {{else}}
+                  <span class="null-value">
+                    {{key}}: <span style="font-weight: bold;">null</span>
+                  </span>
+                {{/if}}
+
+              {{else}}
+
+                <span style="display: none;" class="null-value">
+                  {{key}}: <span style="font-weight: bold;">null</span>
+                </span>
+
+              {{/if}}
+
+
+            {{/if}}
+
+
+          {{/each}}
+        </li>
+      </ul>
+      {{/each}}
+    </div>
+
+</script>
+<!-- Вывод результатов поиска -->

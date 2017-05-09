@@ -14,7 +14,7 @@ var structure = function(dbname, schemaname) {
     database: dbname, //env var: PGDATABASE
     user: config.database.user, //env var: PGUSER
     password: config.database.password, //env var: PGPASSWORD
-    host: 'localhost', // Server hosting the postgres database
+    host: config.database.host, // Server hosting the postgres database
     port: config.database.port //env var: PGPORT
   };
 
@@ -157,7 +157,7 @@ var structure = function(dbname, schemaname) {
     // выбираем коллонки из запроса для представления
     var client = new pg.Client(localConfig);
     var query = "set search_path to " + schemaname + ";\n" +
-      "select column_name from information_schema.columns\n" +
+      "select column_name, data_type from information_schema.columns\n" +
       "where table_name = 'all_join';";
 
     // подключение
