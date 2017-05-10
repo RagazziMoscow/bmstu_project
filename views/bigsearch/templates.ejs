@@ -2,6 +2,15 @@
 <script id="view-template" type="text/x-handlebars-template">
     <div class="page-content center-in-div">
 
+    {{#if data.data.rows.length}}
+        <button id="export-xml" class="content-action click-button">
+          Экспорт результатов в XML
+        </button>
+        <button id="export-json" class="content-action click-button">
+          Экспорт результатов в JSON
+        </button>
+    {{/if}}
+
     <!-- Каждый кортеж -->
       {{#each data.data.rows}}
       <ul class="list-float-none" style="display: block;">
