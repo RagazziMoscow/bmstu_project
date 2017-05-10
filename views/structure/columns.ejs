@@ -8,8 +8,8 @@
   <div class="database-info">
 
       <p class="database-info__title">
-        Вы выбрали базу данных <span><%= data.database %></span>
-        , схему <span><%= data.schema %></span>
+        Вы выбрали базу данных <span><%= data.database %></span>, схему
+        <span><%= data.schema %></span>
 
         <!--
         <% if (data.table) { -%>
@@ -23,14 +23,13 @@
         <p class="database-info__search-info__view-info">
           Поисковое представление создано
         </p>
-        <!-- <a class="database-info__search-info__search-button click-button"> -->
-          <!-- <img src="/img/search.png"> -->
+        <!--
           <button class="click-button" type="submit">Перейти к поиску</button>
 
-        <!-- </a> -->
         <a class="database-info__search-info__delete-view click-button" href="completion?dbname=<%= data.database %>&schemaname=<%= data.schema %>">
           <span>Удалить представление</span>
         </a>
+        -->
       </div>
   </div>
 
@@ -40,6 +39,13 @@
       <div id="select-all" class="columns-info__control__option click-button">Выбрать всё</div>
       <div id="disable-all" class="columns-info__control__option click-button">Убрать всё</div>
     </div>
+
+    <div class="columns-info__search">
+      <button type="submit" class="columns-info__search__option click-button">Перейти к поиску</button>
+      <a href="completion?dbname=<%= data.database %>&schemaname=<%= data.schema %>" class="columns-info__search__option click-button"><span>Удалить представление</span>
+      </a>
+    </div>
+
     <ul id="columns-list" class="columns-info__list list-float-none">
       <li class="columns-info__list__item">
         <p class="columns-info__list__item__column-info">
