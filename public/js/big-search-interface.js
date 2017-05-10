@@ -12,11 +12,12 @@ var descrParam = {
   "marginLeft": "30px"
 };
 
-//Глобальный массив для условий
+// Глобальный массив для условий
 JsonData = [];
 // Глобальный массив для настроек поиска
 DescriptorsData = {};
-
+// Глобальный массив для результатов поиска
+SearchResults = [];
 
 //Список для окна редактирования формы
 var listBox = "<option selected='selected' disabled=''" +

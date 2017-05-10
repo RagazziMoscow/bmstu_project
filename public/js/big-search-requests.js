@@ -70,8 +70,10 @@
         },
         success: function(data) {
 
+          SearchResults = data;
+
           //функция передаёт данные шаблонизатору
-          view(data);
+          view(SearchResults);
 
         }
       });
