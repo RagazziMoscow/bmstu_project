@@ -31,8 +31,8 @@ function view(data) {
     var source = $("#export-xml-template").html();
     var template = Handlebars.compile(source);
     var content = template({
-      JsonData: JsonData,
-      SearchResults: SearchResults
+      conditions: SearchResults.conditions,
+      SearchResults: SearchResults.results.data.rows
     });
     var file = new File([content.toString()], "search-results.xml", {
       type: "text/xml;charset=utf-8"
@@ -44,8 +44,8 @@ function view(data) {
     var source = $("#export-json-template").html();
     var template = Handlebars.compile(source);
     var content = template({
-      JsonData: JsonData,
-      SearchResults: SearchResults
+      conditions: SearchResults.conditions,
+      SearchResults: SearchResults.results.data.rows
     });
     var file = new File([content.toString()], "search-results.json", {
       type: "application/json;charset=utf-8"
