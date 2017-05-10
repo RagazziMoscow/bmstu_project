@@ -63,3 +63,84 @@
 
 </script>
 <!-- Вывод результатов поиска -->
+
+<script id="export-xml-template" type="text/x-handlebars-template">
+  <Search>
+    <SearchConditions>
+      {{#each JsonData}}
+        <ConditionsGroup>
+        {{#each this}}
+          <descriptor>
+            <id>{{this.id}}</id>
+            <name>{{this.name}}</name>
+
+            {{#if this.number}}
+            <number>{{this.number}}</number>
+            {{/if}}
+
+            {{#if this.relation}}
+            <relation>{{{this.relation}}}</relation>
+            {{/if}}
+
+            {{#if this.type}}
+            <type>{{this.type}}</type>
+            {{/if}}
+
+          </descriptor>
+        {{/each}}
+        </ConditionsGroup>
+      {{/each}}
+    </SearchConditions>
+    <SearchResults>
+      {{#each SearchResults.data.rows}}
+        <tuple>
+          {{#each this as |value key|}}
+            <column>
+              <name>{{key}}</name>
+              <value>{{value}}</value>
+            </column>
+          {{/each}}
+        </tuple>
+      {{/each}}
+    </SearchResults>
+  </Search>
+</script>
+
+<script id="export-json-template" type="text/x-handlebars-template">
+  {
+    "searchConditions": {
+      {{#each JsonData}}
+        "group": {
+          {{#each this}}
+            "descriptor": {
+              {{#each this}}
+                "{{@key}}": "{{{this}}}"{{#unless @last}},{{/unless}}
+              {{/each}}
+            }{{#unless @last}},{{/unless}}
+          {{/each}}
+        }{{#unless @last}},{{/unless}}
+      {{/each}}
+    },
+
+
+    "searchResults": {
+
+      {{#each SearchResults.data.rows}}
+        "tuple": {
+          {{#each this as |value key|}}
+            "column": {
+              "name": "{{key}}",
+              {{#if value}}
+              "value": "{{value}}"
+              {{else}}
+              "value": "null"
+              {{/if}}
+            }{{#unless @last}},{{/unless}}
+          {{/each}}
+        }{{#unless @last}},{{/unless}}
+      {{/each}}
+    }
+
+
+  }
+</script>

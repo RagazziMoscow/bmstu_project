@@ -28,14 +28,27 @@ function view(data) {
 
   // вешаем загрузку файлов на кнопки экспорта
   $("#export-xml").on("click", function() {
-    var file = new File(["Hello, world!"], "hello world.txt", {
-      type: "text/plain;charset=utf-8"
+    var source = $("#export-xml-template").html();
+    var template = Handlebars.compile(source);
+    var content = template({
+      JsonData: JsonData,
+      SearchResults: SearchResults
+    });
+    var file = new File([content.toString()], "search-results.xml", {
+      type: "text/xml;charset=utf-8"
     });
     saveAs(file);
   });
+
   $("#export-json").on("click", function() {
-    var file = new File(["Hello, world!"], "hello world.txt", {
-      type: "text/plain;charset=utf-8"
+    var source = $("#export-json-template").html();
+    var template = Handlebars.compile(source);
+    var content = template({
+      JsonData: JsonData,
+      SearchResults: SearchResults
+    });
+    var file = new File([content.toString()], "search-results.json", {
+      type: "application/json;charset=utf-8"
     });
     saveAs(file);
   });
