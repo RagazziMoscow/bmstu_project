@@ -1,0 +1,25 @@
+
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+<link href="/css/base_buttons.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/views/login.css">
+
+<div class="wrapper">
+  <div class="greeting">
+    <p class="greeting__title">Пожалуйста, авторизуйтесь, чтобы продолжить работу</p>
+  </div>
+
+    <% if (data.errorMsg) { -%>
+      <div class="auth-info">
+          <p><%= data.errorMsg %></p>
+      </div>
+    <% } -%>
+
+  <form class="auth-form" method="POST" action="signin">
+
+    <input id="login" class="standart-input" type="text" name="login" placeholder="Логин">
+    <input id="password" class="standart-input" type="password" name="password" placeholder="Пароль">
+    <a class="click-button" href="signup">Регистрация</a></button>
+    <button type="submit" class="auth-form__button-submit click-button">Войти</button>
+
+  </form>
+</div>

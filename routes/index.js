@@ -284,18 +284,20 @@ module.exports = function(app) {
     res.redirect("/databases");
   });
 
-  app.get("/auth", function(req, res) {
-    res.render("auth/auth", {
+  app.get("/login", function(req, res) {
+    res.render("auth/login", {
       data: {
-        title: "Авторизация"
+        title: "Авторизация",
+        errorMsg: null
       }
     })
   });
 
-  app.get("/register", function(req, res) {
-    res.render("auth/register", {
+  app.get("/signup", function(req, res) {
+    res.render("auth/signup", {
       data: {
-        title: "Регистрация"
+        title: "Регистрация",
+        errorMsg: null
       }
     })
   });

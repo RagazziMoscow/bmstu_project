@@ -1,0 +1,23 @@
+.wrapper{
+  width: 70%;
+  margin: 10% auto 0 auto;
+
+}
+
+.greeting{
+  margin: 0 auto 100px auto;
+  &__title{
+    font-size: 30px;
+  }
+}
+
+.auth-form{
+  & input{
+    display: block;
+    height: 20px;
+    margin: 20px auto;
+    padding: 6px 5px 5px 5px;
+    font-size: 20px;
+  }
+
+}

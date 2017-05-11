@@ -1,0 +1,29 @@
+
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+<link href="/css/base_buttons.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/views/signup.css">
+<script type="text/javascript" src="/components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="js/signup.js"></script>
+
+
+<div class="wrapper">
+  <div class="registration">
+    <p class="registration__title">Регистрация пользователя</p>
+  </div>
+    <% if (data.errorMsg) { -%>
+      <div class="registration-info">
+          <p><%= data.errorMsg %></p>
+      </div>
+    <% } -%>
+
+  <form class="register-form" method="POST" action="">
+
+    <input id="login" class="standart-input" type="text" name="login" placeholder="Логин">
+    <input id="password" class="standart-input" type="password" name="password" placeholder="Пароль">
+    <input class="standart-input" type="text" name="name" placeholder="Имя"></input>
+    <input class="standart-input" type="text" name="email" placeholder="Email"></input>
+    <input class="standart-input" type="text" name="phone" placeholder="Контактный номер"></input>
+
+    <button type="submit" class="register-form__button-submit click-button">Зарегистрироваться</button>
+  </form>
+</div>
