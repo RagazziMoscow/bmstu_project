@@ -13,3 +13,10 @@
   margin: 20px auto;
   padding: 6px 5px 5px 5px;
   font-size: 20px; }
+
+.register-form__button-submit {
+  display: block;
+  margin: 20px auto; }
+
+.error {
+  border-color: red; }
