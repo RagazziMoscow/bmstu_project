@@ -284,6 +284,21 @@ module.exports = function(app) {
     res.redirect("/databases");
   });
 
+  app.get("/auth", function(req, res) {
+    res.render("auth/auth", {
+      data: {
+        title: "Авторизация"
+      }
+    })
+  });
+
+  app.get("/register", function(req, res) {
+    res.render("auth/register", {
+      data: {
+        title: "Регистрация"
+      }
+    })
+  });
 
 
   app.get("/logout", function(req, res) {
