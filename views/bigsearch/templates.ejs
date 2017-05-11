@@ -2,17 +2,19 @@
 <script id="view-template" type="text/x-handlebars-template">
     <div class="page-content center-in-div">
 
-    {{#if data.data.rows.length}}
-        <button id="export-xml" class="content-action click-button">
+    {{#if data.results.data.rows.length}}
+        <button id="export-xml" class="export-button click-button">
           Экспорт результатов в XML
         </button>
-        <button id="export-json" class="content-action click-button">
+        <button id="export-json" class="export-button click-button">
           Экспорт результатов в JSON
         </button>
+    {{else}}
+      <p class="no-results">Поисковый запрос не дал результатов</p>
     {{/if}}
 
     <!-- Каждый кортеж -->
-      {{#each data.data.rows}}
+      {{#each data.results.data.rows}}
       <ul class="list-float-none" style="display: block;">
         <li class="standart-button">
 
@@ -67,7 +69,7 @@
 <script id="export-xml-template" type="text/x-handlebars-template">
   <Search>
     <SearchConditions>
-      {{#each JsonData}}
+      {{#each conditions}}
         <ConditionsGroup>
         {{#each this}}
           <descriptor>
@@ -92,7 +94,7 @@
       {{/each}}
     </SearchConditions>
     <SearchResults>
-      {{#each SearchResults.data.rows}}
+      {{#each SearchResults}}
         <tuple>
           {{#each this as |value key|}}
             <column>
@@ -109,7 +111,7 @@
 <script id="export-json-template" type="text/x-handlebars-template">
   {
     "searchConditions": {
-      {{#each JsonData}}
+      {{#each conditions}}
         "group": {
           {{#each this}}
             "descriptor": {
@@ -121,11 +123,8 @@
         }{{#unless @last}},{{/unless}}
       {{/each}}
     },
-
-
     "searchResults": {
-
-      {{#each SearchResults.data.rows}}
+      {{#each SearchResults}}
         "tuple": {
           {{#each this as |value key|}}
             "column": {
@@ -140,7 +139,5 @@
         }{{#unless @last}},{{/unless}}
       {{/each}}
     }
-
-
   }
 </script>

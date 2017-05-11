@@ -70,7 +70,8 @@
         },
         success: function(data) {
 
-          SearchResults = data;
+          SearchResults.conditions = JsonData.slice(0); //копируем
+          SearchResults.results = data;
 
           //функция передаёт данные шаблонизатору
           view(SearchResults);

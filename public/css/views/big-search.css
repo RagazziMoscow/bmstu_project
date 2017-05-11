@@ -182,13 +182,15 @@ body #wrapper .main {
 .main #results {
   width: 875px;
   height: auto;
+  min-height: 250px;
   margin: 0 auto; }
 .main #results > p {
   margin: auto;
   display: inline-block;
 
   color: #121212;
-  font-size: 20px; }
+  margin-top: 60px;
+  font-size: 25px; }
 
 .main #results ul {
   list-style: none;
@@ -215,6 +217,16 @@ body #wrapper .main {
   display: block;
 
 
+}
+
+/*no-results*/
+.no-results{
+  font-size: 25px;
+  margin-top: 60px;
+}
+/*export-buttons*/
+.export-button{
+  margin: 20px 25px 40px 25px;
 }
 
 
