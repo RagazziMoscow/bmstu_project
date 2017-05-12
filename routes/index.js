@@ -1,3 +1,4 @@
+var auth = require('./auth');
 var databases = require('./../models/databases'), // Databases list
   structure = require("./../models/structure"),
   dbschemas = require('./../models/schemas'),
@@ -284,23 +285,9 @@ module.exports = function(app) {
     res.redirect("/databases");
   });
 
-  app.get("/login", function(req, res) {
-    res.render("auth/login", {
-      data: {
-        title: "Авторизация",
-        errorMsg: null
-      }
-    })
-  });
+  app.get("/signin", auth.signin);
 
-  app.get("/signup", function(req, res) {
-    res.render("auth/signup", {
-      data: {
-        title: "Регистрация",
-        errorMsg: null
-      }
-    })
-  });
+  app.get("/signup", auth.signup);
 
 
   app.get("/logout", function(req, res) {
