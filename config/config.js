@@ -7,6 +7,13 @@ var config = {
       user: "admin",
       password: "admin",
       port: 5432
+    },
+    workbase: {
+      database: "workbase",
+      host: "localhost",
+      port: 5432,
+      user: "admin",
+      password: "admin"
     }
 };
 
