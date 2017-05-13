@@ -3,26 +3,9 @@ module.exports = function(app, express) {
   var path = require('path');
   var bodyParser = require('body-parser');
 
+
   app.set('views', path.join(__dirname, './../views'));
   app.use(express.static(path.join(__dirname, './../public')));
-
-
-  /*
-  var handlebars = require('handlebars'),
-      layouts = require('handlebars-layout');
-
-  layouts.register(handlebars);
-
-
-  var templating = require('consolidate');
-  app.engine('hbs', templating.handlebars);
-  app.engine('ejs', templating.;
-  app.set('view engine', 'hbs');
-
-
-  app.set(__dirname + '/views', __dirname + ''); // + '/views'
-
-  */
 
   // using for ejs, rendering pages
   app.engine('ejs', require('ejs-locals'));

@@ -1,4 +1,4 @@
-function signin(req, res) {
+function signIn(req, res) {
   res.render("auth/signin", {
     data: {
       title: "Авторизация",
@@ -7,7 +7,7 @@ function signin(req, res) {
   })
 }
 
-function signup(req, res) {
+function signUp(req, res) {
   res.render("auth/signup", {
     data: {
       title: "Регистрация",
@@ -16,5 +16,11 @@ function signup(req, res) {
   })
 }
 
-module.exports.signin = signin;
-module.exports.signup = signup;
+function requestSignIn(req, res) {
+  var users = require("./../models/users");
+
+}
+
+module.exports.signin = signIn;
+module.exports.signup = signUp;
+module.exports.requestsignin = requestSignIn;

@@ -8,6 +8,7 @@ var app = express();
 
 
 var middleware = require('./middleware')(app, express);
+var auth = require("./middleware/auth")(app);
 var router = require("./routes")(app);
 
 

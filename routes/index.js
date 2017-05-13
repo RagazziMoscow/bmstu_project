@@ -2,7 +2,9 @@ var auth = require('./auth');
 var databases = require('./../models/databases'), // Databases list
   structure = require("./../models/structure"),
   dbschemas = require('./../models/schemas'),
-  dbtables = require("./../models/tables");
+  dbtables = require("./../models/tables"),
+  passport = require('passport');
+
 
 module.exports = function(app) {
 
@@ -45,23 +47,23 @@ module.exports = function(app) {
     });
 
   });
-/*
-  app.get("/dbschemas", function(req, res) {
+  /*
+    app.get("/dbschemas", function(req, res) {
 
-    var schemas = dbschemas(req.body.dbname);
+      var schemas = dbschemas(req.body.dbname);
 
-    schemas.list(function(schemasList) {
-      res.render("schemas/list", {
-        data: {
-          title: "Схемы",
-          database: req.body.dbname,
-          list: schemasList
-        }
+      schemas.list(function(schemasList) {
+        res.render("schemas/list", {
+          data: {
+            title: "Схемы",
+            database: req.body.dbname,
+            list: schemasList
+          }
+        });
       });
-    });
 
-  });
-*/
+    });
+  */
 
   app.post("/tables", function(req, res) {
 
@@ -100,55 +102,55 @@ module.exports = function(app) {
 
 
 
-/*
-  app.get("/tables", function(req, res) {
+  /*
+    app.get("/tables", function(req, res) {
 
-    var tables = dbtables;
-    var database = req.session.searchData.database || null;
-    var schema = req.session.searchData.schema || null;
-    var searchDataIsSended = database && schema;
+      var tables = dbtables;
+      var database = req.session.searchData.database || null;
+      var schema = req.session.searchData.schema || null;
+      var searchDataIsSended = database && schema;
 
-    if (searchDataIsSended) {
+      if (searchDataIsSended) {
 
-      dbStruct = structure(database, schema);
-      dbStruct.checkViewExisting(function(view) {
+        dbStruct = structure(database, schema);
+        dbStruct.checkViewExisting(function(view) {
 
-        if (view) {
+          if (view) {
 
-          // если представление существует
-          res.redirect("/columns?dbname=" + req.session.searchData.database +
-            "&schemaname=" + req.session.searchData.schema);
-        } else {
+            // если представление существует
+            res.redirect("/columns?dbname=" + req.session.searchData.database +
+              "&schemaname=" + req.session.searchData.schema);
+          } else {
 
-          // если представления нет
-          tables.list(req.session.searchData.database,
-            req.session.searchData.schema,
-            (tables) => {
-              res.render("structure/tables", {
-                data: {
-                  title: "Таблицы",
-                  database: req.session.searchData.database,
-                  schema: req.session.searchData.schema,
-                  list: tables
-                }
+            // если представления нет
+            tables.list(req.session.searchData.database,
+              req.session.searchData.schema,
+              (tables) => {
+                res.render("structure/tables", {
+                  data: {
+                    title: "Таблицы",
+                    database: req.session.searchData.database,
+                    schema: req.session.searchData.schema,
+                    list: tables
+                  }
+                });
               });
-            });
 
-        }
-      });
+          }
+        });
 
-    } else {
+      } else {
 
-      res.render('structure/tables', {
-        data: {
-          title: "Таблицы"
-        }
-      });
+        res.render('structure/tables', {
+          data: {
+            title: "Таблицы"
+          }
+        });
 
-    }
-  });
+      }
+    });
 
-*/
+  */
 
   app.post("/columns", function(req, res) {
 

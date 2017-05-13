@@ -9,7 +9,8 @@ $(document).ready(function() {
     rules: {
       login: {
         required: true,
-        minlength: 2
+        minlength: 2,
+        maxlength: 10
       },
       password: {
         required: true,
@@ -32,7 +33,8 @@ $(document).ready(function() {
     messages: {
       login: {
         required: "Это поле обязательно для заполнения",
-        minlength: "Логин должен быть не менее двух знаков"
+        minlength: "Логин должен быть не менее двух знаков",
+        maxlength: "Лолгин не должен быть более 10 знаков"
       },
       password: {
         required: "Это поле обязательно для заполнения",
