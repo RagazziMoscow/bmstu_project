@@ -14,7 +14,7 @@
 
     app.post('/signin', authenticate);
 
-    app.get('/logout', function(req, res) {
+    app.get('/signout', function(req, res) {
       req.logout();
       res.redirect('/signin');
     });
@@ -29,27 +29,43 @@
     }, function(username, password, done) {
 
       users.check(username, password, function(result) {
-        if (result) {
-          return done(null, {
-            result: result
-          });
-        }
 
+        if (result) {
+          return done(null, result);
+        }
         return done(null, false);
       });
 
     }));
 
     passport.serializeUser(function(user, done) {
-      done(null, user.result);
+      done(null, user);
     });
 
     passport.deserializeUser(function(user, done) {
-      console.log('deserializeUser called');
-      console.log('id:', user);
-      done(null, {
-        user: user
-      });
+      //console.log('deserializeUser called');
+      //console.log('id:', user);
+      done(null, user);
     });
+
+
+    var mustBeAuthenticated = function(req, res, next) {
+
+      var originalUrl = req.originalUrl;
+      if (originalUrl == "/signin" || originalUrl == "/signup") {
+        next();
+      } else {
+        req.isAuthenticated() ? next() : res.redirect('/signin');
+      }
+
+    };
+
+    app.use('/*', mustBeAuthenticated);
+    /*
+    app.use("/*", function(req, res, next) {
+      if (req.user) console.log(req.user);
+      next();
+    });
+    */
 
   }
