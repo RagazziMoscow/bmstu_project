@@ -2,6 +2,26 @@
 
   module.exports = function(app) {
 
+
+    app.get("/signin", function(req, res) {
+      res.render("auth/signin", {
+        data: {
+          title: "Авторизация",
+          errorMsg: null
+        }
+      })
+    });
+
+    app.get("/signup", function(req, res) {
+      res.render("auth/signup", {
+        data: {
+          title: "Регистрация",
+          errorMsg: null
+        }
+      })
+    });
+
+
     app.use(passport.initialize());
     app.use(passport.session());
 
