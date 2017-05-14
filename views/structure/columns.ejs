@@ -48,27 +48,27 @@
 
     <ul id="columns-list" class="columns-info__list list-float-none">
       <li class="columns-info__list__item">
-        <p class="columns-info__list__item__column-info">
+        <div class="columns-info__list__item__column-info">
           <span class="columns-info__list__item__column-info__name">
             Поле представления
           </span>
           <span class="columns-info__list__item__column-info__type">
             Тип данных
           </span>
-        </p>
+        </div>
       </li>
       <% data.columns.forEach(function(column) {%>
 
         <li class="columns-info__list__item standart-button ">
-          <p class="columns-info__list__item__column-info">
+          <div class="columns-info__list__item__column-info">
             <input type="checkbox" checked="checked" name="<%= column.column_name %>*<%= column.data_type %>">
-            <span class="columns-info__list__item__column-info__name">
-              <%= column.column_name %>
-              </span>
-            <span class="columns-info__list__item__column-info__type">
-              <%= column.data_type %>
-            </span>
-          </p>
+            <div class="columns-info__list__item__column-info__name">
+              <span><%= column.column_name %></span>
+            </div>
+            <div class="columns-info__list__item__column-info__type">
+              <span><%= column.data_type %></span>
+            </div>
+          </div>
         </li>
 
       <% }); %>

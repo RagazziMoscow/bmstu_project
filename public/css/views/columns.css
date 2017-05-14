@@ -58,6 +58,7 @@
     justify-content: space-between; }
     .columns-info__list__item__column-info__name {
       margin-left: 20px;
+      padding-right: 40px;
       width: 430px;
       flex-grow: 1;
       word-break: break-all; }
@@ -76,3 +77,9 @@
 
 .no-search-data-info__text {
   font-size: 20px; }
+
+.column-name-span::after {
+  content: " -> "; }
+
+.column-name-span:last-child::after {
+  content: none; }
