@@ -4,6 +4,9 @@ var users = require("./../models/users");
 
 module.exports = function(app) {
 
+  app.use(passport.initialize());
+  app.use(passport.session());
+
 
   app.get("/signin", function(req, res) {
     res.render("auth/signin", {
@@ -24,8 +27,34 @@ module.exports = function(app) {
   });
 
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+  app.post("/signup", function(req, res) {
+
+    var login = req.login;
+    var password = req.password;
+    var name = req.name;
+    var email = req.email;
+    var phone = req.phone;
+
+    users.check(login, function(existingUser) {
+
+      if (!existingUser) {
+
+        users.create(login, password, name, email, phone, function() {
+          res.redirect("/databases");
+        });
+
+      } else {
+        res.render("auth/signup", {
+          data: {
+            title: "Регистрация",
+            errorMsg: "Используйте другой логин для регистрации"
+          }
+        });
+      }
+
+    });
+  });
+
 
 
   var authenticate = passport.authenticate('local', {
