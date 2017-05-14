@@ -5,7 +5,7 @@ stringformat.extendString('format'); // добавляем метод форма
 
 
 
-var check = function(login, password, callback) {
+var verify = function(login, password, callback) {
 
   var database = config.workbase.database;
   var host = config.workbase.host;
@@ -28,4 +28,4 @@ var check = function(login, password, callback) {
 
 }
 
-module.exports.check = check;
+module.exports.verify = verify;

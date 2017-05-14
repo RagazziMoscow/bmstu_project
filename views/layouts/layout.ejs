@@ -10,32 +10,10 @@
            <link href="/css/base_buttons.css" rel="stylesheet" type="text/css">
            <link href="/css/style.css" rel="stylesheet" type="text/css">
 
-<!--
-           <link href="/css/base_classes.css" rel="stylesheet" type="text/css">
-           <link href="/css/base_buttons.css" rel="stylesheet" type="text/css">
-           <link href="/css/pagination.css" rel="stylesheet" type="text/css">
-           <link href="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet" type="text/css">
-           <link href="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.min.css" rel="stylesheet" type="text/css">
-           <link href="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.structure.css" rel="stylesheet" type="text/css">
-           <link href="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
-           <link href="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.theme.css" rel="stylesheet" type="text/css">
-           <link href="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
-           <link href="/pages/profile/profile.css" rel="stylesheet" type="text/css">
-
--->
             <script type="text/javascript" src="/components/jquery/dist/jquery.js"></script>
             <script type="text/javascript" src="/components/jquery-ui/jquery-ui.js"></script>
 
-            <!--
-            <script type="text/javascript" src="/_fw/libraries/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-            <script type="text/javascript" src="/_fw/libraries/jquery.validate.js"></script>
-            <script type="text/javascript" src="/_fw/libraries/jquery.cookie.min.js"></script>
-            <script type="text/javascript" src="/_fw/libraries/jquery.form.js"></script>
-            <script type="text/javascript" src="/js/javascript.js"></script>
-            <script type="text/javascript" src="/js/search.js"></script>
-            <script type="text/javascript" src="/js/forms.js"></script>
-            <script type="text/javascript" src="/js/script_set_access.js"></script>
--->
+
 </head>
 <body>
 
@@ -113,9 +91,12 @@
               <img src="/img/logout.png">
             </a>
           </li>
-        <!--        <li><p>&nbsp;</p><p align="right" color="#00FF00;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;principal Kerberos: </p></li> -->
-        <li><p>&nbsp;</p><p color="#00FF00;" align="right"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></li>
     </ul>
+    <div class="user-info">
+      <p class="user-info__user-name">
+        <span><%= data.user %></span>
+      </p>
+    </div>
 </nav>
 
 

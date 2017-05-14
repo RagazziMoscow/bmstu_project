@@ -8,7 +8,8 @@ module.exports.dbList = function(req, res) {
     res.render('database/dbList', {
       data: {
         title: "Подключённые БД",
-        list: dbList
+        list: dbList,
+        user: req.user.login
       }
     });
 
@@ -26,7 +27,8 @@ module.exports.schemasList = function(req, res) {
       data: {
         title: "Схемы",
         database: req.body.dbname,
-        list: schemasList
+        list: schemasList,
+        user: req.user.login
       }
     });
   });

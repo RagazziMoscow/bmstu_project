@@ -75,3 +75,25 @@ nav ul ul ul {
   left: 100%;
   top: 0;
 }
+
+
+.user-info{
+  float: right;
+  height: 73px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info__user-name{
+  /*font-style: oblique;*/
+  font-weight: bold;
+  font-size: 18px;
+  font-family: Calibri,sans-serif;
+}
+
+.user-info__user-name:hover span{
+  color: grey;
+  cursor: pointer;
+}
