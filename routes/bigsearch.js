@@ -57,8 +57,8 @@ module.exports.requestCompletion = function(req, res) {
     data: {
       title: "Завершение поиск",
       searchData: {
-        database: req.param("dbname"),
-        schema: req.param("schemaname")
+        database: req.query.dbname,
+        schema: req.query.schemaname
       }
     }
   });

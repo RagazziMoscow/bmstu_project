@@ -5,7 +5,7 @@ module.exports.dbList = function(req, res) {
 
   databases.list(function(dbList) {
 
-    res.render('databases/list', {
+    res.render('database/dbList', {
       data: {
         title: "Подключённые БД",
         list: dbList
@@ -22,7 +22,7 @@ module.exports.schemasList = function(req, res) {
   var schemas = dbschemas(req.body.dbname);
   schemas.list(function(schemasList) {
     //console.log(schemasList);
-    res.render("schemas/list", {
+    res.render("database/schemasList", {
       data: {
         title: "Схемы",
         database: req.body.dbname,
