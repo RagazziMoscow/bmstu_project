@@ -4,6 +4,20 @@
 
 }
 
+.registration-info{
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white none repeat scroll 0% 0%;
+  border: 3px solid rgb(227, 99, 99);
+  border-radius: 15px;
+  & p{
+    font-size: 23px;
+  }
+}
+
 .registration{
   margin: 0 auto 100px auto;
   &__title{

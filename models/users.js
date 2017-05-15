@@ -41,7 +41,7 @@ var check = function(login, callback) {
   var sqlQuery = "SELECT login from public.user WHERE login='{0}';".format(login);
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-    console.log(rows);
+    //console.log(rows);
     callback((rows.length == 0));
   });
 };
