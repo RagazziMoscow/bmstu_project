@@ -14,16 +14,10 @@ module.exports.list = function(callback) {
     password,
     host,
     port));
-  var databasesListQuery = 'SELECT pg_database.datname as "Database",\n' +
-    'pg_user.usename as "Owner" FROM pg_database, pg_user \n' +
-    'WHERE pg_database.datdba = pg_user.usesysid \n' +
-    'AND pg_user.usename != \'postgres\' \n' +
-
-    'UNION \n' +
-    'SELECT pg_database.datname as "Database",\n' +
-    'NULL as "Owner" FROM pg_database \n' +
-    'WHERE pg_database.datdba NOT IN (SELECT usesysid FROM pg_user) \n' +
-    'ORDER BY "Database"';
+  var databasesListQuery = "select datname, usename from pg_database\n" +
+    "left join pg_user on pg_database.datdba = pg_user.usesysid\n" +
+    "where pg_user.usename = 'admin'\n" +
+    "and datname != 'workbase';";
 
   // connect to our database
   client.connect(function(err) {
