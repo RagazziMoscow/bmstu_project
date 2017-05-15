@@ -9,14 +9,15 @@ var typesConversion = require('./conversion');
 
 function typeProcess(name, relation, value, postgresType) {
 
-  //console.log(name, relation, value, postgresType);
-  name = typesConversion[postgresType]["name"][relation](name) || name;
-  relation = typesConversion[postgresType]["relation"][relation](relation) || relation;
-  value = typesConversion[postgresType]["value"][relation](value) || value;
+  console.log(name, relation, value, postgresType);
+  name = typesConversion[postgresType]["name"][relation](name);
+  rel = typesConversion[postgresType]["relation"][relation](relation);
+  //console.log(typesConversion[postgresType]["value"][relation]);
+  value = typesConversion[postgresType]["value"][relation](value);
 
   let convertedData = {
     name: name,
-    rel: relation,
+    rel: rel,
     val: value
   };
   return convertedData;

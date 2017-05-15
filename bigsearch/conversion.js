@@ -26,8 +26,17 @@ function emptyString(value) {
   return "";
 }
 
-function notNullString(value) {
+function booleanString(value) {
+  var numberVal = Number(value);
+  if (numberVal === 1) {
+    return " = true";
+  }
+  if (numberVal === 0) {
+    return " = false";
+  }
+
   return "IS NOT NULL";
+
 }
 
 
@@ -268,12 +277,12 @@ var typesConversion = {
       "not like": emptyString
     },
     "value": {
-      "<": notNullString,
-      ">": notNullString,
-      "=": notNullString,
-      "!=": notNullString,
-      "like": notNullString,
-      "not like": notNullString
+      "<": booleanString,
+      ">": booleanString,
+      "=": booleanString,
+      "!=": booleanString,
+      "like": booleanString,
+      "not like": booleanString
     }
   }
 };
