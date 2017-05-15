@@ -11,7 +11,7 @@
 }
 
 .dbentities{
-  width: 50%;
+  width: 60%;
   font-size: 20px;
   margin: 20px auto 0px;
   padding: 30px;
@@ -49,6 +49,7 @@
           }
           &__link-status{
             font-weight: bold;
+            font-size: 40px;
           }
         }
 
@@ -79,7 +80,7 @@
 
 .columns-list{
   &__item{
-    font-size: 17px;
+    font-size: 15px;
   }
 }
 
@@ -88,6 +89,7 @@
 
   &__title{
     font-size: 30px;
+    margin: 50px auto;
   }
   &__dbname{
     font-size: 25px;
@@ -98,7 +100,7 @@
 }
 
 .dbtables{
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
 
   border: 1px solid #D1D3D3;

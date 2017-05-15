@@ -5,7 +5,7 @@
   font-size: 30px; }
 
 .dbentities {
-  width: 50%;
+  width: 60%;
   font-size: 20px;
   margin: 20px auto 0px;
   padding: 30px;
@@ -30,7 +30,8 @@
         font-weight: bold;
         font-size: 24px; }
       .dbentities__list__item__left__link-status {
-        font-weight: bold; }
+        font-weight: bold;
+        font-size: 40px; }
     .dbentities__list__item__right {
       text-align: right;
       width: 200px;
@@ -46,7 +47,8 @@
         font-weight: bold;
         font-size: 24px; }
       .dbentities__list__item__right__link-status {
-        font-weight: bold; }
+        font-weight: bold;
+        font-size: 40px; }
     .dbentities__list__item__middle {
       display: flex;
       flex-direction: row;
@@ -61,19 +63,20 @@
   color: #545454; }
 
 .columns-list__item {
-  font-size: 17px; }
+  font-size: 15px; }
 
 .dbinfo {
   width: 100%; }
   .dbinfo__title {
-    font-size: 30px; }
+    font-size: 30px;
+    margin: 50px auto; }
   .dbinfo__dbname {
     font-size: 25px; }
     .dbinfo__dbname span {
       font-weight: bold; }
 
 .dbtables {
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
   border: 1px solid #D1D3D3;
   padding: 30px;
