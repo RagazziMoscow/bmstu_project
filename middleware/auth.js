@@ -8,66 +8,9 @@ module.exports = function(app) {
   app.use(passport.session());
 
 
-  app.get("/signin", function(req, res) {
-    res.render("auth/signin", {
-      data: {
-        title: "Авторизация",
-        errorMsg: null
-      }
-    })
-  });
-
-  app.get("/signup", function(req, res) {
-    res.render("auth/signup", {
-      data: {
-        title: "Регистрация",
-        errorMsg: null
-      }
-    })
-  });
-
-
-  app.post("/signup", function(req, res) {
-
-    var login = req.login;
-    var password = req.password;
-    var name = req.name;
-    var email = req.email;
-    var phone = req.phone;
-
-    users.check(login, function(existingUser) {
-
-      if (!existingUser) {
-
-        users.create(login, password, name, email, phone, function() {
-          res.redirect("/databases");
-        });
-
-      } else {
-        res.render("auth/signup", {
-          data: {
-            title: "Регистрация",
-            errorMsg: "Используйте другой логин для регистрации"
-          }
-        });
-      }
-
-    });
-  });
-
-
-
   var authenticate = passport.authenticate('local', {
     successRedirect: '/databases',
     failureRedirect: '/signin',
-  });
-
-
-  app.post('/signin', authenticate);
-
-  app.get('/signout', function(req, res) {
-    req.logout();
-    res.redirect('/signin');
   });
 
 
@@ -111,6 +54,79 @@ module.exports = function(app) {
   };
 
   app.use('/*', mustBeAuthenticated);
+
+
+  app.get("/signin", function(req, res) {
+    res.render("auth/signin", {
+      data: {
+        title: "Авторизация",
+        errorMsg: null
+      }
+    })
+  });
+
+  app.get("/signup", function(req, res) {
+    res.render("auth/signup", {
+      data: {
+        title: "Регистрация",
+        errorMsg: null
+      }
+    })
+  });
+
+
+  app.post("/signup", function(req, res) {
+
+
+    var login = req.body.login;
+    var password = req.body.password;
+    var name = req.body.name;
+    var email = req.body.email;
+    var phone = req.body.phone;
+
+    users.check(login, function(notExistingUser) {
+
+      if (notExistingUser) {
+
+        users.create(login, password, name, email, phone, function() {
+
+          req.login({
+            login: login,
+            password: password
+          }, function(err) {
+            if (err) {
+              return next(err);
+            }
+            return res.redirect('/databases');
+          });
+
+          //res.redirect("/databases");
+        });
+
+      } else {
+        res.render("auth/signup", {
+          data: {
+            title: "Регистрация",
+            errorMsg: "Используйте другой логин для регистрации"
+          }
+        });
+      }
+
+    });
+
+  });
+
+
+
+  app.post('/signin', authenticate);
+
+  app.get('/signout', function(req, res) {
+    req.logout();
+    res.redirect('/signin');
+  });
+
+
+
   /*
   app.use("/*", function(req, res, next) {
     if (req.user) console.log(req.user);

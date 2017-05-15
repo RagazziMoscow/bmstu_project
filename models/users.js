@@ -38,10 +38,11 @@ var check = function(login, callback) {
     database,
     host);
 
-  var sqlQuery = "SELECT login from public.user WHERE login={0};".format(login);
+  var sqlQuery = "SELECT login from public.user WHERE login='{0}';".format(login);
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-    callback((rows[0] = []));
+    console.log(rows);
+    callback((rows.length == 0));
   });
 };
 
@@ -51,12 +52,12 @@ module.exports.check = check;
 
 var createUser = function(login, password, name, email, phone, callback) {
 
-  var sqlQuery = "INSERT INTO 'user' (login, password, user_name, email, phone) VALUES ({0}, {1}, {2}, {3}, {4});".format(login,
-    password,
-    name,
-    email,
-    phone);
-
+  var sqlQuery = "INSERT INTO public.user (login, password, user_name, email, phone)\n" +
+    "VALUES ('{0}', '{1}', '{2}', '{3}', '{4}');".format(login,
+      password,
+      name,
+      email,
+      phone);
 
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
