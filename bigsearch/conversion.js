@@ -22,6 +22,14 @@ function nothingToDo(value) {
   return value;
 }
 
+function emptyString(value) {
+  return "";
+}
+
+function notNullString(value) {
+  return "IS NOT NULL";
+}
+
 
 var typesConversion = {
   "integer": {
@@ -239,6 +247,33 @@ var typesConversion = {
       "!=": toTimeStamp,
       "like": wrapPercents,
       "not like": wrapPercents
+    }
+  },
+
+  "boolean": {
+    "name": {
+      "<": nothingToDo,
+      ">": nothingToDo,
+      "=": nothingToDo,
+      "!=": nothingToDo,
+      "like": nothingToDo,
+      "not like": nothingToDo
+    },
+    "relation": {
+      "<": emptyString,
+      ">": emptyString,
+      "=": emptyString,
+      "!=": emptyString,
+      "like": emptyString,
+      "not like": emptyString
+    },
+    "value": {
+      "<": notNullString,
+      ">": notNullString,
+      "=": notNullString,
+      "!=": notNullString,
+      "like": notNullString,
+      "not like": notNullString
     }
   }
 };
