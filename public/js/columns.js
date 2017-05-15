@@ -1,7 +1,7 @@
 $(document).ready(function() {
   $(".columns-info__list__item").on("click", function(event) {
     var node = $(this).
-    find("p").
+    find(".columns-info__list__item__column-info").
       //find(".dbtables__list__item__table-name").
     find("input");
 
