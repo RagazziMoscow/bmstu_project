@@ -6,7 +6,7 @@ module.exports.main = function(req, res) {
 
   // пересечение всех колонок с типами данных с тем, что отметили
   var searchData = search.select(req);
-  req.session.viewColumns = searchData;
+  //req.session.viewColumns = searchData;
 
   res.render("bigsearch/bigsearch", {
     data: {

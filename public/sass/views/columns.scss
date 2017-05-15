@@ -102,8 +102,14 @@
     font-size: 20px;
 }
 
+.column-name-span{
+    display: inline-block;
+    margin-right: 8px;
+}
+
 .column-name-span::after{
     content: " -> ";
+    color: red;
 }
 
 .column-name-span:last-child::after{

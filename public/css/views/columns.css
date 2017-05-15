@@ -78,8 +78,13 @@
 .no-search-data-info__text {
   font-size: 20px; }
 
+.column-name-span {
+  display: inline-block;
+  margin-right: 8px; }
+
 .column-name-span::after {
-  content: " -> "; }
+  content: " -> ";
+  color: red; }
 
 .column-name-span:last-child::after {
   content: none; }
