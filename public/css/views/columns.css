@@ -66,8 +66,10 @@
       overflow: hidden;
       width: 80px;
       text-align: right; }
-  .columns-info__list__item:first-child div > span {
-    width: 160px; }
+  .columns-info__list__item:first-child {
+    font-weight: bold; }
+    .columns-info__list__item:first-child div > span {
+      width: 160px; }
 
 .no-search-data-info {
   height: 100px; }
@@ -82,6 +84,9 @@
 .column-name-span::after {
   content: " -> ";
   color: red; }
+
+.column-name-span:last-child {
+  font-weight: bold; }
 
 .column-name-span:last-child::after {
   content: none; }
