@@ -14,6 +14,7 @@ module.exports.main = function(req, res) {
       searchData: {
         database: req.body.dbname,
         schema: req.body.schemaname,
+        table: req.body.tablename,
         viewColumns: searchData
       }
     }

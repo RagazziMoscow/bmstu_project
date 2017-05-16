@@ -23,7 +23,7 @@ module.exports = function(app) {
 
   app.post("/columns", structureRoutes.createView);
 
-  app.get("/columns", structureRoutes.loadView);
+  //app.get("/columns", structureRoutes.loadView);
 
 
 
