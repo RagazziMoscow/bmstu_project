@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.8
 -- Dumped by pg_dump version 9.4.8
--- Started on 2017-05-16 12:10:16 MSK
+-- Started on 2017-05-16 12:57:50 MSK
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -79,6 +79,10 @@ CREATE TABLE template (
     template_id integer DEFAULT nextval('template_id_seq'::regclass) NOT NULL,
     name text NOT NULL,
     data text NOT NULL,
+    database text NOT NULL,
+    schema text NOT NULL,
+    "table" text NOT NULL,
+    view_columns text NOT NULL,
     owner_id integer NOT NULL
 );
 
@@ -131,7 +135,7 @@ ALTER TABLE "user" OWNER TO admin;
 -- Name: template_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
 --
 
-SELECT pg_catalog.setval('template_id_seq', 4, true);
+SELECT pg_catalog.setval('template_id_seq', 16, true);
 
 
 --
@@ -183,7 +187,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- TOC entry 1935 (class 1259 OID 30656)
+-- TOC entry 1935 (class 1259 OID 30692)
 -- Name: fki_owner; Type: INDEX; Schema: public; Owner: admin; Tablespace: 
 --
 
@@ -191,7 +195,7 @@ CREATE INDEX fki_owner ON template USING btree (owner_id);
 
 
 --
--- TOC entry 1938 (class 2606 OID 30651)
+-- TOC entry 1938 (class 2606 OID 30687)
 -- Name: owner; Type: FK CONSTRAINT; Schema: public; Owner: admin
 --
 
@@ -211,7 +215,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2017-05-16 12:10:16 MSK
+-- Completed on 2017-05-16 12:57:50 MSK
 
 --
 -- PostgreSQL database dump complete
