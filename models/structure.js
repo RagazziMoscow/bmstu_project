@@ -44,7 +44,7 @@ var structure = function(dbname, schemaname) {
       },
 
       // удаляет созданное представление
-      deleteView: function() {
+      deleteView: function(callback) {
         var query = "set search_path to " + schemaname + ";\n" +
           "drop view all_join;"
         var client = new pg.Client(localConfig);
@@ -56,7 +56,7 @@ var structure = function(dbname, schemaname) {
             client.end(function(err) {
               if (err) throw err;
             });
-            //console.log(result);
+            if (callback) callback();
 
           });
         });

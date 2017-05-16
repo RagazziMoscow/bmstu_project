@@ -87,7 +87,9 @@
 
 
   // Cохранение шаблонов со страницы расширенного поиска
-  function saveTemplate(e) {
+  function saveTemplate() {
+
+    /*
     e.preventDefault();
     var ajax_url = $(this).data('ajax');
     var name = $('#name-template').val();
@@ -118,6 +120,46 @@
         })
       }
     }
+*/
+    var templateName = $(this).siblings(".input").val();
+    var templateData = JSON.stringify(JsonData);
+    var database = $("#database").text();
+    var schema = $("#schema").text();
+    var table = $("#table").text();
+    var viewColumns = $("#view-columns").text();
+
+    $.ajax({
+      type: "POST",
+      url: "/save-template",
+      data: {
+        name: templateName,
+        json: templateData,
+        searchData: {
+          database: database,
+          schema: schema,
+          table: table,
+          viewColumns: viewColumns
+
+        }
+      },
+
+      beforeSend: function() {
+
+        disableItems();
+        showOverlay();
+        $(".loader").show();
+      },
+      complete: function() {
+
+        hideOverlay();
+        enableItems();
+        $(".loader").hide();
+      },
+      success: function(data) {
+        alert("Шаблон сохранён");
+      }
+
+    });
 
 
   }

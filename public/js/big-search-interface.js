@@ -99,7 +99,15 @@ function init() {
     id: "#view-properties",
     name: ""
   }, showWindow);
-  $('.save-templates-from-bigsearch').click(saveTemplate);
+
+  $("#templates-saver").on("click", {
+      id: "#save-template",
+      name: ""
+    },
+    showWindow
+  );
+  $("#save-template").find(".modal-action").on("click", saveTemplate);
+  //$('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
   $("#btn").on("click", sendQuery);
@@ -696,7 +704,7 @@ function editForm(event) {
     var namePar = $(this).find(".input").val();
     var numPar = $(this).find(".attr-number").val();
     var relPar = $(this).find(".rel-select").val();
-    var typePar = $(this).find('.descriptor-type').attr("name");
+    var typePar = $(this).find(".input").find('option:selected').attr("data-description");
 
 
     var editFlag = false; //Флаг о том, что редактирование было произведено
