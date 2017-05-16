@@ -27,7 +27,7 @@
         <a class="" href="/databases">Базы данных</a>
       </li>
       <li>
-        <a class="" href="/dbschemas">Шаблоны поиска</a>
+        <a class="" href="/templates?user_id=<%= data.user.user_id %>">Шаблоны поиска</a>
       </li>
 <!--
       <li>
@@ -94,7 +94,7 @@
     </ul>
     <div class="user-info">
       <p class="user-info__user-name">
-        <span><%= data.user %></span>
+        <span><%= data.user.login %></span>
       </p>
     </div>
 </nav>

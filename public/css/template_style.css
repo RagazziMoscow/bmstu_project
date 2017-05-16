@@ -1,0 +1,59 @@
+
+/*.list-templates > li:nth-child(5n+1) {
+    clear: both;
+}*/
+
+.list-templates p {
+    padding: 15px;
+    display: inline-block;
+}
+
+.admin_panel_object {
+    width: 100%;
+    margin: 0 0 0 0;
+    padding: 5px;
+    text-align: right;
+    display: block;
+    background-color: gray;
+    border-bottom: 1px solid black;
+}
+
+.admin_panel_object li {
+    float: none;
+    display: inline-block;
+    margin-left: 2px;
+}
+
+
+#form_add_rubricator {
+    text-align: left;
+    padding: 20px;
+}
+
+#form_add_rubricator input[type='text'] {
+    width: 300px;
+}
+
+.close-result-search-template {
+    display: block;
+    text-align: right;
+    color: red;
+}
+
+.close-result-search-template.click-button {
+    margin: 20px 0 0 0;
+}
+
+.close-result-search-template:hover {
+    color: red;
+}
+
+.copy-this-template.click-button {
+    height: 20px;
+}
+
+.copy-this-template img{
+    background: none;
+    border: none;
+    width: 21px;
+}
