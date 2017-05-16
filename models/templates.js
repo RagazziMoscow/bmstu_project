@@ -64,3 +64,19 @@ var templatesList = function(userId, callback) {
 }
 
 module.exports.list = templatesList;
+
+var removeTemplate = function(template_id, callback) {
+
+  var sqlQuery = "delete from public.template\n" +
+    "where template_id = {0};".format(template_id);
+
+  query(sqlQuery, function(err, rows, result) {
+    if (err) console.log(err);
+
+    callback();
+
+  });
+}
+
+
+module.exports.remove = removeTemplate;

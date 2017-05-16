@@ -16,6 +16,17 @@ module.exports.saveTemplate = function(req, res) {
 
 }
 
+module.exports.deleteTemplate = function(req, res) {
+
+  var templates = require("./../models/templates");
+  var templateId = req.query.template_id;
+
+  templates.remove(templateId, function() {
+    res.redirect("/templates?user_id=" + req.user.user_id);
+  });
+
+}
+
 
 module.exports.templatesList = function(req, res) {
 

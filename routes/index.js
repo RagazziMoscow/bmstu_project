@@ -41,6 +41,8 @@ module.exports = function(app) {
   /*templates*/
   app.post("/save-template", templatesRoutes.saveTemplate);
 
+  app.get("/delete-template", templatesRoutes.deleteTemplate)
+
   app.get("/templates", templatesRoutes.templatesList);
 
 
