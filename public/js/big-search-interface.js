@@ -99,7 +99,14 @@ function init() {
     id: "#view-properties",
     name: ""
   }, showWindow);
-  $('.save-templates-from-bigsearch').click(saveTemplate);
+
+  $("#templates-saver").on("click", {
+      id: "#save-template",
+      name: ""
+    },
+    showWindow
+  );
+  //$('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
   $("#btn").on("click", sendQuery);
