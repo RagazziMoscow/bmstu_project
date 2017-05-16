@@ -275,14 +275,16 @@ function clearInputs() {
 /*Деактивирует все элементы управления
 по работе с условиями поиска на время появления модального окна*/
 function disableItems() {
-  $(".content-action").css("pointer-events", "none");
+  $(".click-button").css("pointer-events", "none");
+  //$(".content-action").css("pointer-events", "none");
   $(".remove").css("pointer-events", "none");
 }
 
 /*Восстанавливает все элементы управления
 по закрытию модального окна*/
 function enableItems() {
-  $(".content-action").css("pointer-events", "auto");
+  $(".click-button").css("pointer-events", "auto");
+  //$(".content-action").css("pointer-events", "auto");
   $(".remove").css("pointer-events", "auto");
 }
 

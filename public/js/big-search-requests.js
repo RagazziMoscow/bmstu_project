@@ -89,77 +89,57 @@
   // Cохранение шаблонов со страницы расширенного поиска
   function saveTemplate() {
 
-    /*
-    e.preventDefault();
-    var ajax_url = $(this).data('ajax');
-    var name = $('#name-template').val();
-    var id = $('#id-template').val();
-    var json_data = encodeURIComponent($('#json-template').val());
-    if (name == '') {
-      alert("Пустое имя шаблона!");
-      $('#name-template').css('border-color', 'red');
-    } else {
-      $('#name-template').css('border-color', 'none');
-      if (json_data == '') {
-        alert("Пустая строка запроса!");
-      } else {
-        console.log(name, id, ajax_url);
-        $.ajax({
-          type: "POST",
-          data: "name=" + name + "&id=" + id + "&sql=" + json_data,
-          url: ajax_url + id,
-          success: function(data) {
-            if (data > 0) {
-              alert('Шаблон успешн сохранен');
-            } else if (data == -1) {
-              alert('Шаблон с таким именем уже сохранен');
-            } else {
-              alert('Ошибка' + data);
-            }
-          }
-        })
-      }
-    }
-*/
     var templateName = $(this).siblings(".input").val();
-    var templateData = JSON.stringify(JsonData);
-    var database = $("#database").text();
-    var schema = $("#schema").text();
-    var table = $("#table").text();
-    var viewColumns = $("#view-columns").text();
 
-    $.ajax({
-      type: "POST",
-      url: "/save-template",
-      data: {
-        name: templateName,
-        json: templateData,
-        searchData: {
-          database: database,
-          schema: schema,
-          table: table,
-          viewColumns: viewColumns
+    if (!JsonDataIsEmpty() && templateName != "") {
+      var templateData = JSON.stringify(JsonData);
+      var database = $("#database").text();
+      var schema = $("#schema").text();
+      var table = $("#table").text();
+      var viewColumns = $("#view-columns").text();
 
+      $.ajax({
+        type: "POST",
+        url: "/save-template",
+        data: {
+          name: templateName,
+          json: templateData,
+          searchData: {
+            database: database,
+            schema: schema,
+            table: table,
+            viewColumns: viewColumns
+
+          }
+        },
+
+        beforeSend: function() {
+
+          disableItems();
+          showOverlay();
+          $(".loader").show();
+        },
+        complete: function() {
+
+          hideOverlay();
+          enableItems();
+          $(".loader").hide();
+        },
+        success: function(data) {
+
+          $(this).parent().siblings('.message').find('span').text('Шаблон сохранён');
+          $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
+          //alert("Шаблон сохранён");
         }
-      },
 
-      beforeSend: function() {
+      });
 
-        disableItems();
-        showOverlay();
-        $(".loader").show();
-      },
-      complete: function() {
+    } else {
 
-        hideOverlay();
-        enableItems();
-        $(".loader").hide();
-      },
-      success: function(data) {
-        alert("Шаблон сохранён");
-      }
+      //alert("Задайте условия поиска и укажите имя шаблона");
+      $(this).parent().siblings('.message').find('span').text('Ошибка при сохранении');
+      $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
 
-    });
-
+    }
 
   }
