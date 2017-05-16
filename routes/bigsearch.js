@@ -14,8 +14,10 @@ module.exports.main = function(req, res) {
       searchData: {
         database: req.body.dbname,
         schema: req.body.schemaname,
-        viewColumns: searchData
-      }
+        viewColumns: searchData,
+      },
+      user: req.user.login
+
     }
   });
 
@@ -58,8 +60,9 @@ module.exports.requestCompletion = function(req, res) {
       title: "Завершение поиск",
       searchData: {
         database: req.query.dbname,
-        schema: req.query.schemaname
-      }
+        schema: req.query.schemaname,
+      },
+      user: req.user.login
     }
   });
 };

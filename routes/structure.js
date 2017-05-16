@@ -26,7 +26,8 @@ module.exports.tablesList = function(req, res) {
               database: req.body.dbname,
               schema: req.body.schemaname,
               list: tablesInfo.entities,
-              links: tablesInfo.links
+              links: tablesInfo.links,
+              user: req.user.login
             }
           });
         });
@@ -49,7 +50,8 @@ module.exports.createView = function(req, res) {
         database: req.body.dbname,
         schema: req.body.schemaname,
         table: table,
-        columns: columns
+        columns: columns,
+        user: req.user.login
       }
     });
 
@@ -75,7 +77,8 @@ module.exports.loadView = function(req, res) {
           title: "Структура",
           database: database,
           schema: schema,
-          columns: columns
+          columns: columns,
+          user: req.user.login
         }
       });
     });
@@ -84,7 +87,8 @@ module.exports.loadView = function(req, res) {
 
     res.render("structure/columns", {
       data: {
-        title: "Структура"
+        title: "Структура",
+        user: req.user.login
       }
     });
 

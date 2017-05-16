@@ -2,6 +2,18 @@
   width: 70%;
   margin: 10% auto 0 auto; }
 
+.registration-info {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white none repeat scroll 0% 0%;
+  border: 3px solid #e36363;
+  border-radius: 15px; }
+  .registration-info p {
+    font-size: 23px; }
+
 .registration {
   margin: 0 auto 100px auto; }
   .registration__title {
