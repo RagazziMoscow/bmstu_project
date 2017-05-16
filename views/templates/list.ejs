@@ -1,0 +1,31 @@
+<% layout('../layouts/layout') %>
+<link rel="stylesheet" type="text/css" href="css/base_blocks.css">
+<link rel="stylesheet" type="text/css" href="css/template_style.css">
+
+
+<div class="templates-info">
+  <p class="templates-info__title _padding-for-h1">Мои шаблоны поиска</p>
+</div>
+<div class="templates-content">
+  <ul class="templates-content__list list-templates">
+    <% data.templates.forEach(function(item) { %>
+      <li>
+        <div class="block-list-tems" style="height: 88px">
+          <ul class="admin_panel_object">
+            <li>
+              <a class="edit-something click-button" href="edit-template?template-id=<%= item.template_id %>">
+                <img src="/img/pencil.png">
+              </a>
+            </li>
+            <li>
+              <a class="delete-something click-button" its="template_search" idd="36483" title="Удалить шаблон" href="delete-template/?template_id=<%= item.template_id %>">
+                <img src="/img/close.png">
+              </a>
+            </li>
+          </ul>
+          <p><%= item.name %></p>
+        </div>
+      </li>
+    <% }); %>
+  </ul>
+</div>

@@ -32,7 +32,7 @@ module.exports.tablesList = function(req, res) {
                 schema: req.body.schemaname,
                 list: tablesInfo.entities,
                 links: tablesInfo.links,
-                user: req.user.login
+                user: req.user
               }
             });
           });
@@ -54,7 +54,7 @@ module.exports.tablesList = function(req, res) {
               schema: req.body.schemaname,
               list: tablesInfo.entities,
               links: tablesInfo.links,
-              user: req.user.login
+              user: req.user
             }
           });
         });
@@ -78,7 +78,7 @@ module.exports.createView = function(req, res) {
         schema: req.body.schemaname,
         table: table,
         columns: columns,
-        user: req.user.login
+        user: req.user
       }
     });
 

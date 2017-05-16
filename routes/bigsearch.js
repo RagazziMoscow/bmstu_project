@@ -18,7 +18,7 @@ module.exports.main = function(req, res) {
         table: req.body.tablename,
         viewColumns: searchData
       },
-      user: req.user.login
+      user: req.user
 
     }
   });
@@ -56,6 +56,7 @@ module.exports.searchQuery = function(req, res) {
 
 };
 
+
 module.exports.requestCompletion = function(req, res) {
   res.render("bigsearch/completion", {
     data: {
@@ -64,7 +65,7 @@ module.exports.requestCompletion = function(req, res) {
         database: req.query.dbname,
         schema: req.query.schemaname,
       },
-      user: req.user.login
+      user: req.user
     }
   });
 };

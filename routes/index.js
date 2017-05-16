@@ -1,6 +1,7 @@
 var databaseRoutes = require('./database');
 var structureRoutes = require('./structure');
 var bigsearchRoutes = require('./bigsearch');
+var templatesRoutes =require('./templates');
 
 
 module.exports = function(app) {
@@ -35,6 +36,12 @@ module.exports = function(app) {
   app.get("/completion", bigsearchRoutes.requestCompletion);
 
   app.post("/completion", bigsearchRoutes.complete);
+
+
+  /*templates*/
+  app.post("/save-template", templatesRoutes.saveTemplate);
+
+  app.get("/templates", templatesRoutes.templatesList);
 
 
 
