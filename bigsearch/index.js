@@ -110,16 +110,17 @@ function searchQuery(conditionsArray, columns, connectionParams, callback) {
     returnResult(searchResultsProcess(rows));
   });
 
-
-
-  /**/
 }
 
 
 function selectColumns(req) {
-  //let viewColumns = columns;
+
+
+  // Отбираем всё, что пришло в запросе и отбрасываем первые три элемента:
+  // базу данных, схему и основную таблицу
   let viewColumnsSelected = Object.keys(req.body);
-  viewColumnsSelected.splice(0,2);
+  viewColumnsSelected.splice(0,3);
+
   let viewColumnsSelectedWithTypes = [];
   //console.log(viewColumns);
   _.each(viewColumnsSelected, function(item) {

@@ -106,6 +106,7 @@ function init() {
     },
     showWindow
   );
+  $("#save-template").find(".modal-action").on("click", saveTemplate);
   //$('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
