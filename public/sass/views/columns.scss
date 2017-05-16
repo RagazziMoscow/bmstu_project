@@ -83,6 +83,7 @@
             }
         }
         &:first-child {
+            font-weight: bold;
             div > span {
                 width: 160px;
             }
@@ -106,6 +107,10 @@
 .column-name-span::after{
     content: " -> ";
     color: red;
+}
+
+.column-name-span:last-child{
+    font-weight: bold;
 }
 
 .column-name-span:last-child::after{
