@@ -1,0 +1,66 @@
+._text-align-left {
+    text-align: left;
+}
+
+._text-align-right {
+    text-align: right;
+}
+._padding-none {
+    padding: 0;
+}
+
+._initial {
+    display: initial;
+}
+
+._background-red {
+    background: red;
+}
+
+._underline {
+    text-decoration: underline;
+}
+
+._border-top {
+    border-top: 1px solid black;
+}
+
+._border-bottom {
+    border-bottom: 1px solid black;
+}
+
+._display-flex {
+    display: flex;
+}
+
+._cursor-pointer:hover {
+    cursor: pointer;
+}
+
+._inline {
+    display: inline;
+}
+
+._display-block {
+    display: block;
+}
+
+._inline-block {
+    display: inline-block;
+}
+._center-in-div {
+    text-align: center;
+}
+
+._padding-for-h1 {
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+._display_none {
+    display: none;
+}
+
+._font-red {
+  color: red;
+}

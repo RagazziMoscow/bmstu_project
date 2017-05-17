@@ -127,8 +127,8 @@
         },
         success: function(data) {
 
-          $(this).parent().siblings('.message').find('span').text('Шаблон сохранён');
-          $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
+          $("#save-template").find('.message').find('span').text('Шаблон сохранён');
+          $("#save-template").find('.message').show().delay(1500).fadeOut(500);
           //alert("Шаблон сохранён");
         }
 

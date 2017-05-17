@@ -51,13 +51,13 @@ module.exports.save = saveTemplate;
 var templatesList = function(userId, callback) {
 
 
-  var sqlQuery = "select template_id, name from public.template join \"user\"\n" +
+  var sqlQuery = "select template_id, name from public.template join public.\"user\"\n" +
     "on template.owner_id = \"user\".user_id\n" +
     "where \"user\".user_id = {0};".format(userId);
 
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-    //console.log(rows);
+    console.log(rows);
     callback(rows);
   });
 
@@ -72,7 +72,7 @@ var removeTemplate = function(template_id, callback) {
 
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-
+    console.log(rows);
     callback();
 
   });
