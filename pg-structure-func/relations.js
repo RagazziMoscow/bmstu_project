@@ -3,96 +3,123 @@ var entities = require('./tables');
 // получаем, существует ли отношение между таблицами
 function isRelationBetweenTables(db, analyzedSchema, firstTableName, secondTableName) {
 
-    var relations = entities.getTable(db, analyzedSchema, firstTableName).relations;
-    //console.log(relations);
-    for (let relation of relations.values()) {
-        //console.log(relation.targetTable.name);
+  var relations = entities.getTable(db, analyzedSchema, firstTableName).relations;
+  //console.log(relations);
+  for (let relation of relations.values()) {
+    //console.log(relation.targetTable.name);
 
-        // отношение типа "многие-ко-многим" игнорируем
-        if (relation.type != "MANY TO MANY" && relation.targetTable.name == secondTableName) {
-            return true;
-        }
+    // отношение типа "многие-ко-многим" игнорируем
+    if (relation.type != "MANY TO MANY" && relation.targetTable.name == secondTableName) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }
 
 // получаем отношение между таблицами
 function getRelation(db, analyzedSchema, firstTableName, secondTableName) {
-    var relations = entities.getTable(db, analyzedSchema, firstTableName).relations;
-    //console.log(relations);
-    for (let relation of relations.values()) {
-        //console.log(relation.targetTable.name);
-        if (relation.type != "MANY TO MANY" && relation.targetTable.name == secondTableName) {
-            return relation;
-        }
+  var relations = entities.getTable(db, analyzedSchema, firstTableName).relations;
+  //console.log(relations);
+  for (let relation of relations.values()) {
+    //console.log(relation.targetTable.name);
+    if (relation.type != "MANY TO MANY" && relation.targetTable.name == secondTableName) {
+      return relation;
     }
+  }
 
-    return null;
+  return null;
 }
 
 
 // получаем таблицу с внешним ключом
-function tableIsTarget(tableName, relation) {
-    //console.log(tableName, relation.targetTable.name);
-    return (relation.targetTable.name == tableName);
+function tableIsTarget(db, analyzedSchema, tableName, relation) {
+  //console.log(tableName);
+  //return (relation.targetTable.name == tableName);
+  let target = false;
+  let table = entities.getTable(db, analyzedSchema, tableName);
+  for (column of table.columns.values()) {
+
+    if (column.foreignKeyConstraints.size != 0) {
+
+      let refTableName = Array.from(column.foreignKeyConstraints.values())[0].parent.name;
+
+      /*
+      console.log("*****");
+      console.log(relation.targetTable.name);
+      console.log(relation.sourceTable.name);
+      console.log(tableName);
+      console.log(refTableName);
+      console.log("****");
+      */
+
+      let targetCondition = ((relation.targetTable.name == tableName &&
+        relation.sourceTable.name == refTableName) || (relation.sourceTable.name == tableName &&
+        relation.targetTable.name == refTableName));
+
+      if (targetCondition) target = true;
+    }
+  }
+
+  return target;
+
 }
 
 
 // получаем имена полей таблиц, учавствующих в отношении
 function getRelationColumns(relation) {
 
-    var columnsList = [];
+  var columnsList = [];
 
-    if (relation.type == "ONE TO MANY") {
-        // один комногим
-        var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
-        var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
+  if (relation.type == "ONE TO MANY") {
+    // один комногим
+    var relationColumns = relation.targetTable.columns; // колонки в таблице с внешним ключом
+    var necessaryTableName = relation.sourceTable.name; // имя таблицы с первичным ключом
 
-    } else {
+  } else {
 
-        var relationColumns = relation.sourceTable.columns;
-        var necessaryTableName = relation.targetTable.name;
+    var relationColumns = relation.sourceTable.columns;
+    var necessaryTableName = relation.targetTable.name;
+
+  }
+
+  // обход по таблице с внешним ключом
+  for (let tableColumn of relationColumns.values()) {
+
+    // если существуют колонки, на которые ссылается ограничение
+    if (tableColumn.referencedColumns.size != 0 &&
+      Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName) {
+
+      // колонки из табицы с первичным ключом
+      let refColumns = tableColumn.referencedColumns;
+
+      // вставляем в массив имена таблиц, сначала начальная таблица, потом конечная
+      if (relation.type == "ONE TO MANY") {
+
+        columnsList[0] = {
+          "name": Array.from(refColumns)[0].name,
+          "table": Array.from(refColumns)[0].table.name
+        };
+        columnsList[1] = {
+          "name": tableColumn.name,
+          "table": tableColumn.table.name
+        };
+      } else {
+
+        columnsList[0] = {
+          "name": tableColumn.name,
+          "table": tableColumn.table.name
+        };
+        columnsList[1] = {
+          "name": Array.from(refColumns)[0].name,
+          "table": Array.from(refColumns)[0].table.name
+        };
+
+      }
 
     }
-
-    // обход по таблице с внешним ключом
-    for (let tableColumn of relationColumns.values()) {
-
-        // если существуют колонки, на которые ссылается ограничение
-        if (tableColumn.referencedColumns.size != 0 &&
-            Array.from(tableColumn.referencedColumns)[0].table.name == necessaryTableName) {
-
-            // колонки из табицы с первичным ключом
-            let refColumns = tableColumn.referencedColumns;
-
-            // вставляем в массив имена таблиц, сначала начальная таблица, потом конечная
-            if (relation.type == "ONE TO MANY") {
-
-                columnsList[0] = {
-                    "name": Array.from(refColumns)[0].name,
-                    "table": Array.from(refColumns)[0].table.name
-                };
-                columnsList[1] = {
-                    "name": tableColumn.name,
-                    "table": tableColumn.table.name
-                };
-            } else {
-
-                columnsList[0] = {
-                    "name": tableColumn.name,
-                    "table": tableColumn.table.name
-                };
-                columnsList[1] = {
-                    "name": Array.from(refColumns)[0].name,
-                    "table": Array.from(refColumns)[0].table.name
-                };
-
-            }
-
-        }
-    }
-    return columnsList;
+  }
+  return columnsList;
 }
 
 
@@ -189,9 +216,6 @@ function getTargetTableColumn(relation) {
   }
   return sourceColumn;
 }
-
-
-
 
 
 
