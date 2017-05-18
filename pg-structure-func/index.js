@@ -319,7 +319,7 @@ function getRelationsInfo(db, analyzedSchema) {
         let relationInfo = [];
         let table = link[0];
         let columns = entities.getTableColumns(db, analyzedSchema, table);
-        let targetTable = relships.tableIsTarget(link[0], relation);
+        let targetTable = relships.tableIsTarget(db, analyzedSchema, link[0], relation);
         relationInfo.push({
             entity: table,
             columns: columns,
@@ -328,7 +328,7 @@ function getRelationsInfo(db, analyzedSchema) {
 
         table = link[1];
         columns = entities.getTableColumns(db, analyzedSchema, table);
-        targetTable = relships.tableIsTarget(link[1], relation);
+        targetTable = relships.tableIsTarget(db, analyzedSchema, link[1], relation);
         relationInfo.push({
             entity: table,
             columns: columns,
