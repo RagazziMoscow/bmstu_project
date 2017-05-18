@@ -18,6 +18,7 @@ module.exports.main = function(req, res) {
         table: req.body.tablename,
         viewColumns: searchData
       },
+      loadTemplate: false,
       user: req.user
 
     }

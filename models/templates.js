@@ -57,7 +57,7 @@ var templatesList = function(userId, callback) {
 
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-    console.log(rows);
+    //console.log(rows);
     callback(rows);
   });
 
@@ -72,7 +72,7 @@ var removeTemplate = function(template_id, callback) {
 
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-    console.log(rows);
+    //console.log(rows);
     callback();
 
   });
@@ -80,3 +80,20 @@ var removeTemplate = function(template_id, callback) {
 
 
 module.exports.remove = removeTemplate;
+
+var loadTemplate = function(templateId, userId, callback) {
+
+  var sqlQuery = "select template_id, name, data, database, schema, \"table\", view_columns\n" +
+    "from public.template join public.\"user\"\n" +
+    "on template.owner_id = \"user\".user_id\n" +
+    "where template_id = {0} and user_id = {1};".format(templateId, userId);
+
+  query(sqlQuery, function(err, rows, result) {
+    if (err) console.log(err);
+    //console.log(rows);
+    callback(rows[0]);
+
+  });
+}
+
+module.exports.load = loadTemplate;

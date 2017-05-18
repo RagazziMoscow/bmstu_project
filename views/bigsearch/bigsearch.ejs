@@ -22,6 +22,9 @@
     <span id="schema"><%= data.searchData.schema %></span>
     <span id="table"><%= data.searchData.table %></span>
     <span id="view-columns"><%= JSON.stringify(data.searchData.viewColumns) %></span>
+    <% if (data.searchData.templateContent) { -%>
+      <span class="JsonDataTemplate"><%= JSON.stringify(data.searchData.templateContent) %></span>
+    <% } -%>
   </div>
 
 
@@ -43,6 +46,54 @@
 
   </div>
 
+    <% if (data.loadTemplate) { -%>
+
+      <% data.searchData.templateContent.forEach(function(group, index) { %>
+
+        <form id="form<%= index %>" class="form descriptors-form" action="">
+          <div class="content-actions">
+            <p class="add-tag content-action click-button">Добавить тег</p>
+            <p class="add-not-tag content-action click-button">Отсутствие тега</p>
+            <p class="add-attr content-action click-button">Добавить атрибут</p>
+            <p class="check content-action click-button"><img src="/img/search.png" alt="Побробно"></p>
+            <p class="edit-group content-action click-button">Редактировать группу</p>
+          </div>
+          <div class="descriptors-content">
+
+            <% group.forEach(function(descriptor) { %>
+
+              <% if (descriptor.id == 1) { %>
+                <div class="item tag">
+                  <span class="value"><%= descriptor.name %></span>
+                  <span class="remove">×</span>
+                </div>
+              <% } %>
+
+              <% if (descriptor.id == 2) { %>
+                <div class="item attr">
+                  <span class="value"><%= descriptor.name %></span>
+                  <span class="attr-rel"><%= descriptor.relation %></span>
+                  <span class="attr-num"><%= descriptor.number %></span>
+                  <span class="remove">×</span>
+                </div>
+              <% } %>
+
+              <% if (descriptor.id == 3) { %>
+                <div class="item not-tag">
+                  <span class="value"><%= descriptor.name %></span>
+                  <span class="remove">×</span>
+                </div>
+              <% } %>
+
+            <% }); %>
+          </div>
+        </form>
+
+      <% }); %>
+
+
+    <% } else { -%>
+
       <form id="form0" class="form descriptors-form" action="">
         <div class="content-actions">
           <p class="add-tag content-action click-button">Добавить тег</p>
@@ -56,6 +107,7 @@
         </div>
       </form>
 
+    <% } -%>
 
   <button value="Найти" class="click-button" id="btn">Найти</button>
 

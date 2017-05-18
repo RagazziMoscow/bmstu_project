@@ -15,6 +15,8 @@
       }
     });
     */
+    var templateContent = $(".JsonDataTemplate").text();
+    if (templateContent) JsonData = JSON.parse(templateContent);
     DescriptorsData.database = $("#database").html();
     DescriptorsData.schema = $("#schema").html();
     DescriptorsData.viewColumns = JSON.parse($("#view-columns").html());

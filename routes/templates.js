@@ -1,3 +1,5 @@
+var structure = require("./../models/structure");
+
 module.exports.saveTemplate = function(req, res) {
 
   var templates = require("./../models/templates");
@@ -24,6 +26,71 @@ module.exports.deleteTemplate = function(req, res) {
   templates.remove(templateId, function() {
     res.redirect("/templates?user_id=" + req.user.user_id);
   });
+
+}
+
+module.exports.editTemplate = function(req, res) {
+  var templates = require("./../models/templates");
+  var templateId = req.query.template_id;
+
+  templates.load(templateId, req.user.user_id, function(templateData) {
+
+    dbStruct = structure(templateData.database, templateData.schema);
+    dbStruct.checkViewExisting(function(view) {
+
+      if (view) {
+
+        dbStruct.deleteView(function() {
+
+          dbStruct.getView((columns) => {
+
+            res.render("bigsearch/bigsearch", {
+              data: {
+                title: "Поиск",
+                searchData: {
+                  templateId: templateData.template_id,
+                  templateName: templateData.name,
+                  templateContent: JSON.parse(templateData.data),
+                  database: templateData.database,
+                  schema: templateData.schema,
+                  table: templateData.table,
+                  viewColumns: JSON.parse(templateData.view_columns)
+                },
+                loadTemplate: true,
+                user: req.user
+
+              }
+            });
+
+          }, templateData.table);
+
+        });
+
+      } else {
+
+        res.render("bigsearch/bigsearch", {
+          data: {
+            title: "Поиск",
+            searchData: {
+              templateId: templateData.template_id,
+              templateName: templateData.name,
+              templateContent: JSON.parse(templateData.data),
+              database: templateData.database,
+              schema: templateData.schema,
+              table: templateData.table,
+              viewColumns: JSON.parse(templateData.view_columns)
+            },
+            loadTemplate: true,
+            user: req.user
+
+          }
+        });
+
+
+      }
+    });
+  })
+
 
 }
 
