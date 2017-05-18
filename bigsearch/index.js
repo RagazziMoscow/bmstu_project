@@ -27,9 +27,10 @@ function getSQL(conditionsArrayString, columnsArray, schema) {
 
       // если тег
       if (descriptor.id == 1) {
-        sqlQuery += "(select {2} from {0}\n where {1} is not null\ngroup by {2})\n".format("all_join",
+        sqlQuery += "(select {2} from {3}.{0}\n where {1} is not null\ngroup by {2})\n".format("all_join",
           name,
-          columnsString);
+          columnsString,
+          schema);
       }
 
       // атрибут
@@ -37,18 +38,20 @@ function getSQL(conditionsArrayString, columnsArray, schema) {
 
         let convData = types.convert(name, descriptor.relation, descriptor.number, descriptor.type);
         //console.log(convData);
-        sqlQuery += "(select {4} from {0}\n where {1} {2} {3}\ngroup by {4})\n".format("all_join",
+        sqlQuery += "(select {4} from {5}.{0}\n where {1} {2} {3}\ngroup by {4})\n".format("all_join",
           convData.name,
           convData.rel,
           convData.val,
-          columnsString);
+          columnsString,
+          schema);
       }
 
       // отсутствие тега
       if (descriptor.id == 3) {
-        sqlQuery += "(select {2} from {0}\n where {1} is null\ngroup by {2})\n".format("all_join",
+        sqlQuery += "(select {2} from {3}.{0}\n where {1} is null\ngroup by {2})\n".format("all_join",
           name,
-          columnsString);
+          columnsString,
+          schema);
       }
       if (group.indexOf(descriptor) !== group.length - 1) sqlQuery += "intersect\n";
     }
