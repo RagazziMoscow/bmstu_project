@@ -30,17 +30,17 @@ var listBox = "<option selected='selected' disabled=''" +
   "<option value='not like'>not like</option>";
 
 // Данные для окна просмотра всех групп
-var viewProperties = {
+var allGroupsProp = {
   1: {
-    "title": "Теги",
+    "title": "Теги:",
     "class": "included-tags"
   },
   2: {
-    "title": "Атрибуты",
+    "title": "Атрибуты:",
     "class": "included-attributes"
   },
   3: {
-    "title": "Отсутствие тегов",
+    "title": "Отсутствие тегов:",
     "class": "included-not-tags"
   }
 };
@@ -510,11 +510,11 @@ function viewGroupsProcess() {
       // Если необходимо, для каждого класса дескрипторов добавляем секцию
       var count = descriptorsCount(groupArr, item);
       if (count !== 0) {
-        $("#view-groups .groups-aligment .conditions-group:last").append("<div class='" + viewProperties[item]["class"] + "'></div>");
-        $("#view-groups .groups-aligment .conditions-group:last ." + viewProperties[item]["class"]).
-        append("<div class='included-title'><p>" + viewProperties[item]["title"] + "</p></div>");
-        $("#view-groups .groups-aligment .conditions-group:last ." + viewProperties[item]["class"]).
-        append("<div class='" + viewProperties[item]["class"] + "-content'>");
+        $("#view-groups .groups-aligment .conditions-group:last").append("<div class='included-desc " + allGroupsProp[item]["class"] + "'></div>");
+        $("#view-groups .groups-aligment .conditions-group:last ." + allGroupsProp[item]["class"]).
+        append("<div class='included-title'><p>" + allGroupsProp[item]["title"] + "</p></div>");
+        $("#view-groups .groups-aligment .conditions-group:last ." + allGroupsProp[item]["class"]).
+        append("<div class='" + allGroupsProp[item]["class"] + "-content'>");
       }
     });
 

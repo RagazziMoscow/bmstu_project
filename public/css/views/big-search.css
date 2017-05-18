@@ -575,7 +575,12 @@ form div.item, .conditions-group .item{
   background-position: 5px 5px;
 
   margin-bottom: 10px;
+
 }
+
+
+
+
 
 .item .value{
   margin-right: 8px;
@@ -730,12 +735,12 @@ form .disjunction, .conditions-group .disjunction{
 #view-groups{
     width: 700px;
     height:auto;
-    top:200px;
+    top:150px;
     left:290px;
 }
 
 .groups-aligment{
-    max-height: 480px;
+    max-height: 420px;
     width: 100%;
     overflow-y: auto;
 }
@@ -764,14 +769,52 @@ form .disjunction, .conditions-group .disjunction{
     background-size: auto 35%;
 }
 .included-title{
+    display: inline-block;
+    float: left;
     height:20px;
-    margin-bottom: 15px;
+    margin-top: 4px;
     margin-left: 9px;
 }
 
 .included-title p{
     float:left;
     font-size: 18px;
+}
+
+.included-desc{
+  margin-bottom: 15px;
+}
+.included-desc:last-child{
+  margin-bottom: 0;
+}
+
+.included-tags-content .item,
+.included-not-tags-content .item,
+.included-attributes-content .item{
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+  position: relative;
+}
+
+.included-tags-content .item:first-child,
+.included-not-tags-content .item:first-child,
+.included-attributes-content .item:first-child{
+  margin-left: 7px;
+}
+
+
+.included-tags-content .item::after,
+.included-not-tags-content .item::after,
+.included-attributes-content .item::after{
+  content: "И";
+  position: absolute !important;
+  right: -23px;
+}
+
+.included-tags-content .item:last-child::after,
+.included-not-tags-content .item:last-child::after,
+.included-attributes-content .item:last-child::after{
+  content: "";
 }
 
 .included-tags-content,
