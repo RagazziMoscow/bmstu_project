@@ -127,7 +127,7 @@ function selectColumns(req) {
   let viewColumnsSelectedWithTypes = [];
   //console.log(viewColumns);
   _.each(viewColumnsSelected, function(item) {
-    item = item.split('*');
+    item = item.split('$');
     item = {
       "column_name": item[0],
       "data_type": item[1]
