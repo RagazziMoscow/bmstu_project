@@ -63,25 +63,34 @@
             <% group.forEach(function(descriptor) { %>
 
               <% if (descriptor.id == 1) { %>
-                <div class="item tag">
+                <div class="item tag" style="position: relative; margin-left: 30px;">
                   <span class="value"><%= descriptor.name %></span>
                   <span class="remove">×</span>
+                  <% if (group.indexOf(descriptor) > 0) { %>
+                    <span class="conjunction"></span>
+                  <%  } %>
                 </div>
               <% } %>
 
               <% if (descriptor.id == 2) { %>
-                <div class="item attr">
+                <div class="item attr" style="position: relative; margin-left: 30px;">
                   <span class="value"><%= descriptor.name %></span>
                   <span class="attr-rel"><%= descriptor.relation %></span>
                   <span class="attr-num"><%= descriptor.number %></span>
                   <span class="remove">×</span>
+                  <% if (group.indexOf(descriptor) > 0) { %>
+                    <span class="conjunction"></span>
+                  <%  } %>
                 </div>
               <% } %>
 
               <% if (descriptor.id == 3) { %>
-                <div class="item not-tag">
+                <div class="item not-tag" style="position: relative; margin-left: 30px;">
                   <span class="value"><%= descriptor.name %></span>
                   <span class="remove">×</span>
+                  <% if (group.indexOf(descriptor) > 0) { %>
+                    <span class="conjunction"></span>
+                  <%  } %>
                 </div>
               <% } %>
 

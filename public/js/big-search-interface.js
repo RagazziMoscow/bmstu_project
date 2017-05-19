@@ -570,7 +570,7 @@ function addDescriptor(event) {
 
     $("#form" + group + " .descriptors-content").
     append("<div class='item'><span class='value'>" + namePar + "</span>" +
-      "<span class='edit'></span>" +
+      //"<span class='edit'></span>" +
       "<span class='remove'>×</span>" +
       "</div>");
     // если добавляем атрибут, то дописываем операцию сравнения и значение
