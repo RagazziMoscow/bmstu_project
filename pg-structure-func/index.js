@@ -281,8 +281,24 @@ function getColumnNameForView(db, analyzedSchema, columnName, tableName, tablesA
         newColumnName += pseudonimPart + '"';
         //console.log(newColumnName);
     }
-
+    if (newColumnName.split(" ").length == 3) {
+        if (newColumnName.split(" ", 3)[2].length > 63) newColumnName = truncateColumnName(newColumnName);
+    }
+    //console.log(newColumnName.split(" ", 3)[2]);
     return newColumnName;
+}
+
+function truncateColumnName(columnName) {
+    let alias = columnName.split(" ", 3)[2];
+    alias = alias.split(".").slice(0, 1).
+    concat("...").
+    concat(alias.split(".").slice(alias.split(".").length - 2)).join(".");
+    alias = alias.replace(".....", ".***.");
+
+    columnName = columnName.split(" ", 3);
+    columnName[2] = alias;
+    columnName = columnName.join(" ");
+    return columnName
 }
 
 // возвращает список всех отношений в бд
