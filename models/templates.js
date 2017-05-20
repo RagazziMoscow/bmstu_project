@@ -63,7 +63,7 @@ var templatesList = function(userId, callback) {
   //console.log(sqlQuery);
   query(sqlQuery, function(err, rows, result) {
     if (err) console.log(err);
-    console.log(rows);
+    //console.log(rows);
     callback(rows);
   });
 

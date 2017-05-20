@@ -104,7 +104,6 @@ module.exports.templatesList = function(req, res) {
 
   var templates = require("./../models/templates");
   var userId = req.query.user_id;
-  console.log(templates);
 
   templates.list(userId, function(list) {
     //console.log(list);
