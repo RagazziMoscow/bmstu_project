@@ -68,26 +68,31 @@ module.exports.editTemplate = function(req, res) {
 
       } else {
 
-        res.render("bigsearch/bigsearch", {
-          data: {
-            title: "Поиск",
-            searchData: {
-              templateId: templateData.template_id,
-              templateName: templateData.name,
-              templateContent: JSON.parse(templateData.data),
-              database: templateData.database,
-              schema: templateData.schema,
-              table: templateData.table,
-              viewColumns: JSON.parse(templateData.view_columns)
-            },
-            loadTemplate: true,
-            user: req.user
+        dbStruct.getView((columns) => {
 
-          }
-        });
+          res.render("bigsearch/bigsearch", {
+            data: {
+              title: "Поиск",
+              searchData: {
+                templateId: templateData.template_id,
+                templateName: templateData.name,
+                templateContent: JSON.parse(templateData.data),
+                database: templateData.database,
+                schema: templateData.schema,
+                table: templateData.table,
+                viewColumns: JSON.parse(templateData.view_columns)
+              },
+              loadTemplate: true,
+              user: req.user
 
+            }
+          });
+
+        }, templateData.table);
 
       }
+
+
     });
   })
 
@@ -99,9 +104,10 @@ module.exports.templatesList = function(req, res) {
 
   var templates = require("./../models/templates");
   var userId = req.query.user_id;
+  console.log(templates);
 
   templates.list(userId, function(list) {
-    console.log(list);
+    //console.log(list);
     res.render("templates/list", {
       data: {
         title: "Шаблоны поиска",

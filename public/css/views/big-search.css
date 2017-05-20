@@ -219,6 +219,15 @@ body #wrapper .main {
 
 }
 
+.big-search-title{
+  margin: 20px auto 50px auto;
+  font-size: 23px;
+}
+
+.big-search-title span{
+  font-weight: bold;
+}
+
 /*no-results*/
 .no-results{
   font-size: 25px;
