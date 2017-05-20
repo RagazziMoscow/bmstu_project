@@ -1,5 +1,4 @@
 <% layout('../layouts/layout') %>
-<script type="text/javascript" src="/components/devbridge-autocomplete/dist/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="/components/file-saver/FileSaver.js"></script>
 <link rel="stylesheet" type="text/css" href="css/views/big-search.css">
 
@@ -59,6 +58,9 @@
             <p class="add-attr content-action click-button">Добавить атрибут</p>
             <p class="check content-action click-button"><img src="/img/search.png" alt="Побробно"></p>
             <p class="edit-group content-action click-button">Редактировать группу</p>
+            <% if (data.searchData.templateContent.length > 0) { -%>
+              <p class="delete-group content-action click-button">Удалить группу</p>
+            <% } -%>
           </div>
           <div class="descriptors-content">
 

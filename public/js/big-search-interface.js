@@ -107,6 +107,10 @@ function init() {
     showWindow
   );
   $("#save-template").find(".modal-action").on("click", saveTemplate);
+
+  // кнопки при загрузке шаблонв поиска
+  $("span.remove").on("click", deleteDescriptor);
+  $("p.delete-group").on("click", deleteForm);
   //$('.save-templates-from-bigsearch').click(saveTemplate);
 
   //$('#btn').on('click',ser_request);
