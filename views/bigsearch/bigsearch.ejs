@@ -28,22 +28,28 @@
     <% } -%>
   </div>
 
+  <div class="search-manage-aligment">
 
-  <div class="groups-manage-aligment">
-
-    <a id="search-completer" class="click-button" href="completion?dbname=<%= data.searchData.database %>&schemaname=<%= data.searchData.schema %>">
-      Завершить поиск
-    </a>
+    <button id="templates-saver" class="content-action click-button">Сохранить шаблон поиска</button>
     <button id="properties" class="content-action click-button">
       Настройка вывода
     </button>
+    <a id="search-completer" class="click-button" href="completion?dbname=<%= data.searchData.database %>&schemaname=<%= data.searchData.schema %>">
+      Завершить поиск
+    </a>
+  </div>
+
+
+  <div class="groups-manage-aligment">
+
+
+
     <button id="groups-viewer" class="content-action click-button">
       Просмотр всех групп
     </button>
     <button id="groupsAdder" class="content-action click-button">
       Добавить группу условий
     </button>
-    <button id="templates-saver" class="content-action click-button">Сохранить шаблон поиска</button>
 
   </div>
 

@@ -133,11 +133,19 @@ body #wrapper .main {
 
 
 /*ааНаОаПаКаА аДаЛб аДаОаБаАаВаЛаЕаНаИб аНаОаВаОаЙ аГббаПаПб*/
-.groups-manage-aligment{
-    height: 30px;
-    padding: 0px 35px 0px 0px;
+.groups-manage-aligment,
+.search-manage-aligment{
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  width: 850px;
+  margin: 0 auto;
 }
-
+.groups-manage-aligment{
+  margin-top: 25px;
+}
 #groupsAdder, #groups-viewer, #search-completer, #properties{
     float: right;
 }
