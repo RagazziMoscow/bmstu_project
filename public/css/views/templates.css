@@ -11,9 +11,9 @@
   flex-flow: column wrap;
   width: 100%;
   align-content: stretch; }
-  .template-item-info__name {
-    font-weight: bold; }
   .template-item-info p {
     padding: 0;
     margin: 5px auto;
     font-size: 18px; }
+    .template-item-info p span {
+      font-weight: bold; }

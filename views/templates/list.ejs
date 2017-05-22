@@ -26,15 +26,15 @@
               </a>
             </li>
             <li>
-              <a class="delete-something click-button" its="template_search" idd="36483" title="Удалить шаблон" href="delete-template/?template_id=<%= item.template_id %>">
+              <a class="delete-something click-button" its="template_search" idd="36483" title="Удалить шаблон" href="/delete-template/?template_id=<%= item.template_id %>">
                 <img src="/img/close.png">
               </a>
             </li>
           </ul>
           <div class="template-item-info">
             <p class="template-item-info__name"><%= item.name %></p>
-            <p class="template-item-info__database">БД: <%= item.database %></p>
-            <p class="template-item-info__schema">Схема: <%= item.schema %></p>
+            <p class="template-item-info__database">БД: <span><%= item.database %></span></%></p>
+            <p class="template-item-info__schema">Схема: <span><%= item.schema %></span></%></p>
           </div>
         </div>
       </li>

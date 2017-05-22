@@ -15,11 +15,13 @@
   width: 100%;
   align-content: stretch;
   &__name{
-    font-weight: bold;
   }
   & p{
     padding: 0;
     margin: 5px auto;
     font-size: 18px;
+    & span{
+      font-weight: bold;
+    }
   }
 }
