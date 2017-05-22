@@ -7,8 +7,13 @@
 
 
 <div class="templates-info">
-  <p class="templates-info__title _padding-for-h1">Мои шаблоны поиска</p>
+  <% if ( data.templates.length != 0) { -%>
+    <p class="templates-info__title _padding-for-h1">Мои шаблоны поиска</p>
+  <% } else { -%>
+    <p class="templates-info__title _padding-for-h1">У вас пока нет шаблонов поиска</p>
+  <% } -%>
 </div>
+
 <div class="templates-content">
   <ul class="templates-content__list list-templates">
     <% data.templates.forEach(function(item) { %>
