@@ -18,7 +18,7 @@
   <ul class="templates-content__list list-templates">
     <% data.templates.forEach(function(item) { %>
       <li>
-        <div class="block-list-tems" style="height: 88px">
+        <div class="block-list-tems">
           <ul class="admin_panel_object">
             <li>
               <a class="edit-something click-button" href="/edit-template?template_id=<%= item.template_id %>">
@@ -31,7 +31,11 @@
               </a>
             </li>
           </ul>
-          <p><%= item.name %></p>
+          <div class="template-item-info">
+            <p class="template-item-info__name"><%= item.name %></p>
+            <p class="template-item-info__database">БД: <%= item.database %></p>
+            <p class="template-item-info__schema">Схема: <%= item.schema %></p>
+          </div>
         </div>
       </li>
     <% }); %>

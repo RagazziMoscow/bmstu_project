@@ -6,3 +6,20 @@
     font-size: 20px;
   }
 }
+
+
+.template-item-info{
+  display: flex;
+  justify-content: center;
+  flex-flow: column wrap;
+  width: 100%;
+  align-content: stretch;
+  &__name{
+    font-weight: bold;
+  }
+  & p{
+    padding: 0;
+    margin: 5px auto;
+    font-size: 18px;
+  }
+}

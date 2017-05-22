@@ -56,7 +56,7 @@ var templatesList = function(userId, callback) {
     database,
     host);
   //console.log(query.connectionParameters);
-  var sqlQuery = "select template_id, name from public.\"template\" join public.\"user\"\n" +
+  var sqlQuery = "select template_id, name, database, schema from public.\"template\" join public.\"user\"\n" +
     "on template.owner_id = \"user\".user_id\n" +
     "where \"user\".user_id = {0};".format(userId);
 
