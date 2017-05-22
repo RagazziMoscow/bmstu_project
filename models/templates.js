@@ -19,6 +19,12 @@ query.connectionParameters = 'postgres://{0}:{1}@{4}:{2}/{3}'.format(adminUser,
 
 var saveTemplate = function(tempalteData, userId, callback) {
 
+  query.connectionParameters = 'postgres://{0}:{1}@{4}:{2}/{3}'.format(adminUser,
+    adminPassword,
+    port,
+    database,
+    host);
+
   var name = tempalteData.name;
   var data = tempalteData.data;
   var dbname = tempalteData.database;
@@ -72,6 +78,12 @@ var templatesList = function(userId, callback) {
 module.exports.list = templatesList;
 
 var removeTemplate = function(template_id, callback) {
+
+  query.connectionParameters = 'postgres://{0}:{1}@{4}:{2}/{3}'.format(adminUser,
+  adminPassword,
+  port,
+  database,
+  host);
 
   var sqlQuery = "delete from public.template\n" +
     "where template_id = {0};".format(template_id);

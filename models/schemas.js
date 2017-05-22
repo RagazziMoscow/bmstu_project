@@ -20,7 +20,8 @@ var schemas = function(databaseName) {
       client.connect(function(err) {
         if (err) throw err;
         client.query("select schema_name from information_schema.schemata\n" +
-                     "where schema_name not in ('pg_catalog', 'information_schema');",
+          "where schema_name not in\n" +
+          "('pg_toast', 'pg_temp_1', 'pg_toast_temp_1', 'pg_catalog', 'information_schema');",
           function(err, result) {
             if (err) throw err;
 
