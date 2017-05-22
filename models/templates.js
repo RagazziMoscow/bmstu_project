@@ -80,10 +80,10 @@ module.exports.list = templatesList;
 var removeTemplate = function(template_id, callback) {
 
   query.connectionParameters = 'postgres://{0}:{1}@{4}:{2}/{3}'.format(adminUser,
-  adminPassword,
-  port,
-  database,
-  host);
+    adminPassword,
+    port,
+    database,
+    host);
 
   var sqlQuery = "delete from public.template\n" +
     "where template_id = {0};".format(template_id);
@@ -100,6 +100,12 @@ var removeTemplate = function(template_id, callback) {
 module.exports.remove = removeTemplate;
 
 var loadTemplate = function(templateId, userId, callback) {
+
+  query.connectionParameters = 'postgres://{0}:{1}@{4}:{2}/{3}'.format(adminUser,
+    adminPassword,
+    port,
+    database,
+    host);
 
   var sqlQuery = "select template_id, name, data, database, schema, \"table\", view_columns\n" +
     "from public.template join public.\"user\"\n" +

@@ -228,12 +228,17 @@ body #wrapper .main {
 }
 
 .big-search-title{
-  margin: 20px auto 50px auto;
+  margin: 20px auto 20px auto;
   font-size: 23px;
 }
 
-.big-search-title span{
+.big-search-title span, .big-search-template span{
   font-weight: bold;
+}
+
+.big-search-template{
+  margin: 20px auto 50px auto;
+  font-size: 18px;  
 }
 
 /*no-results*/

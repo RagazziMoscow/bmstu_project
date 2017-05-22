@@ -16,7 +16,13 @@
 <section class="main">
 <% if (data.searchData) { -%>
 
-  <p class="big-search-title">Расширенный поиск в базе данных <span><%= data.searchData.database %></span>, схеме <span><%= data.searchData.schema %></span></p>
+  <p class="big-search-title">Расширенный поиск в базе данных <span><%= data.searchData.database %></span>, схеме <span><%= data.searchData.schema %></span>
+  </p>
+  <% if (data.loadTemplate) { -%>
+    <p class="big-search-template">
+      Загружен шаблон поиска: <span><%= data.searchData.templateName %></span>
+    </p>
+  <% } -%>
 
   <div class="search-data" style="display: none;">
     <span id="database"><%= data.searchData.database %></span>
