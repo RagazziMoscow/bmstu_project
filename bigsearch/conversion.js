@@ -44,7 +44,9 @@ var typesConversion = {
   "integer": {
     "name": {
       ">": nothingToDo,
+      ">=": nothingToDo,
       "<": nothingToDo,
+      "<=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": toString,
@@ -52,7 +54,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -60,7 +64,9 @@ var typesConversion = {
     },
     "value": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": wrapPercents,
@@ -72,7 +78,9 @@ var typesConversion = {
   "smallint": {
     "name": {
       ">": nothingToDo,
+      ">=": nothingToDo,
       "<": nothingToDo,
+      "<=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": toString,
@@ -80,7 +88,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -88,7 +98,9 @@ var typesConversion = {
     },
     "value": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": wrapPercents,
@@ -99,7 +111,9 @@ var typesConversion = {
   "numeric": {
     "name": {
       ">": nothingToDo,
+      ">=": nothingToDo,
       "<": nothingToDo,
+      "<=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": toString,
@@ -107,7 +121,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -115,7 +131,9 @@ var typesConversion = {
     },
     "value": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": wrapPercents,
@@ -126,7 +144,9 @@ var typesConversion = {
   "real": {
     "name": {
       ">": nothingToDo,
+      ">=": nothingToDo,
       "<": nothingToDo,
+      "<=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": toString,
@@ -134,7 +154,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -142,7 +164,9 @@ var typesConversion = {
     },
     "value": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": wrapPercents,
@@ -155,7 +179,9 @@ var typesConversion = {
   "character": {
     "name": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": upperString,
@@ -163,7 +189,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -171,7 +199,9 @@ var typesConversion = {
     },
     "value": {
       "<": wrapQuotes,
+      "<=": wrapQuotes,
       ">": wrapQuotes,
+      ">=": wrapQuotes,
       "=": wrapQuotes,
       "!=": wrapQuotes,
       "like": wrapPercents,
@@ -182,7 +212,9 @@ var typesConversion = {
   "character varying": {
     "name": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": upperString,
@@ -190,7 +222,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -198,7 +232,9 @@ var typesConversion = {
     },
     "value": {
       "<": wrapQuotes,
+      "<=": wrapQuotes,
       ">": wrapQuotes,
+      ">=": wrapQuotes,
       "=": wrapQuotes,
       "!=": wrapQuotes,
       "like": wrapPercents,
@@ -208,7 +244,9 @@ var typesConversion = {
   "text": {
     "name": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": upperString,
@@ -216,7 +254,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -224,7 +264,9 @@ var typesConversion = {
     },
     "value": {
       "<": wrapQuotes,
+      "<=": wrapQuotes,
       ">": wrapQuotes,
+      ">=": wrapQuotes,
       "=": wrapQuotes,
       "!=": wrapQuotes,
       "like": wrapPercents,
@@ -235,7 +277,9 @@ var typesConversion = {
   "timestamp without time zone": {
     "name": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": toString,
@@ -243,7 +287,9 @@ var typesConversion = {
     },
     "relation": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -251,7 +297,9 @@ var typesConversion = {
     },
     "value": {
       "<": toTimeStamp,
+      "<=": toTimeStamp,
       ">": toTimeStamp,
+      ">=": toTimeStamp,
       "=": toTimeStamp,
       "!=": toTimeStamp,
       "like": wrapPercents,
@@ -262,7 +310,9 @@ var typesConversion = {
   "boolean": {
     "name": {
       "<": nothingToDo,
+      "<=": nothingToDo,
       ">": nothingToDo,
+      ">=": nothingToDo,
       "=": nothingToDo,
       "!=": nothingToDo,
       "like": nothingToDo,
@@ -270,7 +320,9 @@ var typesConversion = {
     },
     "relation": {
       "<": emptyString,
+      "<=": emptyString,
       ">": emptyString,
+      ">=": emptyString,
       "=": emptyString,
       "!=": emptyString,
       "like": emptyString,
@@ -278,7 +330,9 @@ var typesConversion = {
     },
     "value": {
       "<": booleanString,
+      "<=": booleanString,
       ">": booleanString,
+      ">=": booleanString,
       "=": booleanString,
       "!=": booleanString,
       "like": booleanString,

@@ -25,7 +25,9 @@ var listBox = "<option selected='selected' disabled=''" +
   "<option value='='>=</option>" +
   "<option value='!='>!=</option>" +
   "<option value='>'>></option>" +
+  "<option value='>&#61;'>&ge;</option>" +
   "<option value='<'><</option>" +
+  "<option value='<&#61;'>&le;</option>" +
   "<option value='like'>like</option>" +
   "<option value='not like'>not like</option>";
 
@@ -404,25 +406,7 @@ function editFormWindowProcess(group, editMode) {
       " input'></select>");
     fillListWithDescriptors("#edit-group .descriptor-item:last select:last");
 
-    /*
 
-    //Вешаем автодополнение на каждый инпут
-    $("#edit-group .descriptor-item:last .input").autocomplete({
-      serviceUrl: '/bigsearch/ajaxAutocompleteProcess',
-      minChars: 2, // Минимальная длина запроса для срабатывания автозаполнения
-      maxHeight: 400, // Максимальная высота списка подсказок, в пикселях
-      width: descProperties[item["id"]]["width"], // Ширина списка
-      zIndex: 9999, // z-index списка
-      deferRequestBy: 300, // Задержка запроса (мсек), на случай, если мы не хотим слать миллион запросов, пока пользователь печатает. Я обычно ставлю 300.
-      params: {
-        id: descProperties[item["id"]]["param"]
-      },
-      zIndex: 7,
-      appendTo: $("#edit-group .descriptor-item:last .input").
-      siblings(".autocomplete-aligm") // Дополнительные параметры
-
-    });
-*/
     //при изменении значения помечаем каждый инпут
     $("#edit-group .descriptor-item:last .input").
     on("change", function() {
