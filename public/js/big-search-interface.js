@@ -449,6 +449,9 @@ function editFormWindowProcess(group, editMode) {
     $("#edit-group .descriptor-item:last").
     append("<input type='hidden'" +
       "class='descriptor-type' name='" + item["type"] + "'/>");
+    $("#edit-group .descriptor-item:last").
+    append("<input type='hidden'" +
+      " class='descriptor-index' name='" + i + "'/>");
   });
 
   if (JsonData[group].length > 5) {
@@ -647,7 +650,7 @@ function deleteDescriptor(event) {
 }
 
 /*Обновляет дескриптор в интерфейсе*/
-function updateDescriptor(group, id, name, namePar, relPar, numPar) {
+function updateDescriptor(group, id, name, namePar, relPar, numPar, indexPar) {
 
   var descName = "#form" + group + " .descriptors-content ." + descClassses[id];
 
@@ -655,13 +658,15 @@ function updateDescriptor(group, id, name, namePar, relPar, numPar) {
   if (id == 2) {
     $(descName).
     filter(function(index) {
-      if ($(this).find('.value').text() == namePar) return true;
+      var filterCondition = ((index == indexPar) && ($(this).find('.value').text() == namePar));
+      if (filterCondition) return true;
     }).
     find('.attr-rel').text(relPar);
 
     $(descName).
     filter(function(index) {
-      if ($(this).find('.value').text() == namePar) return true;
+      var filterCondition = ((index == indexPar) && ($(this).find('.value').text() == namePar));
+      if (filterCondition) return true;
     }).
     find('.attr-num').text(numPar);
   }
@@ -669,7 +674,8 @@ function updateDescriptor(group, id, name, namePar, relPar, numPar) {
   //находим по тексту элемент в интерфейсе и меняем ему текст
   $(descName).
   filter(function(index) {
-    if ($(this).find(".value").text() == name) return true;
+    var filterCondition = ((index == indexPar) && ($(this).find('.value').text() == name));
+    if (filterCondition) return true;
   }).
   find(".value").
   text(namePar);
@@ -686,7 +692,7 @@ function editForm(event) {
 
   $(this).parent().siblings("#descriptors").
   find(".descriptor-item-changed").
-  each(function() {
+  each(function(index) {
 
     //достаём все параметры дексриптора
     var id = Number($(this).find(".descriptor-id").attr("name"));
@@ -695,6 +701,7 @@ function editForm(event) {
     var numPar = $(this).find(".attr-number").val();
     var relPar = $(this).find(".rel-select").val();
     var typePar = $(this).find(".input").find('option:selected').attr("data-description");
+    var itemIndex = $(this).find(".descriptor-index").attr("name");
 
 
     var editFlag = false; //Флаг о том, что редактирование было произведено
@@ -703,10 +710,10 @@ function editForm(event) {
     if (checkJsonData(group, id, namePar, relPar, numPar)) {
 
       //меняем дескриптор в массиве условий
-      setItem(group, id, name, namePar, numPar, relPar, typePar);
+      setItem(group, id, name, namePar, numPar, relPar, typePar, itemIndex);
 
       //обновляем дескриптор в интерфейсе
-      updateDescriptor(group, id, name, namePar, relPar, numPar);
+      updateDescriptor(group, id, name, namePar, relPar, numPar, itemIndex);
       //обновляем скрытый инпут с прошлым именем для дексриптора
       $(this).find(".descriptor-name").attr("name", namePar);
       editFlag = true;
@@ -725,7 +732,7 @@ function editForm(event) {
     }
     if (editFlag) {
       //обновляем дескриптор в интерфейсе
-      updateDescriptor(group, id, name, namePar, relPar, numPar);
+      updateDescriptor(group, id, name, namePar, relPar, numPar, itemIndex);
       $(this).parent().siblings('.message').find('span').text('Отредактировано');
       $(this).parent().siblings('.message').show().delay(1500).fadeOut(500);
     } else {

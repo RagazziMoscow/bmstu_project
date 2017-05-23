@@ -105,14 +105,14 @@ function getItemPosition(group, id, name) {
 
 
 // Установка новых значений элемента в группе
-function setItem(group, id, name, namePar, numPar, relPar, typePar) {
+function setItem(group, id, name, namePar, numPar, relPar, typePar, indexPar) {
   if (id !== 2) {
-    JsonData[group][getItemPosition(group, id, name)] = {
+    JsonData[group][indexPar] = {
       "id": id,
       "name": namePar
     }
   } else {
-    JsonData[group][getItemPosition(group, id, name)] = {
+    JsonData[group][indexPar] = {
       "id": id,
       "name": namePar,
       "number": numPar,
